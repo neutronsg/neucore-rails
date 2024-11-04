@@ -4,7 +4,6 @@ module Neucore
 
     module ClassMethods
 
-
       def jwt_token_auth(models = [])
         define_methods(models)
       end
@@ -45,6 +44,11 @@ module Neucore
       end
     end
 
+    def access_token
+      authorization = request.headers['Authorization']
+      @access_token ||= authorization && authorization.split(' ').last
+    end
+
     def verify_token!
       result = verify_token
       raise Neucore::Error.new(code: "unauthorized") unless result
@@ -63,7 +67,7 @@ module Neucore
       cont = scp.to_s.classify.constantize rescue nil
       return false unless cont
 
-      resource = cont.find(id)
+      resource = cont.find_by(id: id)
       return false unless resource
       self.instance_variable_set("@current_#{scp}", resource)
     end

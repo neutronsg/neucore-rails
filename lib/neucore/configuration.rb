@@ -17,6 +17,10 @@ module Neucore
 
   class << self
     attr_accessor :configuration
+
+    def configuration
+      @configuration ||= Configuration.new
+    end
   end
 
   def self.configure

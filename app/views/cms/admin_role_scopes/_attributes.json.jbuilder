@@ -1,0 +1,1 @@
+json.extract! @object, :id, :name, :scope, :scope_ids

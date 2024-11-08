@@ -1,0 +1,54 @@
+zh-CN:
+  activerecord:
+    models:
+      admin_user: 管理员
+      admin_role: 角色
+      admin_user_role: 管理员角色
+      admin_role_scope: 角色范围
+    attributes:
+      admin_user:
+        id: ID
+        name: 姓名
+        email: 邮箱
+        super_admin: 超级管理员
+        admin_role: 角色
+        owner: 所有者
+        password: 密码
+        password_confirmation: 确认密码
+        created_at: 创建时间
+      admin_role: 
+        id: ID
+        name: 名称
+        owner: 所有者
+        permissions: 权限
+        admin_role_scope: 角色范围
+        created_at: 创建时间
+      admin_role_scope: 
+        id: ID
+        name: 名称
+        scope: 范围
+        scope_ids: 范围IDs
+        created_at: 创建时间
+      admin_user_role:
+        id: ID
+        admin_user: 管理员
+        admin_role: 角色
+        created_at: 创建时间
+    errors:
+      messages:
+        taken: 被使用
+  permissions:
+    read: 读
+    write: 写
+    create: 新增
+    update: 编辑
+    destroy: 删除
+    settings: 设置
+    admin_user: 管理员
+    admin_role: 角色
+    admin_role_scope: 角色范围
+  unauthorized:
+    default:  无访问权限
+  forms:
+    basic_information: 基本信息
+    permission_configuration: 权限配置

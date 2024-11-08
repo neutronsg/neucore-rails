@@ -32,6 +32,14 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "jwt"
+  spec.add_dependency "cancancan"
+  spec.add_dependency "paranoia"
+  spec.add_dependency "paper_trail"
+  spec.add_dependency "faraday"
+  spec.add_dependency "faraday-multipart"
+  spec.add_dependency "ransack", "~> 4.2"
+
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
 

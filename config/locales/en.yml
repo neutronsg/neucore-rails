@@ -1,0 +1,54 @@
+en:
+  activerecord:
+    models:
+      admin_user: Admin User
+      admin_role: Admin Role
+      admin_user_role: Admin User Role
+      admin_role_scope: Admin Role Scope
+    attributes:
+      admin_user:
+        id: ID
+        name: Name
+        email: Email
+        super_admin: Super Admin
+        admin_role: Admin Role
+        owner: Owner
+        password: Password
+        password_confirmation: Password Confirmation
+        created_at: Created At
+      admin_role: 
+        id: ID
+        name: Name
+        owner: Owner
+        permissions: Permissions
+        admin_role_scope: Admin Role Scope
+        created_at: Created At
+      admin_role_scope: 
+        id: ID
+        name: Name
+        scope: Scope
+        scope_ids: Scope IDs
+        created_at: Created At
+      admin_user_role:
+        id: ID
+        admin_user: Admin User
+        admin_role: Admin Role
+        created_at: Created At
+    errors:
+      messages:
+        taken: Taken
+  permissions:
+    read: Read
+    write: Write
+    create: Create
+    update: Update
+    destroy: Destroy
+    settings: Settings
+    admin_user: Admin User
+    admin_role: Admin Role
+    admin_role_scope: Admin Role Scope
+  unauthorized:
+    default: You are not authorized to access this page
+  forms:
+    basic_information: Basic Information
+    permission_configuration: Permission Configuration

@@ -1,8 +1,27 @@
 # Neucore
 
-TODO: Delete this and the text below, and describe your gem
+Core utils of Neutron, including auth & admin users.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/neucore`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Features
+
+* jwt token & auth
+* auto strip attributes
+* enum extensions
+* mobility extensions
+* papertail version extensions
+
+## Pending Features
+
+* admin user permissions
+* cms controller
+* api controller
+* errors
+* formilyjs ui helper
+* amis ui helper
+* custom attribute
+* base integration
+* credentails
+* 2fa
 
 ## Installation
 

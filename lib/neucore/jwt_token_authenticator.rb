@@ -51,7 +51,7 @@ module Neucore
 
     def verify_token!
       result = verify_token
-      raise Neucore::Error.new(code: "unauthorized") unless result
+      raise Neucore::Unauthorized unless result
     end
 
     def verify_token

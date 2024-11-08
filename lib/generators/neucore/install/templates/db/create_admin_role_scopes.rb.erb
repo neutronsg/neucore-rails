@@ -1,0 +1,12 @@
+class CreateAdminRoleScopes < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :admin_role_scopes do |t|
+      t.string    :name
+      t.string    :scope
+      t.jsonb     :scope_ids
+      
+      t.datetime :deleted_at
+      t.timestamps
+    end
+  end
+end

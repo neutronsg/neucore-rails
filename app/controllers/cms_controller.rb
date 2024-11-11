@@ -60,6 +60,9 @@ class CmsController < NeucoreController
     @object.check_dependence_destroy!
     operation_success
   end
+
+  def ui_list
+  end
   
   private
 

@@ -8,8 +8,8 @@ json.basic_information do
   
   json.properties do
     index = -1
-    json.name string_ui(title: AdminRole.human_attribute_name(:name), index: index+=1, required: true)
-    json.admin_role_scope_ids fselect_ui(title: AdminRole.human_attribute_name(:admin_role_scope), index: index+=1, resource: 'admin_role_scopes', required: false, multiple: true)
+    json.name formily_string(title: AdminRole.human_attribute_name(:name), index: index+=1, required: true)
+    json.admin_role_scope_ids formily_fselect(title: AdminRole.human_attribute_name(:admin_role_scope), index: index+=1, resource: 'admin_role_scopes', required: false, multiple: true)
   end
 end
 
@@ -29,7 +29,7 @@ json.permission_configuration do
         AdminRole.load_permissions.each do |permission, permissions|
           title = I18n.t("permissions.#{permission}", default: permission.titleize)
           enum = permissions.collect{|p| {name: I18n.t("permissions.#{p}", default: p.titleize), id: p}}
-          json.set! permission, fcheckbox(title: title, index: index+=1, enum: enum)
+          json.set! permission, formily_fcheckbox(title: title, index: index+=1, enum: enum)
         end
       end
     end

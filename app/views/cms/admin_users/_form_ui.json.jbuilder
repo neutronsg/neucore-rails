@@ -8,7 +8,7 @@ json.basic_information do
   
   json.properties do
     index = -1
-    json.super_admin switch_ui(title: AdminUser.human_attribute_name(:super_admin), index: index+=1, disabled: updating?)
+    json.super_admin formily_switch(title: AdminUser.human_attribute_name(:super_admin), index: index+=1, disabled: updating?)
     reaction = {
       dependencies: ['.super_admin'],
       fulfill: {
@@ -17,13 +17,13 @@ json.basic_information do
         }
       }
     }
-    json.admin_role_id fselect_ui(title: AdminUser.human_attribute_name(:admin_role), index: index+=1, resource: 'admin_roles', required: true, multiple: false, 'x-reactions': [reaction])
+    json.admin_role_id formily_fselect(title: AdminUser.human_attribute_name(:admin_role), index: index+=1, resource: 'admin_roles', required: true, multiple: false, 'x-reactions': [reaction])
     AdminRoleScope.scopes(AdminUser).each do |scope|
       scope = scope.to_s
-      json.set! scope, fselect_ui(title: AdminUser.human_attribute_name(scope), index: index+=1, resource: scope.titlecase.tableize, required: false, multiple: false, 'x-reactions': [reaction])
+      json.set! scope, formily_fselect(title: AdminUser.human_attribute_name(scope), index: index+=1, resource: scope.titlecase.tableize, required: false, multiple: false, 'x-reactions': [reaction])
     end
-    json.name string_ui(title: AdminUser.human_attribute_name(:name), index: index+=1, required: true)
-    json.email string_ui(title: AdminUser.human_attribute_name(:email), index: index+=1, required: true)
-    json.password string_ui(title: AdminUser.human_attribute_name(:password), component: 'Password', required: true, visible: @action_name == 'create', index: index+=1)
+    json.name formily_string(title: AdminUser.human_attribute_name(:name), index: index+=1, required: true)
+    json.email formily_string(title: AdminUser.human_attribute_name(:email), index: index+=1, required: true)
+    json.password formily_string(title: AdminUser.human_attribute_name(:password), component: 'Password', required: true, visible: @action_name == 'create', index: index+=1)
   end
 end

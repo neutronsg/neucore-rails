@@ -1,6 +1,6 @@
 module Neucore
   module Helpers
-    module CmsHelper
+    module Cms
       def create_action model
         {
           name: I18n.t('actions.create'),

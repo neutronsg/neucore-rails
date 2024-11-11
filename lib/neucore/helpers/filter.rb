@@ -1,6 +1,6 @@
 module Neucore
   module Helpers
-    module FilterHelper
+    module Filter
       def selection_filter model, options = {}
         if model.classify.constantize.new.respond_to?(:merchant_id) && current_admin_user.merchant_admin?
           records = model.classify.constantize.where(merchant_id: current_admin_user.merchant_id).all.order(default_order)

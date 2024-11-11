@@ -1,7 +1,7 @@
 module Neucore
   module Helpers
-    module UiHelper
-      def string_ui(options = {})
+    module FormilyUi
+      def formily_string(options = {})
         options[:type] ||= 'string'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -16,19 +16,19 @@ module Neucore
         options
       end
 
-      def textarea_ui(options = {})
-        options = string_ui(options)
+      def formily_textarea(options = {})
+        options = formily_string(options)
         options[:'x-component'] = 'Input.TextArea'
         options
       end
 
-      def richtext_ui(options = {})
-        options = string_ui(options)
+      def formily_richtext(options = {})
+        options = formily_string(options)
         options[:'x-component'] = 'RichText'
         options
       end
 
-      def color_ui(options = {})
+      def formily_color(options = {})
         options[:type] ||= 'string'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -43,7 +43,7 @@ module Neucore
         options
       end
 
-      def enum_ui(options = {})
+      def formily_enum(options = {})
         options[:type] ||= 'string'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -61,7 +61,7 @@ module Neucore
         options
       end
 
-      def switch_ui(options = {})
+      def formily_switch(options = {})
         options[:type] = 'boolean'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -78,7 +78,7 @@ module Neucore
         options
       end
 
-      def number_ui(options = {})
+      def formily_number(options = {})
         options[:type] = 'number'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -93,7 +93,7 @@ module Neucore
         options
       end
 
-      def file_ui(options = {})
+      def formily_file(options = {})
         options[:type] ||= 'string'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -106,7 +106,7 @@ module Neucore
         options
       end
 
-      def datetime_range_ui(options = {})
+      def formily_datetime_range(options = {})
         options[:type] = 'string'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -133,7 +133,7 @@ module Neucore
         options
       end
 
-      def datetime_ui(options = {})
+      def formily_datetime(options = {})
         options[:type] = 'string'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -155,7 +155,7 @@ module Neucore
         options
       end
 
-      def images_ui(options = {})
+      def formily_images(options = {})
         options[:type] = 'Array<object>'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -175,7 +175,7 @@ module Neucore
       end
 
       # 需要在action_config设置header： Content-Type, 'multipart/form-data'
-      def image_ui(options = {})
+      def formily_image(options = {})
         options[:type] ||= 'string'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -185,7 +185,7 @@ module Neucore
         options
       end
 
-      def video_ui(options = {})
+      def formily_video(options = {})
         options[:type] = 'string'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -196,7 +196,7 @@ module Neucore
         options
       end
 
-      def fcheckbox(options = {})
+      def formily_fcheckbox(options = {})
         options[:type] ||= 'array'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -206,7 +206,7 @@ module Neucore
         options
       end
 
-      def fselect_ui(options = {})
+      def formily_fselect(options = {})
         options[:type] ||= 'array'
         options[:title] ||= I18n.t('title')
         options[:'x-decorator'] = options[:'x-decorator'] || options[:decorator] || 'FormItem'
@@ -229,8 +229,8 @@ module Neucore
         options
       end
 
-      def fselect_lazy_ui(options = {})
-        options = fselect_ui(options)
+      def formily_fselect_lazy(options = {})
+        options = formily_fselect(options)
         options[:'x-component-props'][:lazy] = true
         options[:'x-component-props'][:queryKey] = options[:queryKey] || 'q'
         options[:'x-component-props'][:filterable] = true
@@ -239,14 +239,14 @@ module Neucore
         options
       end
 
-      def index_ui options = {}
+      def formily_index options = {}
         options[:type] = 'void'
         options[:'x-component'] = 'ArrayCards.Index'
         options[:'x-index'] ||= options.delete(:index) || 1
         options
       end
 
-      def addition_ui
+      def formily_addition
         {
           addition: {
             type: 'void',
@@ -258,14 +258,14 @@ module Neucore
         }
       end
 
-      def remove_ui options = {}
+      def formily_remove options = {}
         options[:type] = 'void'
         options[:'x-component'] = options[:'x-component'] || options[:component] || 'ArrayItems.Remove'
         options[:'x-index'] ||= options.delete(:index) || 1
         options
       end
 
-      def sort_ui options = {}
+      def formily_sort options = {}
         options[:type] = 'void'
         options[:'x-decorator'] = 'FormItem'
         options[:'x-component'] = 'ArrayItems.SortHandle'
@@ -273,7 +273,7 @@ module Neucore
         options
       end
 
-      def dependencies_for_ui dep, options = {}
+      def formily_dependencies_for dep, options = {}
         {
           dependencies: [".#{dep}"],
           fulfill: {
@@ -284,7 +284,7 @@ module Neucore
         }
       end
       
-      def undependencies_for_ui dep, options = {}
+      def formily_undependencies_for dep, options = {}
         {
           dependencies: [".#{dep}"],
           fulfill: {

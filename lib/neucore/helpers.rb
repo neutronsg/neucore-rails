@@ -1,15 +1,15 @@
 require_relative 'helpers/audit_log'
 require_relative 'helpers/common'
-require_relative 'helpers/ui_helper'
-require_relative 'helpers/filter_helper'
-require_relative 'helpers/cms_helper'
+require_relative 'helpers/formily_ui'
+require_relative 'helpers/filter'
+require_relative 'helpers/cms'
 
 module Neucore
   module Helpers
     include AuditLog
     include Common
-    include UiHelper
-    include FilterHelper
-    include CmsHelper
+    include FormilyUi
+    include Filter
+    include Cms
   end
 end

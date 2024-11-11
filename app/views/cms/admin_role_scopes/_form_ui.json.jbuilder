@@ -8,8 +8,8 @@ json.basic_information do
   
   json.properties do
     index = -1
-    json.name string_ui(title: AdminRoleScope.human_attribute_name(:name), index: index+=1, required: true)
-    json.scope enum_ui(title: AdminRoleScope.human_attribute_name(:scope), index: index+=1, required: true, enum: AdminRoleScope::SCOPES.collect{|s| {label: s, value: s}})
+    json.name formily_string(title: AdminRoleScope.human_attribute_name(:name), index: index+=1, required: true)
+    json.scope formily_enum(title: AdminRoleScope.human_attribute_name(:scope), index: index+=1, required: true, enum: AdminRoleScope::SCOPES.collect{|s| {label: s, value: s}})
     reaction = {
       dependencies: ['.scope'],
       fulfill: {
@@ -25,6 +25,6 @@ json.basic_information do
         },
       }
     }
-    json.scope_ids fselect_ui(title: AdminRoleScope.human_attribute_name(:scope_ids), index: index+=1, required: false, 'x-component-props' => {requiredParams: ['resource']}, multiple: true, 'x-reactions': [reaction])
+    json.scope_ids formily_fselect(title: AdminRoleScope.human_attribute_name(:scope_ids), index: index+=1, required: false, 'x-component-props' => {requiredParams: ['resource']}, multiple: true, 'x-reactions': [reaction])
   end
 end

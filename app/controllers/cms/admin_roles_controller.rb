@@ -15,10 +15,10 @@ class Cms::AdminRolesController < CmsController
 
   private
   def create_params
-    params.permit(:name, :admin_role_scope_id, permissions: AdminRole.load_permissions.keys.collect{|k| {k => []}})
+    params.permit(:name, admin_role_scope_ids: [], permissions: AdminRole.load_permissions.keys.collect{|k| {k => []}})
   end
 
   def update_params
-    params.permit(:name, :admin_role_scope_id, permissions: AdminRole.load_permissions.keys.collect{|k| {k => []}})
+    params.permit(:name, admin_role_scope_ids: [], permissions: AdminRole.load_permissions.keys.collect{|k| {k => []}})
   end
 end

@@ -68,7 +68,7 @@ class CmsController < NeucoreController
   end
 
   def set_current_ability
-    # tc = AdminUser.find 3
+    # tc = AdminUser.find 1
     @current_ability ||= ::Ability.new(current_admin_user)
   end
   

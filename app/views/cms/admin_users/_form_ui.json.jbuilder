@@ -8,7 +8,7 @@ json.basic_information do
   
   json.properties do
     index = -1
-    json.super_admin switch_ui(title: AdminUser.human_attribute_name(:super_admin), index: index+=1)
+    json.super_admin switch_ui(title: AdminUser.human_attribute_name(:super_admin), index: index+=1, disabled: updating?)
     reaction = {
       dependencies: ['.super_admin'],
       fulfill: {

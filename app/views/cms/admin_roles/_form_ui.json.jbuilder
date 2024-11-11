@@ -9,7 +9,7 @@ json.basic_information do
   json.properties do
     index = -1
     json.name string_ui(title: AdminRole.human_attribute_name(:name), index: index+=1, required: true)
-    json.admin_role_scope_id fselect_ui(title: AdminRole.human_attribute_name(:admin_role_scope), index: index+=1, resource: 'admin_role_scopes', required: false, multiple: false)
+    json.admin_role_scope_ids fselect_ui(title: AdminRole.human_attribute_name(:admin_role_scope), index: index+=1, resource: 'admin_role_scopes', required: false, multiple: true)
   end
 end
 

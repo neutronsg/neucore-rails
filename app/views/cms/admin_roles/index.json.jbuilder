@@ -5,7 +5,7 @@ json.actions actions
 
 json.objects @objects do |object|
   json.extract! object, :id, :name
-  json.admin_role_scope custom_clickable(object.admin_role_scope)
+  json.admin_role_scopes custom_clickables(object.admin_role_scopes)
   json.permissions object.permissions_text
 
   json.member_actions do
@@ -14,7 +14,7 @@ json.objects @objects do |object|
 end
 
 json.partial! "cms/setups/column_titles", locals: {
-  columns: %w(id name admin_role_scope permissions),
+  columns: %w(id name admin_role_scopes permissions),
   model_name: "admin_role"
 }
 

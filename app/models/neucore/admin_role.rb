@@ -8,6 +8,7 @@
 #  owner_type             :string
 #  name                   :string
 #  permissions            :jsonb
+#  admin_role_scope_ids   :jsonb
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -21,7 +22,6 @@ class Neucore::AdminRole < NeucoreRecord
   has_many :admin_user_roles
   has_many :admin_users, through: :admin_user_roles
   belongs_to :owner, polymorphic: true, required: false
-  belongs_to :admin_role_scope, required: false
 
   def self.load_permissions
     begin
@@ -45,6 +45,10 @@ class Neucore::AdminRole < NeucoreRecord
     rescue
       raise 'Permissions load failed'
     end
+  end
+
+  def admin_role_scopes
+    Neucore::AdminRoleScope.where(id: admin_role_scope_ids).all
   end
 
   def permissions_text

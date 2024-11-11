@@ -1,1 +1,1 @@
-json.extract! @object, :id, :name, :admin_role_scope_id, :permissions
+json.extract! @object, :id, :name, :admin_role_scope_ids, :permissions

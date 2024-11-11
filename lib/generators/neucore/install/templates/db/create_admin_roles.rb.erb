@@ -6,7 +6,7 @@ class CreateAdminRoles < ActiveRecord::Migration<%= migration_version %>
       t.jsonb     :permissions
       t.integer   :owner_id
       t.string    :owner_type
-      t.integer   :admin_role_scope_id
+      t.jsonb     :admin_role_scope_ids
 
       t.datetime :deleted_at
       t.timestamps

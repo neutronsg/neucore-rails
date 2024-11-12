@@ -16,7 +16,7 @@ json.body do
       end
 
       json.child! do
-        json.label I18n.t('detail')
+        json.label I18n.t('add')
       end
     end
     json.style do
@@ -27,16 +27,13 @@ json.body do
   json.child! do
     json.type 'page'
     json.regions ["body", "toolbar", "header"]
-    # json.initApi "/amis/admin_role_scopes/1"
-    json.data do
-      json.extract! @object, :id, :name
-    end
 
     json.body do
       json.child! do
         json.type 'form'
-        json.static true
-        json.title I18n.t("forms.basic_information")
+        # json.static true
+        json.api 'amis/admin_role_scopes'
+        json.title '基本信息'
         json.mode 'horizontal'
         json.actions []
         json.body do
@@ -59,6 +56,18 @@ json.body do
             json.name 'email'
             json.label '邮箱'
             json.required true
+          end
+
+          json.child! do
+            json.type 'input-password'
+            json.name 'password'
+            json.label '密码'
+            json.required true
+          end
+
+          json.child! do
+            json.type 'submit'
+            json.label '提交'
           end
         end
       end

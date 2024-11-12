@@ -8,11 +8,11 @@ json.body do
     json.type 'breadcrumb'
     json.items do
       json.child! do
-        json.label '设置'
+        json.label I18n.t('permissions.settings')
       end
 
       json.child! do
-        json.label '管理员'
+        json.label I18n.t('permissions.admin_role_scope')
       end
     end
     json.style do
@@ -30,7 +30,7 @@ json.body do
 
       json.body do
         json.type 'button'
-        json.label '新增'
+        json.label I18n.t('actions.create')
         json.icon 'fa fa-plus pull-left'
         json.primary true
         json.actionType 'link'
@@ -77,19 +77,19 @@ json.body do
 
           json.child! do
             json.name 'name'
-            json.label '姓名'
+            json.label AdminRoleScope.human_attribute_name(:name)
             json.fixed 'left'
             json.searchable do
               json.type 'input-text'
               json.name 'name_cont'
-              json.label '名称'
-              json.placeholder '名称'
+              json.label AdminRoleScope.human_attribute_name(:name)
+              json.placeholder AdminRoleScope.human_attribute_name(:name)
             end
           end
 
           json.child! do
             json.name 'scope'
-            json.label 'Scope'
+            json.label AdminRoleScope.human_attribute_name(:scope)
           end
 
           json.child! do

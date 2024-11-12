@@ -1,5 +1,4 @@
 class Amis::AdminRolesController < CmsController
-  before_action :load_object, only: [:show, :update]
   before_action :authorize_index!, only: :index
   
   def index

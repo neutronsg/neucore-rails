@@ -52,12 +52,12 @@ class Neucore::AdminRole < NeucoreRecord
   end
 
   def permissions_text
-    permissions.map do |model, actions|
+    permissions&.map do |model, actions|
       next unless actions.present?
       title = I18n.t("permissions.#{model}", default: model.titleize)
       actions_text = actions.collect{|action| I18n.t("permissions.#{action}", default: action.titleize)}
       "#{title}: #{actions_text.join(", ")}"
-    end.compact.join("\n")
+    end&.compact&.join("\n")
   end
 end
 

@@ -6,7 +6,7 @@ class CmsController < NeucoreController
   before_action :token_authenticate_admin_user!
   before_action :set_current_ability
   before_action :set_paper_trail_whodunnit
-  before_action :load_object, only: [:show, :update, :destroy]
+  before_action :load_object, only: [:show, :update, :destroy, :edit]
 
   jwt_token_auth ['admin_user']
   layout 'cms'
@@ -50,6 +50,10 @@ class CmsController < NeucoreController
     end
   end
 
+  def edit
+    authorize! :update, @object
+  end
+
   def show
     authorize! :read, @object
   end
@@ -62,6 +66,9 @@ class CmsController < NeucoreController
   end
 
   def ui_list
+  end
+
+  def ui_create
   end
   
   private

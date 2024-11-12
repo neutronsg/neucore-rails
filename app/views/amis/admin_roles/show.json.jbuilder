@@ -8,11 +8,15 @@ json.body do
     json.type 'breadcrumb'
     json.items do
       json.child! do
-        json.label '设置'
+        json.label I18n.t('permissions.settings')
       end
 
       json.child! do
-        json.label '管理员'
+        json.label I18n.t('permissions.admin_role')
+      end
+
+      json.child! do
+        json.label I18n.t('detail')
       end
     end
     json.style do
@@ -22,7 +26,6 @@ json.body do
 
   json.child! do
     json.type 'page'
-    json.title '管理员详情'
     json.regions ["body", "toolbar", "header"]
     json.initApi "/amis/admin_roles/1"
     json.data do
@@ -33,7 +36,7 @@ json.body do
       json.child! do
         json.type 'form'
         json.static true
-        json.title '基本信息'
+        json.title I18n.t("forms.basic_information")
         json.mode 'horizontal'
         json.actions []
         json.body do

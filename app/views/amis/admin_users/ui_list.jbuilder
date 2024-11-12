@@ -8,11 +8,11 @@ json.body do
     json.type 'breadcrumb'
     json.items do
       json.child! do
-        json.label '设置'
+        json.label I18n.t('permissions.settings')
       end
 
       json.child! do
-        json.label '管理员'
+        json.label I18n.t('permissions.admin_user')
       end
     end
     json.style do
@@ -30,7 +30,7 @@ json.body do
 
       json.body do
         json.type 'button'
-        json.label '新增'
+        json.label I18n.t('actions.create')
         json.icon 'fa fa-plus pull-left'
         json.primary true
         json.actionType 'link'
@@ -77,35 +77,35 @@ json.body do
 
           json.child! do
             json.name 'name'
-            json.label '姓名'
+            json.label AdminUser.human_attribute_name(:name)
             json.fixed 'left'
             json.searchable do
               json.type 'input-text'
               json.name 'name_cont'
-              json.label '名称'
-              json.placeholder '名称'
+              json.label AdminUser.human_attribute_name(:name)
+              json.placeholder AdminUser.human_attribute_name(:name)
             end
           end
 
           json.child! do
             json.name 'email'
-            json.label '邮箱'
+            json.label AdminUser.human_attribute_name(:email)
             json.searchable do
               json.type 'input-text'
               json.name 'email_cont'
-              json.label '邮箱'
-              json.placeholder '邮箱'
+              json.label AdminUser.human_attribute_name(:email)
+              json.placeholder AdminUser.human_attribute_name(:email)
             end
           end
 
           json.child! do
             json.name 'super_admin'
-            json.label '超级管理员'
+            json.label AdminUser.human_attribute_name(:super_admin)
           end
 
           json.child! do
             json.name 'admin_role'
-            json.label '角色'
+            json.label AdminUser.human_attribute_name(:admin_role)
           end
 
           json.child! do

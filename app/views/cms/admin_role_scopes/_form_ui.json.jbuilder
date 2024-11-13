@@ -25,6 +25,6 @@ json.basic_information do
         },
       }
     }
-    json.scope_ids formily_fselect(title: AdminRoleScope.human_attribute_name(:scope_ids), index: index+=1, required: false, 'x-component-props' => {requiredParams: ['resource']}, multiple: true, 'x-reactions': [reaction])
+    # json.scope_ids formily_fselect(title: AdminRoleScope.human_attribute_name(:scope_ids), index: index+=1, required: false, 'x-component-props' => {requiredParams: ['resource']}, multiple: true, 'x-reactions': [reaction])
   end
 end

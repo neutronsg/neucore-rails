@@ -70,6 +70,10 @@ class CmsController < NeucoreController
 
   def ui_create
   end
+
+  def amis
+    
+  end
   
   private
 

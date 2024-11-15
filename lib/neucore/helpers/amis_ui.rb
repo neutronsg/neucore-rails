@@ -1,6 +1,9 @@
+require_relative 'amis_ui/column'
+
 module Neucore
   module Helpers
     module AmisUi
+      include Column
       def amis_form_base
         schema = {
           type: 'form',
@@ -13,23 +16,65 @@ module Neucore
         schema
       end
 
+      def amis_crud_scopes scopes
+        scopes = scopes.collect{|scope| {label: I18n.t(scope, default: scope.titleize), value: scope}}
+        schema = {
+          type: 'button-group-select',
+          name: 'type',
+          options: scopes,
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  componentId: 'crud',
+                  actionType: 'reload',
+                  data: {
+                    scope: "${event.data.value}"
+                  }
+                }
+              ]
+            }
+          }
+        }
+        schema
+      end
+
+      def amis_crud_tabs tabs
+        tabs = tabs.collect{|tab| {title: I18n.t(tab, default: tab.titleize)}}
+        schema = {
+          type: 'tabs',
+          mode: 'line',
+          tabs: tabs,
+          onEvent: {
+            change: {
+              actions: [
+                {
+                  componentId: 'crud',
+                  actionType: 'reload',
+                  data: {
+                    scope: "${scopes[event.data.value - 1]}"
+                  }
+                }
+              ]
+            }
+          }
+        }
+        schema
+      end
+
       def amis_crud_base
         schema = {
           type: 'crud',
+          id: 'crud',
           api: amis_api,
           draggable: true,
           perPage: 50,
-          keepItemSelectionOnPageChange: true,
-          maxKeepItemSelectionLength: 11,
+          maxItemSelectionLength: 50,
           autoFillHeight: false,
           labelTpl: "${id} ${name}",
           autoGenerateFilter: true,
           filterTogglable: true,
-          headerToolbar: [
-            {type: 'columns-toggler', align: 'right'},
-            {type: 'drag-toggler', align: 'right'},
-            {type: 'pagination', align: 'right'},
-          ],
+          headerToolbar: ["bulkActions", "columns-toggler", "drag-toggler", "pagination"],
           footerToolbar: ['statistics', 'switch-per-page', 'pagination']
         }
         schema
@@ -112,29 +157,14 @@ module Neucore
         schema
       end
 
-      def amis_id_column
+      def amis_searchable filter
         schema = {
-          name: 'id',
-          label: 'ID',
-          fixed: 'left'
+          type: 'input-text',
+          name: "#{filter}_cont",
+          label: filter,
+          placeholder: filter
         }
-        schema
-      end
-
-      def amis_string_column model = nil, field = nil, searchable: false
-        schema = {
-          name: field,
-          label: model.human_attribute_name(field)
-        }
-
-        if searchable
-          schema[:searchable] = {
-            type: 'input-text',
-            name: "#{field}_cont",
-            label: model.human_attribute_name(field),
-            placeholder: model.human_attribute_name(field)
-          }
-        end
+        
         schema
       end
     end

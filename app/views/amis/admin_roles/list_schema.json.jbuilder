@@ -28,7 +28,7 @@ json.body do
           end
 
           json.child! do
-            json.merge! amis_string_column(AdminRole, :name)
+            json.merge! amis_string_column(AdminRole, :name, searchable: true)
           end
 
           json.child! do

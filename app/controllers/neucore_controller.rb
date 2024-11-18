@@ -22,7 +22,7 @@ class NeucoreController < ActionController::Base
   end
 
   def per_page
-    params[:per_page] || 25
+    params[:per_page] || params[:perPage] || 25
   end
 
   def default_order

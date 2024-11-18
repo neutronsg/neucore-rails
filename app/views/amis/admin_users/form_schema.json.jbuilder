@@ -22,10 +22,10 @@ json.body do
         json.merge! amis_form_base
 
         fields = []
-        fields << amis_string(name: 'name', label: AdminUser.human_attribute_name(:name), required: true)
-        fields << amis_string(name: 'admin_role', label: AdminUser.human_attribute_name(:admin_role), required: true)
-        fields << amis_string(name: 'email', label: AdminUser.human_attribute_name(:email), required: true)
-        fields << amis_string(type: 'input-password', name: 'password', label: AdminUser.human_attribute_name(:password), required: true)
+        fields << amis_form_text(name: 'name', label: AdminUser.human_attribute_name(:name), required: true)
+        fields << amis_form_text(name: 'admin_role', label: AdminUser.human_attribute_name(:admin_role), required: true)
+        fields << amis_form_text(name: 'email', label: AdminUser.human_attribute_name(:email), required: true)
+        fields << amis_form_text(type: 'input-password', name: 'password', label: AdminUser.human_attribute_name(:password), required: true)
 
         if @type == 'edit' || @type == 'create'
           fields << {type: 'submit', label: '提交'}

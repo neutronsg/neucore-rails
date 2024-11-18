@@ -9,7 +9,11 @@ class AmisController < CmsController
 
     case @type
     when 'edit', 'view', 'create'
-      render "amis/#{@resource}/form_schema"
+      if %w(examples1 examples2).include?(@resource)
+        render "amis/examples/#{@resource}"
+      else
+        render "amis/#{@resource}/form_schema"
+      end
     when 'list'
       render "amis/#{@resource}/list_schema"
     else

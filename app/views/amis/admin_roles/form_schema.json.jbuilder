@@ -21,7 +21,7 @@ json.body do
         json.merge! amis_form_base
 
         fields = []
-        fields << amis_string(name: 'name', label: AdminRole.human_attribute_name(:name), required: true)
+        fields << amis_form_text(name: 'name', label: AdminRole.human_attribute_name(:name), required: true)
 
         if @type == 'edit' || @type == 'create'
           fields << {type: 'submit', label: '提交'}

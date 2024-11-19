@@ -52,3 +52,9 @@ en:
   forms:
     basic_information: Basic Information
     permission_configuration: Permission Configuration
+    history_information: History Information
+    id: ID
+    empty: Empty
+    changeset: Change History
+    created_at: Creation Time
+    operator: Operator

@@ -58,32 +58,36 @@ module Neucore
           schema
         end
 
-        def amis_string_column model = nil, field = nil, options = {}
-          schema = {
-            name: field,
-            label: model.human_attribute_name(field)
-          }.merge(options)
-          
+        def amis_string_column options = {}
+          schema = options
           schema
         end
 
-        def amis_boolean_column name = '', label = ''
-          schema = {
-            name: name,
-            type: 'tag',
-            label: label,
-            color: 'processing'
-          }
+        def amis_image_column options = {}
+          schema = options.slice(:name, :label)
+          schema[:type] = 'image'
+          schema[:placeholder] = '-'
+
+          schema
+        end
+
+        def amis_images_column options = {}
+          schema = options.slice(:name, :label)
+          schema[:type] = 'images'
+          schema[:defaultImage] = ''
+
           schema
         end
 
         def amis_tag_column options = {}
           schema = {
+            name: options[:name],
             type: 'tag',
             label: options[:label] || 'Tag',
             color: options[:color] || 'processing',
-            placeholder: '-'
+            placeholder: options[:placeholder] || '-'
           }
+          
           schema
         end
 

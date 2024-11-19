@@ -28,11 +28,11 @@ json.body do
           end
 
           json.child! do
-            json.merge! amis_string_column(AdminUser, :name)
+            json.merge! amis_string_column(label: AdminUser.human_attribute_name(:name), name: 'name')
           end
 
           json.child! do
-            json.merge! amis_string_column(AdminUser, :email)
+            json.merge! amis_string_column(label: AdminUser.human_attribute_name(:email), name: 'email')
           end
 
           json.child! do

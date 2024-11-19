@@ -52,3 +52,9 @@ zh-CN:
   forms:
     basic_information: 基本信息
     permission_configuration: 权限配置
+    history_information: 历史信息
+    id: ID
+    empty: 暂无历史信息
+    changeset: 变更历史
+    created_at: 创建时间
+    operator: 操作者

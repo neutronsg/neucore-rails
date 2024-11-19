@@ -28,7 +28,7 @@ json.body do
           end
 
           json.child! do
-            json.merge! amis_string_column(AdminRoleScope, :name)
+            json.merge! amis_string_column(label: AdminRoleScope.human_attribute_name(:name), name: 'name')
           end
 
           json.child! do

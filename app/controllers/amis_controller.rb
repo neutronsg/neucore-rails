@@ -12,7 +12,7 @@ class AmisController < CmsController
       if @type == 'view' && File.exist?("#{Rails.root}/app/views/amis/#{@resource}/view_schema.json.jbuilder")
         render "amis/#{@resource}/view_schema"
       else
-        if %w(examples1 examples2 examples3).include?(@resource)
+        if %w(examples1 examples2 examples3 examples4).include?(@resource)
           render "amis/examples/#{@resource}"
         else
           render "amis/#{@resource}/form_schema"

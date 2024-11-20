@@ -20,7 +20,7 @@ module Neucore
           schema = {
             type: 'button',
             level: 'link',
-            icon: 'fa fa-eye',
+            label: I18n.t('view'),
             tooltip: I18n.t('view'),
             actionType: 'link',
             link: "/#{resource}/${id}"
@@ -33,7 +33,7 @@ module Neucore
           schema = {
             type: 'button',
             level: 'link',
-            icon: 'fa fa-pencil',
+            label: I18n.t('edit'),
             tooltip: I18n.t('edit'),
             actionType: 'link',
             link: "/#{resource}/${id}/edit"
@@ -48,7 +48,7 @@ module Neucore
             tooltip: options[:tooltip] || options[:label],
             actionType: 'link',
             label: options[:label],
-            link: options[:link]
+            link: "/${#{options[:name]}.resource}/${#{options[:name]}.id}"
           }
           schema
         end
@@ -64,7 +64,7 @@ module Neucore
               actionType: 'link',
               level: 'link',
               label: "${item.name}",
-              link: "/#{options[:resource] || options[:name]}/${item.id}"
+              link: "/${item.resource}/${item.id}"
             }
           }
           schema

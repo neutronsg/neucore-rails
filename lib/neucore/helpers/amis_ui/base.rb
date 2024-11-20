@@ -15,8 +15,9 @@ module Neucore
         def amis_breadcrumb items = []
           schema = {type: 'breadcrumb', items: []}
           items.each do |item|
-            schema[:items] << {label: I18n.t("permissions.#{item}"), href: '/users'}
+            schema[:items] << {label: I18n.t("permissions.#{item}")}
           end
+          schema[:items].last[:href] = "/#{items.last.tableize}"
 
           schema[:items] << {label: I18n.t(@type)} if @type.present? && @type != 'list'
           schema[:style] = {'margin-bottom' => '12px'}
@@ -41,6 +42,7 @@ module Neucore
             id: 'crud',
             api: amis_api,
             draggable: true,
+            syncLocation: true,
             perPage: 50,
             maxItemSelectionLength: 50,
             autoFillHeight: false,

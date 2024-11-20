@@ -63,6 +63,26 @@ module Neucore
           schema
         end
 
+        def amis_datetime_column options = {}
+          schema = {
+            label: options[:label],
+            type: 'tpl',
+            tpl: "${ DATETOSTR(#{options[:name]}) }"
+          }
+
+          schema
+        end
+
+        def amis_html_column options = {}
+          schema = {
+            label: options[:label],
+            type: 'tpl',
+            tpl: "${raw(#{options[:name]})}"
+          }
+
+          schema
+        end
+
         def amis_image_column options = {}
           schema = options.slice(:name, :label)
           schema[:type] = 'image'
@@ -105,7 +125,52 @@ module Neucore
           }
           schema
         end
+
+        def amis_bulk_action options = {}
+          api = {
+            method: options.delete(:method) || 'post',
+            url: options.delete(:url),
+            data: {ids: "${split(ids)}"}
+          }
+          schema = options
+          schema[:type] ||= 'button'
+          schema[:actionType] ||= 'ajax'
+          schema[:api] = api
+          
+          schema
+        end
+
+        def amis_export_csv options = {}
+          schema = options
+          schema[:type] = 'export-csv'
+          schema[:label] ||= I18n.t('actions.export_csv')
+          schema[:align] ||= 'right'
+          schema[:filename] ||= "#{Time.now.to_i}"
+
+          schema
+        end
+
+        def amis_export_excel options = {}
+          schema = options
+          schema[:type] = 'export-excel'
+          schema[:label] ||= I18n.t('actions.export_excel')
+          schema[:align] ||= 'right'
+          schema[:filename] ||= "#{Time.now.to_i}"
+
+          schema
+        end
+
+        def amis_export_excel_template options = {}
+          schema = options
+          schema[:type] = 'export-excel-template'
+          schema[:label] ||= I18n.t('actions.export_excel_template')
+          schema[:align] ||= 'right'
+          schema[:filename] ||= "#{Time.now.to_i}"
+
+          schema
+        end
       end
     end
   end
 end
+

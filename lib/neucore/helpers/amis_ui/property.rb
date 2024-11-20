@@ -17,7 +17,7 @@ module Neucore
           schema = options.slice(:label, :span)
           schema[:content] = {
             type: 'image',
-            src: options[:src],
+            src: options[:content],
             enlargeAble: options[:enlargeAble].nil? ? true : options[:enlargeAble]
           }
           
@@ -28,7 +28,7 @@ module Neucore
           schema = options.slice(:label, :span)
           schema[:content] = {
             type: 'images',
-            options: options[:images],
+            options: options[:content],
             enlargeAble: options[:enlargeAble].nil? ? true : options[:enlargeAble] # 预览
           }
           
@@ -61,8 +61,8 @@ module Neucore
             type: 'button',
             level: 'link',
             actionType: 'link',
-            label: options[:name],
-            link: options[:link]
+            label: options[:content][:name],
+            link: "#{options[:content][:resource]}/#{options[:content][:id]}"
           }
           
           schema
@@ -72,14 +72,14 @@ module Neucore
           schema = options.slice(:label, :span)
           schema[:content] = {
             type: 'each',
-            value: options[:links],
+            value: options[:content],
             placeholder: '-',
             items: {
               type: 'button',
               level: 'link',
               actionType: 'link',
               label: "${item.name}",
-              link: "${item.link}",
+              link: "${item.resource}/${item.id}",
             }
           }
 

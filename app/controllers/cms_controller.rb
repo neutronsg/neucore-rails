@@ -22,7 +22,7 @@ class CmsController < NeucoreController
             image.update target: @object, ranking: 100 - index
           end
         end
-        operation_success
+        operation_success(id: @object.id)
       else
         operation_failed(@object.errors.full_messages.join(","))
       end
@@ -43,7 +43,7 @@ class CmsController < NeucoreController
           @object.images.update_all target_type: nil, target_id: nil
         end
 
-        operation_success
+        operation_success(id: @object.id)
       else
         operation_failed(@object.errors.full_messages.join(","))
       end
@@ -101,5 +101,15 @@ class CmsController < NeucoreController
 
   def authorize_index!
     authorize! :read, controller_name.classify.constantize
+  end
+
+  private
+
+  def operation_success message = nil, **options
+    render json: { request_id: request.uuid, status: 0, msg: message || I18n.t('operation_success'), data: options}
+  end
+
+  def operation_failed message = nil, **options
+    render json: { request_id: request.uuid, status: 1, msg: message || I18n.t('operation_failed'), data: options}
   end
 end

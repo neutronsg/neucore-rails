@@ -2,35 +2,23 @@ module Neucore
   module Helpers
     module AmisUi
       module Crud
-        def amis_crud_scopes scopes
-          scopes = scopes.collect{|scope| {label: I18n.t(scope, default: scope.titleize), value: scope}}
-          schema = {
-            type: 'button-group-select',
-            name: 'type',
-            options: scopes,
-            onEvent: {
-              change: {
-                actions: [
-                  {
-                    componentId: 'crud',
-                    actionType: 'reload',
-                    data: {
-                      scope: "${event.data.value}"
-                    }
-                  }
-                ]
+        def amis_crud_tabs scopes
+          tabs = []
+          scopes.each do |scope|
+            tabs << {
+              title: {
+                type: 'tpl',
+                tpl: "${scopes.#{scope}.title}(${scopes.#{scope}.count})"
               }
             }
-          }
-          schema
-        end
+          end
 
-        def amis_crud_tabs tabs
-          tabs = tabs.collect{|tab| {title: I18n.t(tab, default: tab.titleize)}}
           schema = {
             type: 'tabs',
-            mode: 'line',
+            tabsMode: 'radio',
             tabs: tabs,
+            className: 'crudTabs',
+            visibleOn: "${scopes}",
             onEvent: {
               change: {
                 actions: [

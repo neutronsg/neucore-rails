@@ -1,4 +1,4 @@
-class Amis::AdminRolesController < CmsController
+class Amis::AdminRolesController < AmisController
   before_action :authorize_index!, only: :index
   
   def index

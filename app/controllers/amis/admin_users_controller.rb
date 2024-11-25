@@ -1,4 +1,4 @@
-class Amis::AdminUsersController < CmsController
+class Amis::AdminUsersController < AmisController
   skip_before_action :token_authenticate_admin_user!, only: [:sign_in]
   before_action :authorize_index!, only: :index
   

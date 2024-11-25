@@ -1,4 +1,4 @@
-class Amis::VersionsController < CmsController  
+class Amis::VersionsController < AmisController  
   def index
     item_type = params[:item_type]
     item_id = params[:item_id]

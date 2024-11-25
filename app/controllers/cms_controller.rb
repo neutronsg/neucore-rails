@@ -15,7 +15,7 @@ class CmsController < NeucoreController
     authorize! :create, controller_name.classify.constantize
     ActiveRecord::Base.transaction do
       @object = controller_name.classify.constantize.new create_params
-      if @object.save!
+      if @object.save
         if params[:images].present? && @object.respond_to?(:images)
           params[:images].each_with_index do |image_attr, index|
             image = Image.find image_attr[:id]
@@ -32,7 +32,7 @@ class CmsController < NeucoreController
   def update
     authorize! :update, @object
     ActiveRecord::Base.transaction do
-      if @object.update! update_params
+      if @object.update update_params
         if params[:images].present? && @object.respond_to?(:images)
           @object.images.update_all target_type: nil, target_id: nil
           params[:images].each_with_index do |image_attr, index|

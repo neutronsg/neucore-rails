@@ -25,11 +25,27 @@ module Neucore
       end
 
       def amis_custom_clickable object
+        return unless object
         {
           resource: object.class.name.tableize,
           label: object&.display_name || object&.id,
           id: object.id
         }
+      end
+
+      def amis_custom_clickables objects
+        return unless objects
+        objects.map do |object|
+          {
+            resource: object.class.name.tableize,
+            label: object&.display_name || object&.id,
+            id: object.id
+          }
+        end
+      end
+
+      def amis_select_options model
+        model.constantize.all.collect{|r| {label: r.name, value: r.id}}
       end
     end
   end

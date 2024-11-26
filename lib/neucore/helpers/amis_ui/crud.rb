@@ -15,7 +15,7 @@ module Neucore
 
           schema = {
             type: 'tabs',
-            tabsMode: 'radio',
+            tabsMode: 'line',
             tabs: tabs,
             className: 'crudTabs',
             visibleOn: "${scopes}",
@@ -26,7 +26,7 @@ module Neucore
                     componentId: 'crud',
                     actionType: 'reload',
                     data: {
-                      scope: "${scopes[event.data.value - 1]}"
+                      scope: "${scope_keys[event.data.value - 1]}"
                     }
                   }
                 ]

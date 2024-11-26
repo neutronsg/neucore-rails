@@ -87,7 +87,7 @@ module Neucore
             actionType: 'link',
             label: options[:content][:label],
             link: "/#{options[:content][:resource]}/#{options[:content][:id]}"
-          }
+          } if options[:content].present?
           
           schema
         end

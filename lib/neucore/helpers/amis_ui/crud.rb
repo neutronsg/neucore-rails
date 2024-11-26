@@ -87,6 +87,38 @@ module Neucore
           schema
         end
 
+        def amis_clickable_column options = {}
+          schema = options.slice(:name, :label)
+          schema[:type] = 'button'
+          schema[:body] = {
+            type: 'button',
+            level: 'link',
+            tooltip: options[:tooltip] || options[:label],
+            actionType: 'link',
+            label: "${#{options[:name]}.label}",
+            link: "/${#{options[:name]}.resource}/${#{options[:name]}.id}"
+          }
+
+          schema
+        end
+
+        def amis_clickables_column options = {}
+          schema = {
+            name: options[:name],
+            type: 'each',
+            label: options[:label],
+            placeholder: options[:placeholder] || '-',
+            items: {
+              type: 'button',
+              actionType: 'link',
+              level: 'link',
+              label: "${item.label}",
+              link: "/${item.resource}/${item.id}"
+            }
+          }
+          schema
+        end
+
         def amis_tag_column options = {}
           schema = {
             name: options[:name],

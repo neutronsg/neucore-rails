@@ -13,6 +13,16 @@ module Neucore
           schema
         end
 
+        def amis_boolean_property options = {}
+          schema = options.slice(:label, :span)
+          schema[:content] = {
+            type: 'tag',
+            displayMode: 'normal',
+            label: options[:content] ? 'True' : 'False'
+          }
+          schema
+        end
+
         def amis_image_property options = {}
           schema = options.slice(:label, :span)
           schema[:content] = {
@@ -61,8 +71,8 @@ module Neucore
             type: 'button',
             level: 'link',
             actionType: 'link',
-            label: options[:content][:name],
-            link: "#{options[:content][:resource]}/#{options[:content][:id]}"
+            label: options[:content][:label],
+            link: "/#{options[:content][:resource]}/#{options[:content][:id]}"
           }
           
           schema
@@ -78,8 +88,8 @@ module Neucore
               type: 'button',
               level: 'link',
               actionType: 'link',
-              label: "${item.name}",
-              link: "${item.resource}/${item.id}",
+              label: "${item.label}",
+              link: "/${item.resource}/${item.id}",
             }
           }
 

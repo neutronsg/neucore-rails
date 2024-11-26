@@ -40,35 +40,6 @@ module Neucore
           }
           schema
         end
-
-        def amis_clickable options = {}
-          schema = {
-            type: 'button',
-            level: 'link',
-            tooltip: options[:tooltip] || options[:label],
-            actionType: 'link',
-            label: options[:label],
-            link: "/${#{options[:name]}.resource}/${#{options[:name]}.id}"
-          }
-          schema
-        end
-
-        def amis_clickables options = {}
-          schema = {
-            name: options[:name],
-            type: 'each',
-            label: options[:label],
-            placeholder: options[:placeholder] || '-',
-            items: {
-              type: 'button',
-              actionType: 'link',
-              level: 'link',
-              label: "${item.name}",
-              link: "/${item.resource}/${item.id}"
-            }
-          }
-          schema
-        end
       end
     end
   end

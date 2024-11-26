@@ -5,6 +5,8 @@ module Neucore
         def amis_form_text options = {}
           schema = options
           schema[:type] ||= 'input-text'
+          schema[:trimContents] = true
+          schema[:clearValueOnHidden] = true
           
           schema
         end
@@ -12,6 +14,7 @@ module Neucore
         def amis_form_switch options = {}
           schema = options
           schema[:type] ||= 'switch'
+          schema[:clearValueOnHidden] = true
           
           schema
         end
@@ -19,6 +22,7 @@ module Neucore
         def amis_form_checkbox options = {}
           schema = options
           schema[:type] ||= 'checkbox'
+          schema[:clearValueOnHidden] = true
           
           schema
         end
@@ -29,6 +33,7 @@ module Neucore
           schema[:joinValues] = false
           schema[:extractValue] = true
           schema[:checkAll] = true
+          schema[:clearValueOnHidden] = true
           
           schema
         end
@@ -38,6 +43,7 @@ module Neucore
           schema[:type] ||= 'select'
           schema[:joinValues] = false
           schema[:extractValue] = true
+          schema[:clearValueOnHidden] = true
           
           schema
         end
@@ -45,6 +51,7 @@ module Neucore
         def amis_form_radios options = {}
           schema = options
           schema[:type] ||= 'radios'
+          schema[:clearValueOnHidden] = true
           
           schema
         end

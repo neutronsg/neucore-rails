@@ -23,6 +23,14 @@ module Neucore
         
         schema
       end
+
+      def amis_custom_clickable object
+        {
+          resource: object.class.name.tableize,
+          label: object&.display_name || object&.id,
+          id: object.id
+        }
+      end
     end
   end
 end

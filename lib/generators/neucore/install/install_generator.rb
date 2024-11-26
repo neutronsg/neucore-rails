@@ -39,8 +39,6 @@ class Neucore::InstallGenerator < Rails::Generators::Base
     end
   end
 
-  protected
-
   def migration_version
     format(
       "[%d.%d]",

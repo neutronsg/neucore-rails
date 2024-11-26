@@ -1,0 +1,9 @@
+zh-CN:
+  activerecord:
+    models:
+      <%= resource.classify.underscore%>: <%= resource.classify %>
+    attributes:
+      <%= resource.classify.underscore%>:
+        id: ID
+        name: 名称
+        created_at: 创建时间

@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      <%= resource.classify.underscore%>: <%= resource.classify %>
+    attributes:
+      <%= resource.classify.underscore%>:
+        id: ID
+        name: Name
+        created_at: Created At

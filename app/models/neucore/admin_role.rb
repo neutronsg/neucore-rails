@@ -57,7 +57,7 @@ class Neucore::AdminRole < NeucoreRecord
       title = I18n.t("permissions.#{model}", default: model.titleize)
       actions_text = actions.collect{|action| I18n.t("permissions.#{action}", default: action.titleize)}
       "#{title}: #{actions_text.join(", ")}"
-    end&.compact&.join("\n")
+    end&.compact&.join("<br />")
   end
 end
 

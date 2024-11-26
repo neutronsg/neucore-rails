@@ -25,7 +25,7 @@ panel1 = {
 
 ps = []
 AdminRole.load_permissions.each do |resource, actions|
-  ps << amis_form_checkboxes(name: "permissions[#{resource}]", label: I18n.t("permissions.#{resource}", default: resource.titleize), required: false, options: actions.collect{|p| {label: I18n.t("permissions.#{p}", default: p.titleize), value: p}})
+  ps << amis_form_checkboxes(name: "permissions.#{resource}", label: I18n.t("permissions.#{resource}", default: resource.titleize), required: false, options: actions.collect{|p| {label: I18n.t("permissions.#{p}", default: p.titleize), value: p}})
 end
 
 panel2 = {

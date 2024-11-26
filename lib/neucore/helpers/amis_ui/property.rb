@@ -7,6 +7,20 @@ module Neucore
           schema
         end
 
+        def amis_ml_property options = {}
+          model = options.delete(:model)
+          property = options.delete(:property)
+          content_ml = options[:content_ml]
+          schemas = []
+          I18n.ml_locales.each do |locale|
+            schemas << amis_text_property(options).merge(
+              label: model.human_attribute_name("#{property}_#{locale}"),
+              content: content_ml[locale]
+            )
+          end
+          schemas
+        end
+
         def amis_richtext_property options = {}
           schema = options.slice(:label, :span)
           schema[:content] = options[:content]

@@ -11,6 +11,18 @@ module Neucore
           schema
         end
 
+        def amis_form_ml options = {}
+          schemas = []
+          name = options.delete(:name)
+          model = options.delete(:model)
+
+          I18n.ml_locales.each do |locale|
+            schemas << amis_form_text(options).merge(name: "#{name}_ml.#{locale}", label: model.human_attribute_name("#{name}_#{locale}"))
+          end
+
+          schemas
+        end
+
         def amis_form_switch options = {}
           schema = options
           schema[:type] ||= 'switch'

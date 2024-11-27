@@ -2,10 +2,6 @@
 
 @data = {}
 
-if @type == 'edit'
-  @data[:name] = @object.name
-end
-
 @redirect = '/<%= resource.tableize %>' # 列表页
 
 @fields = [

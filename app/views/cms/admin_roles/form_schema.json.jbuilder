@@ -2,12 +2,6 @@
 
 @data = {}
 
-if @type == 'edit'
-  @data[:name] = @object.name
-  @data[:admin_role_scope_ids] = @object.admin_role_scope_ids
-  @data[:permissions] = @object.permissions
-end
-
 @redirect = '/admin_roles' # 列表页
 
 @form_options = {wrapWithPanel: false}

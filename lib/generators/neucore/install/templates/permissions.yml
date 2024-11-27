@@ -1,10 +1,5 @@
 permissions:
-  admin_user:
-    - read
-    - write
-  admin_role: 
-    - read
-    - write
-  admin_role_scope:
-    - read
-    - write
+  default:
+    - admin_role
+    - admin_user
+    - admin_role_scope

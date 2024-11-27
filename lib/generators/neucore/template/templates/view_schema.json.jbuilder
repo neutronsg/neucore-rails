@@ -1,10 +1,11 @@
 @breadcrumbs = amis_breadcrumb(['<%= resource.classify.underscore %>'])
 
-@data = {id: @object.id}
+@data = {
+  id: @object.id,
+  permissions: default_member_permissions(@object)
+}
 
-@toolbar = [
-  amis_edit_button,
-]
+@toolbar = [amis_edit_button, amis_delete_button]
 
 @panels = []
 

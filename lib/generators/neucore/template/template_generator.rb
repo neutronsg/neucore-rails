@@ -16,6 +16,7 @@ class Neucore::TemplateGenerator < Rails::Generators::Base
     template 'index.json.jbuilder', File.join("app/views/cms/#{resource.tableize}", "index.json.jbuilder")
     template 'list_schema.json.jbuilder', File.join("app/views/cms/#{resource.tableize}", "list_schema.json.jbuilder")
     template 'view_schema.json.jbuilder', File.join("app/views/cms/#{resource.tableize}", "view_schema.json.jbuilder")
+    template 'attributes.json.jbuilder', File.join("app/views/cms/#{resource.tableize}", "_attributes.json.jbuilder")
     template 'migration.rb', File.join("db//migrate", "#{Time.now.strftime("%Y%m%d%H%M%S")}_create_#{resource.tableize}.rb")
   end
 end

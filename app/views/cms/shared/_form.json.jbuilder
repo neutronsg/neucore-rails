@@ -13,6 +13,9 @@ json.body do
   json.child! do
     json.type 'page'
     json.data do
+      if @type == 'edit' && File.exist?("#{Rails.root}/app/views/cms/#{@resource}/_attributes.json.jbuilder")
+        json.partial! "cms/#{@resource}/attributes"
+      end
       json.merge! @data || {}
     end
 
@@ -23,8 +26,8 @@ json.body do
         json.redirect @redirect
 
         if @type == 'edit' || @type == 'create'
-          @fields << {type: 'reset', label: 'Reset'}
-          @fields << {type: 'submit', label: '提交'}
+          @fields << {type: 'reset', label: I18n.t('reset')}
+          @fields << {type: 'submit', label: I18n.t('submit')}
         end
         json.body @fields
       end

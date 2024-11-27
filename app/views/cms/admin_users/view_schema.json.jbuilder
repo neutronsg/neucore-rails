@@ -1,6 +1,6 @@
 @breadcrumbs = amis_breadcrumb(['user_management', 'admin_user'])
 
-@data = {id: @object.id}
+@data = {}
 
 @toolbar = [amis_edit_button, amis_delete_button]
 
@@ -22,6 +22,5 @@ panel1 = {
 }
 
 @panels = [panel1]
-@versions = true
 
 json.partial! 'cms/shared/view'

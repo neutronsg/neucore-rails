@@ -24,6 +24,19 @@ module Neucore
         ]
       end
 
+      def default_member_permissions object
+        permissions = []
+        permissions << 'read' if(can? :read, object)
+        permissions << 'update' if(can? :update, object)
+        permissions << 'destroy' if(can? :destroy, object)
+
+        permissions
+      end
+
+      def create_permission model
+        can?(:create, model.classify.constantize) ? ['create'] : []
+      end
+
       def custom_clickable object
         return unless object.present?
         return object.display_deleted_name if object.deleted?

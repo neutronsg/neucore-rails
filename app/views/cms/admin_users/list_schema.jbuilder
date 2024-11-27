@@ -1,10 +1,10 @@
 @breadcrumbs = amis_breadcrumb(['user_management', 'admin_user'])
 
-@data = {}
+@data = {
+  permissions: create_permission('AdminUser')
+}
 
-@headerToolbar = [
-  amis_create_button, 
-]
+@headerToolbar = [amis_create_button]
 
 @columns = []
 @columns << amis_id_column
@@ -13,7 +13,7 @@
 @columns << amis_string_column(label: AdminUser.human_attribute_name(:email), name: 'email').merge(searchable: amis_searchable(:email))
 @columns << amis_clickables_column(label: AdminUser.human_attribute_name(:admin_roles), name: 'admin_roles')
 
-@operations = [amis_view_button, amis_edit_button]
+@operations = [amis_view_button, amis_edit_button, amis_delete_button]
 
 reset_password = {
   type: 'button',

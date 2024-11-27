@@ -2,9 +2,7 @@
 
 @data = {id: @object.id}
 
-@toolbar = [
-  amis_edit_button,
-]
+@toolbar = [amis_edit_button, amis_delete_button]
 
 @panels = []
 

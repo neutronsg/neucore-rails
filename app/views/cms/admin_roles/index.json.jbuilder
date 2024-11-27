@@ -1,28 +1,8 @@
-actions = []
-actions << create_action('admin_roles') if can?(:create, AdminRole)
+json.count @objects.total_count
+json.page @objects.current_page
 
-json.actions actions
-
-json.objects @objects do |object|
+json.rows @objects do |object|
   json.extract! object, :id, :name
-  json.admin_role_scopes custom_clickables(object.admin_role_scopes)
-  json.permissions object.permissions_text
-
-  json.member_actions do
-    json.partial! 'cms/member_actions/defaults', locals: {actions: default_member_actions(%w(view edit), 'admin_roles')}
-  end
+  json.admin_role_scopes object.admin_role_scopes.map(&:name)
+  json.permissions object.permissions_text.gsub('\n', '<br/>')
 end
-
-json.partial! "cms/setups/column_titles", locals: {
-  columns: %w(id name admin_role_scopes permissions),
-  model_name: "admin_role"
-}
-
-filters = [
-  text_filter('name'),
-]
-json.filters filters
-
-json.pagination pagination(@objects)
-
-json.partial! "cms/setups/scopes", locals: {scopes: %w()}

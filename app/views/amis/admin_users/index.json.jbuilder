@@ -1,7 +1,0 @@
-json.count @objects.total_count
-json.page @objects.current_page
-
-json.rows @objects do |object|
-  json.extract! object, :id, :name, :email, :super_admin
-  json.admin_role 'admin_role'
-end

@@ -61,9 +61,9 @@ module Neucore
           type ||= @type
 
           if type == 'edit'
-            "put:amis/#{resource}/#{id}"
+            "put:cms/#{resource}/#{id}"
           elsif type == 'create' || type == 'list'
-            "amis/#{resource}"
+            "cms/#{resource}"
           end
         end
       end

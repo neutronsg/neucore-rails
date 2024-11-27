@@ -35,4 +35,4 @@ panel2 = {
 }
 
 @fields = [panel1, panel2]
-json.partial! 'amis/shared/form'
+json.partial! 'cms/shared/form'

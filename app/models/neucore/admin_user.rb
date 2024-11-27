@@ -38,7 +38,6 @@ class Neucore::AdminUser < NeucoreRecord
   def permissions
     result = Set.new
     admin_roles.each do |admin_role|
-    # AdminRole.where(id: [1,3]).all.each do |admin_role|
       scopes = admin_role.admin_role_scopes.map(&:scope).presence || ['ALL']
       admin_role.permissions.each do |model, actions|
         next unless actions.present?

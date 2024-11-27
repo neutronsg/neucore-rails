@@ -10,12 +10,38 @@ class CmsController < NeucoreController
 
   jwt_token_auth ['admin_user']
   layout 'cms'
-  
+
+  def schema
+    @resource = params[:resource]
+    @id = params[:id]
+    @type = params[:type]
+    if @id
+      @object = @resource.classify.constantize.with_deleted.find @id
+    end
+
+    case @type
+    when 'edit', 'view', 'create'
+      if @type == 'view' && File.exist?("#{Rails.root}/app/views/cms/#{@resource}/view_schema.json.jbuilder")
+        render "cms/#{@resource}/view_schema"
+      else
+        if %w(examples1 examples2 examples3 examples4).include?(@resource)
+          render "cms/examples/#{@resource}"
+        else
+          render "cms/#{@resource}/form_schema"
+        end
+      end
+    when 'list'
+      render "cms/#{@resource}/list_schema"
+    else
+      render "cms/#{@resource}/#{@type}_schema"
+    end
+  end
+
   def create
     authorize! :create, controller_name.classify.constantize
     ActiveRecord::Base.transaction do
       @object = controller_name.classify.constantize.new create_params
-      if @object.save
+      if @object.save!
         if params[:images].present? && @object.respond_to?(:images)
           params[:images].each_with_index do |image_attr, index|
             image = Image.find image_attr[:id]
@@ -65,18 +91,7 @@ class CmsController < NeucoreController
     operation_success
   end
 
-  def ui_list
-  end
-
-  def ui_create
-  end
-
-  def amis
-    
-  end
-  
   private
-
   def set_default_format
     request.format = :json
   end
@@ -103,13 +118,22 @@ class CmsController < NeucoreController
     authorize! :read, controller_name.classify.constantize
   end
 
-  private
-
   def operation_success message = nil, **options
     render json: { request_id: request.uuid, status: 0, msg: message || I18n.t('operation_success'), data: options}
   end
 
   def operation_failed message = nil, **options
     render json: { request_id: request.uuid, status: 1, msg: message || I18n.t('operation_failed'), data: options}
+  end
+
+  def render_errors(errors, status = :unprocessable_entity)
+    errors = [errors] unless errors.is_a?(Array)
+    sentry_messages = []
+    errors.each do |error|
+      error[:message] = I18n.t("errors.#{error[:code]}", default: error[:code].titleize) unless error[:message].present?
+      sentry_messages << error[:message].to_s
+    end
+    Sentry.capture_message(sentry_messages.join(","))
+    render json: {request_id: request.uuid, status: 1, msg: sentry_messages.join(",") || I18n.t('operation_failed')}
   end
 end

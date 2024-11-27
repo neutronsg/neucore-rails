@@ -3,7 +3,7 @@ json.title  I18n.t('forms.history_information')
 json.body do
   json.type 'crud'
   json.syncLocation false
-  json.api "amis/versions?item_type=#{@object.class.name}&item_id=#{@object.id}"
+  json.api "cms/versions?item_type=#{@object.class.name}&item_id=#{@object.id}"
   json.defaultParams do
     json.perPage 50
   end

@@ -1,4 +1,5 @@
 json.extract! version, :id, :created_at
+json.created_at version.created_at 
 json.changeset format_version_changeset(resource, version)
 operator = nil
 if version.whodunnit.to_s.start_with?("0")

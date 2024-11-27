@@ -16,4 +16,4 @@
 
 @columns << amis_operation_base.merge(buttons: @operations)
 
-json.partial! 'amis/shared/crud'
+json.partial! 'cms/shared/crud'

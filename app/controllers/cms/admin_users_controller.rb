@@ -1,5 +1,4 @@
 class Cms::AdminUsersController < CmsController
-  before_action :load_object, only: [:show, :update]
   skip_before_action :token_authenticate_admin_user!, only: [:sign_in]
   before_action :authorize_index!, only: :index
   
@@ -13,7 +12,7 @@ class Cms::AdminUsersController < CmsController
     @unscoped_objects = AdminUser.ransack(q).result(distinct: true)
     @objects = objects.ransack(q).result(distinct: true).order(default_order).page(page).per(per_page)
   end
-
+  
   def reset_password
     authorize! :update, current_admin_user
     

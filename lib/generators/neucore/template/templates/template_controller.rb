@@ -8,7 +8,6 @@ class Amis::<%= resource.pluralize %>Controller < AmisController
       objects = objects.public_send(params[:scope])
     end
 
-    @unscoped_objects = <%= resource.classify %>.ransack(q).result(distinct: true)
     @objects = objects.ransack(q).result(distinct: true).order(default_order).page(page).per(per_page)
   end
 

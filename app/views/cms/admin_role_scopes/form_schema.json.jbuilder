@@ -1,33 +1,17 @@
-json.type 'wrapper'
-json.style do
-  json.padding '0'
+@breadcrumbs = amis_breadcrumb(['user_management', 'admin_role_scope'])
+
+@data = {}
+
+if @type == 'edit' || @type == 'view'
+  @data[:name] = @object.name
+  @data[:scope] = @object.scope
 end
 
-json.body do
-  json.child! do
-    json.merge! amis_breadcrumb(['settings', 'admin_role_scope'])
-  end
+@redirect = '/admin_role_scopes' # 列表页
 
-  json.child! do
-    json.type 'page'
-    if @type == 'view' || @type == 'edit'
-      json.data do
-        json.extract! @object, :id, :name
-      end
-    end
+@fields = [
+  amis_form_text(name: 'name', label: AdminRoleScope.human_attribute_name(:name), required: true),
+  amis_form_select(name: 'scope', label: AdminRoleScope.human_attribute_name(:scope), required: true, options: AdminRoleScope::SCOPES.collect{|s| {label: s, value: s}})
+]
 
-    json.body do
-      json.child! do
-        json.merge! amis_form_base
-
-        fields = []
-        fields << amis_form_text(name: 'name', label: AdminRoleScope.human_attribute_name(:name), required: true)
-
-        if @type == 'edit' || @type == 'create'
-          fields << {type: 'submit', label: '提交'}
-        end
-        json.body fields
-      end
-    end
-  end
-end
+json.partial! 'cms/shared/form'

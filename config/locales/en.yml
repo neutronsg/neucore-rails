@@ -43,7 +43,6 @@ en:
     create: Create
     update: Update
     destroy: Destroy
-    settings: Settings
     admin_user: Admin User
     admin_role: Admin Role
     admin_role_scope: Admin Role Scope

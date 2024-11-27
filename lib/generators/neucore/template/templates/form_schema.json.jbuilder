@@ -12,4 +12,4 @@ end
   amis_form_text(name: 'name', label: <%= resource.classify %>.human_attribute_name(:name), required: true)
 ]
 
-json.partial! 'amis/shared/form'
+json.partial! 'cms/shared/form'

@@ -23,4 +23,4 @@ panel1 = {
 @panels = [panel1]
 @versions = true
 
-json.partial! 'amis/shared/view'
+json.partial! 'cms/shared/view'

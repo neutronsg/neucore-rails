@@ -9,7 +9,6 @@ class Cms::AdminUsersController < CmsController
       objects = objects.public_send(params[:scope])
     end
 
-    @unscoped_objects = AdminUser.ransack(q).result(distinct: true)
     @objects = objects.ransack(q).result(distinct: true).order(default_order).page(page).per(per_page)
   end
   
@@ -38,17 +37,10 @@ class Cms::AdminUsersController < CmsController
 
   private
   def create_params
-    fields = %i(name email password super_admin)
-    if params[:super_admin]
-      params.permit(*fields)
-    else
-      fields += AdminRoleScope.scopes(AdminUser)
-      params.permit(*fields).merge(admin_role_ids: params[:admin_role_id])
-    end
+    params.permit(:name, :email, :super_admin, :password, admin_role_ids: [])
   end
 
   def update_params
-    fields = %i(name email) + AdminRoleScope.scopes(AdminUser)
-    params.permit(*fields).merge(admin_role_ids: params[:admin_role_id])
+    params.permit(:name, :email, :super_admin, admin_role_ids: [])
   end
 end

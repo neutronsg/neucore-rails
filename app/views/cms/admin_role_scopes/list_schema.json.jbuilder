@@ -1,50 +1,18 @@
-json.type 'wrapper'
-json.style do
-  json.padding '0'
-end
+@breadcrumbs = amis_breadcrumb(['user_management', 'admin_role_scope'])
 
-json.body do
-  json.child! do
-    json.merge! amis_breadcrumb(['settings', 'admin_role_scope'])
-  end
+@data = {}
 
-  json.child! do
-    json.type 'page'
-    json.toolbar do
-      json.type 'container'
-      json.style do
-        json.padding '12px 12px 0 12px'
-      end
+@headerToolbar = [
+  amis_create_button, 
+]
 
-      json.body amis_create_button
-    end
-    json.body do
-      json.child! do
-        json.merge! amis_crud_base
-        
-        json.columns do
-          json.child! do
-            json.merge! amis_id_column
-          end
+@columns = []
+@columns << amis_id_column
+@columns << amis_string_column(label: AdminRoleScope.human_attribute_name(:name), name: 'name', sortable: true).merge(searchable: amis_searchable(:name))
+@columns << amis_string_column(label: AdminRoleScope.human_attribute_name(:scope), name: 'scope')
 
-          json.child! do
-            json.merge! amis_string_column(label: AdminRoleScope.human_attribute_name(:name), name: 'name')
-          end
+@operations = [amis_view_button, amis_edit_button]
 
-          json.child! do
-            json.merge! amis_operation_base
-            json.buttons do
-              json.child! do
-                json.merge! amis_view_button
-              end
+@columns << amis_operation_base.merge(buttons: @operations)
 
-              json.child! do
-                json.merge! amis_edit_button
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-end
+json.partial! 'cms/shared/crud'

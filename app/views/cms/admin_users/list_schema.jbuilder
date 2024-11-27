@@ -1,123 +1,42 @@
-json.type 'wrapper'
-json.style do
-  json.padding '0'
-end
+@breadcrumbs = amis_breadcrumb(['user_management', 'admin_user'])
 
-json.body do
-  json.child! do
-    json.merge! amis_breadcrumb(['settings', 'admin_user'])
-  end
+@data = {}
 
-  json.child! do
-    json.type 'page'
-    json.toolbar do
-      json.type 'container'
-      json.style do
-        json.padding '12px 12px 0 12px'
-      end
+@headerToolbar = [
+  amis_create_button, 
+]
 
-      json.body amis_create_button
-    end
-    json.body do
-      json.child! do
-        json.merge! amis_crud_base
+@columns = []
+@columns << amis_id_column
+@columns << amis_string_column(label: AdminUser.human_attribute_name(:super_admin), name: 'super_admin')
+@columns << amis_string_column(label: AdminUser.human_attribute_name(:name), name: 'name', sortable: true).merge(searchable: amis_searchable(:name))
+@columns << amis_string_column(label: AdminUser.human_attribute_name(:email), name: 'email').merge(searchable: amis_searchable(:email))
+@columns << amis_clickables_column(label: AdminUser.human_attribute_name(:admin_roles), name: 'admin_roles')
 
-        json.columns do
-          json.child! do
-            json.merge! amis_id_column
-          end
+@operations = [amis_view_button, amis_edit_button]
 
-          json.child! do
-            json.merge! amis_string_column(label: AdminUser.human_attribute_name(:name), name: 'name')
-          end
+reset_password = {
+  type: 'button',
+  label: I18n.t('actions.reset_password'),
+  tooltip: I18n.t('actions.reset_password'),
+  actionType: 'dialog',
+  level: 'link',
+  dialog: {
+    title: I18n.t('actions.reset_password'),
+    body: [
+      {
+        type: 'form',
+        api: "cms/users/${id}/reset_password",
+        body: [
+          amis_form_text(name: 'password', label: AdminUser.human_attribute_name(:password), required: true, type: 'input-password'),
+          amis_form_text(name: 'password_confirmation', label: AdminUser.human_attribute_name(:password_confirmation), required: true, type: 'input-password'),
+        ]
+      }
+    ]
+  }
+}
 
-          json.child! do
-            json.merge! amis_string_column(label: AdminUser.human_attribute_name(:email), name: 'email')
-          end
+@operations << reset_password
+@columns << amis_operation_base.merge(buttons: @operations)
 
-          json.child! do
-            json.merge! amis_operation_base
-            json.buttons do
-              json.child! do
-                json.merge! amis_view_button
-              end
-
-              json.child! do
-                json.merge! amis_edit_button
-              end
-
-              json.child! do
-                json.type 'button'
-                json.level 'link'
-                json.label '重置密码'
-                json.actionType 'dialog'
-                json.dialog do
-                  json.title '重置密码'
-                  json.body do
-                    json.type 'form'
-                    json.body do
-                      json.child! do
-                        json.type 'static'
-                        json.name 'engine'
-                        json.label 'Engine'
-                      end
-
-                      json.child! do
-                        json.type 'divider'
-                      end
-
-                      json.child! do
-                        json.type 'static'
-                        json.name 'browser'
-                        json.label 'Browser'
-                      end
-
-                      json.child! do
-                        json.type 'divider'
-                      end
-
-                      json.child! do
-                        json.type 'static'
-                        json.name 'platform'
-                        json.label 'Platform(s)'
-                      end
-
-                      json.child! do
-                        json.type 'divider'
-                      end
-
-                      json.child! do
-                        json.type 'static'
-                        json.name 'version'
-                        json.label 'Engine version(s)'
-                      end
-
-                      json.child! do
-                        json.type 'divider'
-                      end
-
-                      json.child! do
-                        json.type 'static'
-                        json.name 'grade'
-                        json.label 'CSS grade'
-                      end
-
-                      json.child! do
-                        json.type 'divider'
-                      end
-
-                      json.child! do
-                        json.type 'html'
-                        json.html "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
-                      end
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-end
+json.partial! 'cms/shared/crud'

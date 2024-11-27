@@ -1,37 +1,22 @@
-json.type 'wrapper'
-json.style do
-  json.padding '0'
+@breadcrumbs = amis_breadcrumb(['user_management', 'admin_user'])
+
+@data = {}
+
+if @type == 'edit' || @type == 'view'
+  @data[:name] = @object.name
+  @data[:email] = @object.email
+  @data[:admin_role_ids] = @object.admin_role_ids
 end
 
-json.body do
-  json.child! do
-    json.merge! amis_breadcrumb(['settings', 'admin_user'])
-  end
+@redirect = '/admin_users' # 列表页
 
-  json.child! do
-    json.type 'page'
-    if @type == 'view' || @type == 'edit'
-      json.data do
-        json.extract! @object, :id, :name, :email, :super_admin
-        json.admin_role 'admin_role'
-      end
-    end
+@fields = [
+  amis_form_switch(name: 'super_admin', label: AdminUser.human_attribute_name(:super_admin), required: true, value: false),
+  amis_form_text(name: 'name', label: AdminUser.human_attribute_name(:name), required: true),
+  amis_form_text(name: 'email', label: AdminUser.human_attribute_name(:email), required: true),
+]
 
-    json.body do
-      json.child! do
-        json.merge! amis_form_base
+@fields << amis_form_text(name: 'password', label: User.human_attribute_name(:password), required: true, type: "input-password") if @type == 'create'
+@fields << amis_form_select(name: 'admin_role_ids', label: User.human_attribute_name(:admin_role), required: false, multiple: true, options: amis_select_options('AdminRole'), visibleOn: "${!super_admin}")
 
-        fields = []
-        fields << amis_form_text(name: 'name', label: AdminUser.human_attribute_name(:name), required: true)
-        fields << amis_form_text(name: 'admin_role', label: AdminUser.human_attribute_name(:admin_role), required: true)
-        fields << amis_form_text(name: 'email', label: AdminUser.human_attribute_name(:email), required: true)
-        fields << amis_form_text(type: 'input-password', name: 'password', label: AdminUser.human_attribute_name(:password), required: true)
-
-        if @type == 'edit' || @type == 'create'
-          fields << {type: 'submit', label: '提交'}
-        end
-        json.body fields
-      end
-    end
-  end
-end
+json.partial! 'cms/shared/form'

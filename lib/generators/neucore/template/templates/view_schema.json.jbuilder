@@ -15,7 +15,7 @@ panel1 = {
     type: 'property',
     column: 2,
     items: [
-      amis_text_property(label: <%= resource.classify %>.human_attribute_name(:id), content: @object.id),
+      amis_number_property(label: <%= resource.classify %>.human_attribute_name(:id), content: @object.id),
       amis_text_property(label: <%= resource.classify %>.human_attribute_name(:name), content: @object.name),
     ]
   }

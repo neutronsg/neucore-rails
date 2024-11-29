@@ -47,6 +47,10 @@ module Neucore
       def amis_select_options model
         model.constantize.all.collect{|r| {label: r.name, value: r.id}}
       end
+
+      def amis_enum_options model, enums
+        model.classify.constantize.send(enums).keys.collect{|enum| { label: I18n.t("enums.#{model}.#{enums}.#{enum}", default: enum.titleize), value: enum }}
+      end
     end
   end
 end

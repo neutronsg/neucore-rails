@@ -48,6 +48,11 @@ module Neucore
 
         def amis_string_column options = {}
           schema = options
+          if options[:maxLength]
+            schema[:type] = 'tpl'
+            schema[:tpl] = "${ #{options[:name]}|truncate:#{options[:maxLength]} }"
+          end
+
           schema
         end
 
@@ -71,10 +76,28 @@ module Neucore
           schema
         end
 
+        def amis_avatar_column options = {}
+          schema = options.slice(:name, :label)
+          schema[:type] = 'avatar'
+          schema[:src] = "${#{options[:name]}}"
+          
+          schema
+        end
+
         def amis_image_column options = {}
           schema = options.slice(:name, :label)
           schema[:type] = 'image'
           schema[:placeholder] = '-'
+
+          schema
+        end
+
+        def amis_video_column options = {}
+          schema = options.slice(:name, :label)
+          schema[:type] = 'video'
+          schema[:body] = {
+            src: "${#{options[:name]}}",
+          }
 
           schema
         end
@@ -116,6 +139,28 @@ module Neucore
               link: "/${item.resource}/${item.id}"
             }
           }
+          schema
+        end
+
+        def amis_switch_column options = {}
+          resource = options.delete(:resource) || @resource
+          action = options.delete(:action) || options[:name] || 'switch'
+          method = options.delete(:method) || 'post'
+
+          schema = options.slice(:name, :label)
+          schema[:type] = 'switch'
+          schema[:mode] = 'horizontal'
+          schema[:onEvent] = {
+            change: {
+              actions: [
+                {
+                  actionType: 'ajax',
+                  api: "#{method}:cms/#{resource}/${id}/#{action}"
+                }
+              ]
+            }
+          }
+
           schema
         end
 

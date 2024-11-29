@@ -23,6 +23,49 @@ module Neucore
           schemas
         end
 
+        def amis_form_image options = {}
+          schema = options
+          schema[:name] ||= 'image'
+          schema[:label] ||= I18n.t('image', default: 'Image')
+          schema[:type] ||= 'input-image'
+          schema[:receiver] ||= 'cms/images'
+          schema[:joinValues] = false
+          schema[:maxSize] ||= "10m"
+
+          schema
+        end
+
+        def amis_form_images options = {}
+          schema = options
+          schema[:name] ||= 'images'
+          schema[:label] ||= I18n.t('images', default: 'Images')
+          schema[:type] ||= 'input-image'
+          schema[:receiver] ||= 'cms/images'
+          schema[:joinValues] = false
+          schema[:multiple] = true
+          schema[:maxSize] ||= "10m"
+          schema[:maxLength] ||= 10 * 1024 * 1024
+          schema[:draggable] = true
+
+          schema
+        end
+
+        def amis_form_videos options = {}
+          schema = options
+          schema[:name] ||= 'videos'
+          schema[:label] ||= I18n.t('videos', default: 'Videos')
+          schema[:type] ||= 'input-file'
+          schema[:receiver] ||= 'cms/images'
+          schema[:joinValues] = false
+          schema[:multiple] = true
+          schema[:maxLength] ||= 5
+          schema[:useChunk] = false
+          schema[:accept] = '.mp4'
+          schema[:maxSize] ||= 200 * 1024 * 1024
+          
+          schema
+        end
+
         def amis_form_switch options = {}
           schema = options
           schema[:type] ||= 'switch'

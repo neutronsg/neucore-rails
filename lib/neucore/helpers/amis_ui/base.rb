@@ -32,6 +32,7 @@ module Neucore
           schema[:title] ||= I18n.t("forms.basic_information")
           schema[:mode] ||= 'horizontal'
           schema[:actions] ||= []
+          schema[:debug] = true
           
           schema
         end

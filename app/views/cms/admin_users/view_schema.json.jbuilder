@@ -12,7 +12,7 @@ panel1 = {
     type: 'property',
     column: 2,
     items: [
-      amis_text_property(label: AdminUser.human_attribute_name(:id), content: @object.id),
+      amis_number_property(label: AdminUser.human_attribute_name(:id), content: @object.id),
       amis_boolean_property(label: AdminUser.human_attribute_name(:super_admin), content: @object.super_admin),
       amis_text_property(label: AdminUser.human_attribute_name(:name), content: @object.name),
       amis_text_property(label: AdminUser.human_attribute_name(:email), content: @object.email),

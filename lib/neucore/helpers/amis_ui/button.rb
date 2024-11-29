@@ -57,6 +57,23 @@ module Neucore
 
           schema
         end
+
+        def amis_member_button options = {}
+          resource = options.delete(:resource) || @resource
+          action = options.delete(:action)
+          method = options.delete(:method) || 'post'
+          schema = options
+
+          schema[:type] ||= 'button'
+          schema[:level] ||= 'link'
+          schema[:label] ||= I18n.t(action, default: action.titleize)
+          schema[:tooltip] ||= I18n.t(action, default: action.titleize)
+          schema[:actionType] ||= 'ajax'
+          schema[:api] ||= "#{method}:cms/#{resource}/${id}/#{action}"
+          schema[:visibleOn] = "${ARRAYINCLUDES(permissions, '#{action}')}"
+
+          schema
+        end
       end
     end
   end

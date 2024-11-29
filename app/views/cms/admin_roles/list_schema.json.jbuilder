@@ -4,7 +4,7 @@
   permissions: create_permission('AdminRole')
 }
 
-@toolbar = [amis_create_button]
+@headerToolbar = [amis_create_button]
 
 @columns = []
 @columns << amis_id_column

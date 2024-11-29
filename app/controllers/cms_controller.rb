@@ -41,13 +41,8 @@ class CmsController < NeucoreController
     authorize! :create, controller_name.classify.constantize
     ActiveRecord::Base.transaction do
       @object = controller_name.classify.constantize.new create_params
-      if @object.save!
-        if params[:images].present? && @object.respond_to?(:images)
-          params[:images].each_with_index do |image_attr, index|
-            image = Image.find image_attr[:id]
-            image.update target: @object, ranking: 100 - index
-          end
-        end
+      if @object.save
+        save_images
         operation_success(id: @object.id)
       else
         operation_failed(@object.errors.full_messages.join(","))
@@ -59,16 +54,7 @@ class CmsController < NeucoreController
     authorize! :update, @object
     ActiveRecord::Base.transaction do
       if @object.update update_params
-        if params[:images].present? && @object.respond_to?(:images)
-          @object.images.update_all target_type: nil, target_id: nil
-          params[:images].each_with_index do |image_attr, index|
-            image = Image.find image_attr[:id]
-            image.update target: @object, ranking: 100 - index
-          end
-        elsif params[:images]&.empty?
-          @object.images.update_all target_type: nil, target_id: nil
-        end
-
+        update_images
         operation_success(id: @object.id)
       else
         operation_failed(@object.errors.full_messages.join(","))
@@ -92,6 +78,72 @@ class CmsController < NeucoreController
   end
 
   private
+  def save_images
+    if params[:images].present? && @object.respond_to?(:images)
+      params[:images].each_with_index do |image_attr, index|
+        image = Image.find image_attr[:value]
+        image.update(
+          target: @object, 
+          name: image_attr[:name], 
+          width: image_attr.dig(:info, :width), 
+          height: image_attr.dig(:info, :height), 
+          media_type: 'image',
+          ranking: index + 1
+        )
+      end
+    end
+
+    if params[:videos].present? && @object.respond_to?(:images)
+      params[:videos].each_with_index do |image_attr, index|
+        image = Image.find image_attr[:value]
+        image.update(
+          target: @object, 
+          name: image_attr[:name],
+          media_type: 'video',
+          ranking: index + 1
+        )
+      end
+    end
+  end
+
+  def update_images
+    if params[:images].present? && @object.respond_to?(:images)
+      params[:images].each_with_index do |image_attr, index|
+        image = Image.find image_attr[:value]
+        image.update(
+          target: @object, 
+          name: image_attr[:name],
+          width: image_attr.dig(:info, :width), 
+          height: image_attr.dig(:info, :height), 
+          media_type: 'image',
+          ranking: index + 1
+        )
+      end
+
+      @object.images.image.where.not(id: params[:images].pluck(:value)).update_all target_type: nil, target_id: nil
+    elsif params[:images]&.empty?
+      @object.images.image.update_all target_type: nil, target_id: nil
+    end
+
+    if params[:videos].present? && @object.respond_to?(:images)
+      # @object.images.video.update_all target_type: nil, target_id: nil
+      params[:videos].each_with_index do |image_attr, index|
+        image = Image.find image_attr[:value]
+        image.update(
+          target: @object, 
+          name: image_attr[:name],
+          media_type: 'video',
+          ranking: index + 1
+        )
+      end
+
+      @object.images.video.where.not(id: params[:videos].pluck(:value)).update_all target_type: nil, target_id: nil
+
+    elsif params[:videos]&.empty?
+      @object.images.video.update_all target_type: nil, target_id: nil
+    end
+  end
+
   def set_default_format
     request.format = :json
   end

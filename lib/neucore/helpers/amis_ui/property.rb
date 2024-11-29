@@ -4,6 +4,17 @@ module Neucore
       module Property
         def amis_text_property options = {}
           schema = options.slice(:label, :span, :content)
+          
+          schema
+        end
+
+        def amis_number_property options = {}
+          schema = options.slice(:label, :span)
+          schema[:content] = {
+            type: 'tpl',
+            tpl: "${ '#{options[:content]}' }"
+          }
+          
           schema
         end
 
@@ -14,10 +25,11 @@ module Neucore
           schemas = []
           I18n.ml_locales.each do |locale|
             schemas << amis_text_property(options).merge(
-              label: model.human_attribute_name("#{property}_#{locale}"),
+              label: model.human_attribute_name("#{property}_#{locale}") || 'd',
               content: content_ml[locale]
             )
           end
+
           schemas
         end
 
@@ -34,6 +46,7 @@ module Neucore
             displayMode: 'normal',
             label: options[:content] ? 'True' : 'False'
           }
+
           schema
         end
 
@@ -45,6 +58,16 @@ module Neucore
             enlargeAble: options[:enlargeAble].nil? ? true : options[:enlargeAble]
           }
           
+          schema
+        end
+
+        def amis_video_property options = {}
+          schema = options.slice(:label, :span)
+          schema[:content] = {
+            type: 'video',
+            src: options[:content]
+          }
+
           schema
         end
 

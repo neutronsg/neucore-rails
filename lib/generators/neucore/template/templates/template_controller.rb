@@ -1,4 +1,4 @@
-class Amis::<%= resource.pluralize %>Controller < AmisController
+class Cms::<%= resource.pluralize %>Controller < CmsController
   before_action :authorize_index!, only: :index
   
   def index

@@ -14,11 +14,12 @@ module Neucore
       include Form
 
       def amis_searchable filter
+        filter = filter.to_s
         schema = {
           type: 'input-text',
           name: "#{filter}_cont",
-          label: filter,
-          placeholder: filter
+          label: I18n.t("filters.#{filter}", default: filter.titleize),
+          placeholder: I18n.t("filters.#{filter}", default: filter.titleize)
         }
         
         schema

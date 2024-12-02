@@ -10,11 +10,11 @@ class NeucoreController < ActionController::Base
 
   private
   def operation_success message = nil, **options
-    render json: { request_id: request.uuid, success: true, message: message || I18n.t('operation_success') }.merge(options)
+    render json: { request_id: request.uuid, status: 0, msg: message || I18n.t('operation_success'), data: options}
   end
 
   def operation_failed message = nil, **options
-    render json: { request_id: request.uuid, success: false, message: message || I18n.t('operation_failed') }.merge(options)
+    render json: { request_id: request.uuid, status: 1, msg: message || I18n.t('operation_failed'), data: options}
   end
 
   def page

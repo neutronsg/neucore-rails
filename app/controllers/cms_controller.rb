@@ -1,7 +1,7 @@
 class CmsController < NeucoreController
+  include Neucore::JwtTokenAuthenticator
   before_action :set_default_format
   skip_before_action :verify_authenticity_token
-  include Neucore::JwtTokenAuthenticator
 
   before_action :token_authenticate_admin_user!
   before_action :set_current_ability
@@ -168,14 +168,6 @@ class CmsController < NeucoreController
 
   def authorize_index!
     authorize! :read, controller_name.classify.constantize
-  end
-
-  def operation_success message = nil, **options
-    render json: { request_id: request.uuid, status: 0, msg: message || I18n.t('operation_success'), data: options}
-  end
-
-  def operation_failed message = nil, **options
-    render json: { request_id: request.uuid, status: 1, msg: message || I18n.t('operation_failed'), data: options}
   end
 
   def render_errors(errors, status = :unprocessable_entity)

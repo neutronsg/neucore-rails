@@ -9,6 +9,7 @@ module Neucore
             width: options[:width] || 140,
             toggled: true
           }
+
           schema
         end
 
@@ -21,6 +22,7 @@ module Neucore
 
           schema[:items] << {label: I18n.t(@type)} if @type.present? && @type != 'list'
           schema[:style] = {'margin-bottom' => '12px'}
+
           schema
         end
 
@@ -53,6 +55,7 @@ module Neucore
             headerToolbar: ["bulkActions", "columns-toggler", "drag-toggler", "pagination"],
             footerToolbar: ['statistics', 'switch-per-page', 'pagination']
           }
+          
           schema
         end
 

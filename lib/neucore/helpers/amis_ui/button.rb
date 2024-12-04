@@ -48,12 +48,36 @@ module Neucore
           resource = options.delete(:resource) || @resource
           schema = options
           schema[:type] ||= 'button'
-          schema[:level] ||= 'danger'
+          schema[:level] ||= 'link'
           schema[:label] ||= I18n.t('delete')
           schema[:tooltip] ||= I18n.t('delete')
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "delete:cms/#{resource}/${id}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'destroy')}"
+          if @type == 'list'
+            schema[:reload] = 'crud'
+          else
+            schema[:redirect] = "/#{resource}"
+          end
+          schema
+        end
+
+        def amis_restore_button options = {}
+          resource = options.delete(:resource) || @resource
+          schema = options
+          schema[:type] ||= 'button'
+          schema[:level] ||= 'link'
+          schema[:label] ||= I18n.t('restore')
+          schema[:tooltip] ||= I18n.t('restore')
+          schema[:actionType] ||= 'ajax'
+          schema[:api] ||= "post:cms/#{resource}/${id}/restore"
+          schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'restore')}"
+          schema[:redirect] ||= "/#{resource}"
+          if @type == 'list'
+            schema[:reload] = 'crud'
+          else
+            schema[:redirect] = "/#{resource}"
+          end
 
           schema
         end

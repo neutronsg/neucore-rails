@@ -33,6 +33,7 @@ module Neucore
               }
             }
           }
+          
           schema
         end
         
@@ -57,21 +58,17 @@ module Neucore
         end
 
         def amis_datetime_column options = {}
-          schema = {
-            label: options[:label],
-            type: 'tpl',
-            tpl: "${ DATETOSTR(#{options[:name]}) }"
-          }
+          name = options.delete(:name)
+          schema = options
+          schema[:tpl] = "${ DATETOSTR(#{name}) }"
 
           schema
         end
 
         def amis_html_column options = {}
-          schema = {
-            label: options[:label],
-            type: 'tpl',
-            tpl: "${raw(#{options[:name]})}"
-          }
+          name = options.delete(:name)
+          schema = options
+          schema[:tpl] = "${raw(#{name})}"
 
           schema
         end
@@ -111,7 +108,7 @@ module Neucore
         end
 
         def amis_clickable_column options = {}
-          schema = options.slice(:name, :label)
+          schema = options.slice(:name, :label, :searchable)
           schema[:type] = 'button'
           schema[:body] = {
             type: 'button',
@@ -139,6 +136,7 @@ module Neucore
               link: "/${item.resource}/${item.id}"
             }
           }
+
           schema
         end
 
@@ -147,7 +145,7 @@ module Neucore
           action = options.delete(:action) || options[:name] || 'switch'
           method = options.delete(:method) || 'post'
 
-          schema = options.slice(:name, :label)
+          schema = options
           schema[:type] = 'switch'
           schema[:mode] = 'horizontal'
           schema[:onEvent] = {
@@ -155,7 +153,7 @@ module Neucore
               actions: [
                 {
                   actionType: 'ajax',
-                  api: "#{method}:cms/#{resource}/${id}/#{action}"
+                  api: "#{method}:cms/#{resource}/${id}/#{action}",
                 }
               ]
             }
@@ -188,10 +186,12 @@ module Neucore
               label: "${item.name || item.tag || item}"
             }
           }
+
           schema
         end
 
         def amis_bulk_action options = {}
+          resource = options.delete(:resource) || @resource
           api = {
             method: options.delete(:method) || 'post',
             url: options.delete(:url),
@@ -201,7 +201,8 @@ module Neucore
           schema[:type] ||= 'button'
           schema[:actionType] ||= 'ajax'
           schema[:api] = api
-          
+          schema[:redirect] ||= "/#{resource}"
+
           schema
         end
 

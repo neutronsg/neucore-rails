@@ -3,6 +3,7 @@ require_relative 'amis_ui/base'
 require_relative 'amis_ui/form'
 require_relative 'amis_ui/button'
 require_relative 'amis_ui/property'
+require_relative 'amis_ui/filter'
 
 module Neucore
   module Helpers
@@ -12,18 +13,7 @@ module Neucore
       include Button
       include Property
       include Form
-
-      def amis_searchable filter
-        filter = filter.to_s
-        schema = {
-          type: 'input-text',
-          name: "#{filter}_cont",
-          label: I18n.t("filters.#{filter}", default: filter.titleize),
-          placeholder: I18n.t("filters.#{filter}", default: filter.titleize)
-        }
-        
-        schema
-      end
+      include Filter
 
       def amis_custom_clickable object
         return unless object

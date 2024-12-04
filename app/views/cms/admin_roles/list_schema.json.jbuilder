@@ -8,7 +8,7 @@
 
 @columns = []
 @columns << amis_id_column
-@columns << amis_string_column(label: AdminRole.human_attribute_name(:name), name: 'name', sortable: true).merge(searchable: amis_searchable(:name))
+@columns << amis_string_column(label: AdminRole.human_attribute_name(:name), name: 'name', sortable: true, searchable: amis_text_filter(name: 'name'))
 @columns << amis_string_column(label: AdminRole.human_attribute_name(:admin_role_scope), name: 'admin_role_scopes')
 @columns << amis_html_column(label: AdminRole.human_attribute_name(:permissions), name: 'permissions_text')
 

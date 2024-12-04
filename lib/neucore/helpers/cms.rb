@@ -26,9 +26,10 @@ module Neucore
 
       def default_member_permissions object
         permissions = []
-        permissions << 'read' if(can? :read, object)
-        permissions << 'update' if(can? :update, object)
-        permissions << 'destroy' if(can? :destroy, object)
+        permissions << 'read' if can?(:read, object)
+        permissions << 'update' if can?(:update, object) && !object.deleted?
+        permissions << 'destroy' if can?(:destroy, object) && !object.deleted?
+        permissions << 'restore' if can?(:destroy, object) && object.deleted?
 
         permissions
       end

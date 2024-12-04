@@ -9,8 +9,8 @@
 @columns = []
 @columns << amis_id_column
 @columns << amis_string_column(label: AdminUser.human_attribute_name(:super_admin), name: 'super_admin')
-@columns << amis_string_column(label: AdminUser.human_attribute_name(:name), name: 'name', sortable: true).merge(searchable: amis_searchable(:name))
-@columns << amis_string_column(label: AdminUser.human_attribute_name(:email), name: 'email').merge(searchable: amis_searchable(:email))
+@columns << amis_string_column(label: AdminUser.human_attribute_name(:name), name: 'name', sortable: true, searchable: amis_text_filter(name: 'name'))
+@columns << amis_string_column(label: AdminUser.human_attribute_name(:email), name: 'email', searchable: amis_text_filter(name: 'email'))
 @columns << amis_clickables_column(label: AdminUser.human_attribute_name(:admin_roles), name: 'admin_roles')
 
 @operations = [amis_view_button, amis_edit_button, amis_delete_button]

@@ -29,12 +29,12 @@ module Neucore
         def amis_form_base options = {}
           schema = options
           schema[:type] ||= 'form'
-          schema[:static] =  @type == 'view'
+          schema[:static] ||= @type == 'view'
           schema[:api] = amis_api
           schema[:title] ||= I18n.t("forms.basic_information")
           schema[:mode] ||= 'horizontal'
           schema[:actions] ||= []
-          # schema[:debug] = true
+          schema[:debug] = true
           
           schema
         end

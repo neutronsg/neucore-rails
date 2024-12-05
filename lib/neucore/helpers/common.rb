@@ -21,6 +21,13 @@ module Neucore
         end
       end
 
+      def pagination_v2(objects)
+        {
+          last_id: objects.last.id,
+          has_more: objects.total_count > objects.length
+        }
+      end
+
       def format_time datetime
         datetime&.strftime('%Y-%m-%d %H:%M:%S')
       end

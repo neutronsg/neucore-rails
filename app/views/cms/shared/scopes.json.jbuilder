@@ -11,3 +11,11 @@ json.scopes do
     end
   end
 end
+
+if params[:scope].present?
+  scope = (['all'] + @scopes).index(params[:scope]) || 0
+else
+  scope = 0
+end
+
+json.scope scope

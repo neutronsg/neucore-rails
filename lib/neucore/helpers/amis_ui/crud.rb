@@ -19,6 +19,7 @@ module Neucore
             tabs: tabs,
             className: 'crudTabs',
             visibleOn: "${scopes}",
+            activeKey: "${INT(scope)}",
             onEvent: {
               change: {
                 actions: [

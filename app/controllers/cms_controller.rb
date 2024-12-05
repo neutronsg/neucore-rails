@@ -27,7 +27,11 @@ class CmsController < NeucoreController
         if %w(examples1 examples2 examples3 examples4).include?(@resource)
           render "cms/examples/#{@resource}"
         else
-          render "cms/#{@resource}/form_schema"
+          if @resource == 'community_posts'
+            render "cms/#{@resource}/form_schema1"
+          else
+            render "cms/#{@resource}/form_schema"
+          end
         end
       end
     when 'list'

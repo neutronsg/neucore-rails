@@ -55,7 +55,7 @@ module Neucore
           schema[:api] ||= "delete:cms/#{resource}/${id}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'destroy')}"
           if @type == 'list'
-            schema[:reload] = 'crud'
+            schema[:reload] = 'page_crud,crud'
           else
             schema[:redirect] = "/#{resource}"
           end
@@ -74,7 +74,7 @@ module Neucore
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'restore')}"
           schema[:redirect] ||= "/#{resource}"
           if @type == 'list'
-            schema[:reload] = 'crud'
+            schema[:reload] = 'page_crud,crud'
           else
             schema[:redirect] = "/#{resource}"
           end
@@ -95,6 +95,11 @@ module Neucore
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "#{method}:cms/#{resource}/${id}/#{action}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, '#{action}')}"
+          if @type == 'list'
+            schema[:reload] = 'page_crud,crud'
+          else
+            schema[:redirect] = "/#{resource}"
+          end
 
           schema
         end

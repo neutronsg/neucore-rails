@@ -28,7 +28,7 @@ class CmsController < NeucoreController
           render "cms/examples/#{@resource}"
         else
           if @resource == 'community_posts'
-            render "cms/#{@resource}/form_schema1"
+            render "cms/#{@resource}/form_schema"
           else
             render "cms/#{@resource}/form_schema"
           end

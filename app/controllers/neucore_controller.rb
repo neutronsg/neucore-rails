@@ -31,6 +31,7 @@ class NeucoreController < ActionController::Base
 
   def set_locale(&action)
     locale = request.headers['LOCALE'] || request.headers['Accept-Language'] || I18n.default_locale
+    locale = :"zh-CN" if locale == 'zh'
     locale = I18n.default_locale unless I18n.available_locales.map(&:to_s).include?(locale.to_s)
     I18n.with_locale(locale, &action)
   end

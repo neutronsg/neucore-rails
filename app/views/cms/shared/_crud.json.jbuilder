@@ -35,6 +35,7 @@ json.body do
         json.merge! amis_crud_base
         json.headerToolbar @headerToolbar
         json.bulkActions @bulkActions
+        json.deferApi @deferApi
         json.columns @columns
         json.footerToolbar @footerToolbar || ['statistics', 'switch-per-page', 'pagination']
       end

@@ -44,7 +44,7 @@ module Neucore
             type: 'crud',
             id: 'crud',
             api: amis_api,
-            draggable: true,
+            draggable: false,
             syncLocation: true,
             perPage: 50,
             maxItemSelectionLength: 50,
@@ -52,7 +52,7 @@ module Neucore
             labelTpl: "${id} ${name}",
             autoGenerateFilter: true,
             filterTogglable: true,
-            headerToolbar: ["bulkActions", "columns-toggler", "drag-toggler", "pagination"],
+            headerToolbar: ["bulkActions", "pagination"],
             footerToolbar: ['statistics', 'switch-per-page', 'pagination']
           }
           

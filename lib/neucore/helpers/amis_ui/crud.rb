@@ -49,10 +49,25 @@ module Neucore
         end
 
         def amis_string_column options = {}
+          popOver = options.delete(:popOver)
           schema = options
           if options[:maxLength]
             schema[:type] = 'tpl'
+            schema[:className] = 'line-clamp-1'
             schema[:tpl] = "${ #{options[:name]}|truncate:#{options[:maxLength]} }"
+          end
+
+          if popOver
+            schema[:popOver] = {
+              trigger: 'hover',
+              position: 'left-top',
+              showIcon: false,
+              visibleOn: "${ #{options[:name]}.length > #{options[:maxLength]} }",
+              body: {
+                type: 'tpl',
+                tpl: "${ #{options[:name]} }"
+              }
+            }
           end
 
           schema
@@ -69,7 +84,8 @@ module Neucore
         def amis_html_column options = {}
           name = options.delete(:name)
           schema = options
-          schema[:tpl] = "${raw(#{name})}"
+          schema[:type] = 'html'
+          schema[:html] = "${raw(#{name})}"
 
           schema
         end

@@ -19,7 +19,9 @@ module Neucore
           schema[:name] = "#{name}_ml_cont"
           schema[:type] ||= 'input-text'
           schema[:label] ||= I18n.t("filters.#{name}", default: name.titleize)
-          schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
+          placeholder = I18n.t("filters.#{name}", default: name.titleize)
+          placeholder = "${CAPITALIZE('content')}" if placeholder == 'Content'
+          schema[:placeholder] ||= placeholder
 
           schema
         end

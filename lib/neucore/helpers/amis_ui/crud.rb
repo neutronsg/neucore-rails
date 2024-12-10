@@ -76,6 +76,7 @@ module Neucore
         def amis_datetime_column options = {}
           name = options.delete(:name)
           schema = options
+          schema[:width] ||= 150
           schema[:tpl] = "${ DATETOSTR(#{name}) }"
 
           schema
@@ -102,7 +103,6 @@ module Neucore
           schema = options.slice(:name, :label)
           schema[:type] = 'image'
           schema[:placeholder] = '-'
-
           schema
         end
 

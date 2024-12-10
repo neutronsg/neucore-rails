@@ -22,7 +22,6 @@ module Neucore
           schema[:type] ||= 'button'
           schema[:level] ||= 'link'
           schema[:label] ||= I18n.t('view')
-          schema[:tooltip] ||= I18n.t('view')
           schema[:actionType] ||= 'link'
           schema[:link] ||= "/#{resource}/${id}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'read')}"
@@ -36,7 +35,6 @@ module Neucore
           schema[:type] ||= 'button'
           schema[:level] ||= 'link'
           schema[:label] ||= I18n.t('edit')
-          schema[:tooltip] ||= I18n.t('edit')
           schema[:actionType] ||= 'link'
           schema[:link] ||= "/#{resource}/${id}/edit"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'update')}"
@@ -50,7 +48,6 @@ module Neucore
           schema[:type] ||= 'button'
           schema[:level] ||= 'link'
           schema[:label] ||= I18n.t('delete')
-          schema[:tooltip] ||= I18n.t('delete')
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "delete:cms/#{resource}/${id}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'destroy')}"
@@ -68,7 +65,6 @@ module Neucore
           schema[:type] ||= 'button'
           schema[:level] ||= 'link'
           schema[:label] ||= I18n.t('restore')
-          schema[:tooltip] ||= I18n.t('restore')
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "post:cms/#{resource}/${id}/restore"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'restore')}"
@@ -91,7 +87,6 @@ module Neucore
           schema[:type] ||= 'button'
           schema[:level] ||= 'link'
           schema[:label] ||= I18n.t(action, default: action.titleize)
-          schema[:tooltip] ||= I18n.t(action, default: action.titleize)
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "#{method}:cms/#{resource}/${id}/#{action}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, '#{action}')}"

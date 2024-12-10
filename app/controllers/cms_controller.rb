@@ -148,6 +148,15 @@ class CmsController < NeucoreController
     end
   end
 
+  def update_image param
+    image = Image.find_by_id param[:id]
+    if image.present?
+      image.width = param.dig(:info, :width)
+      image.height = param.dig(:info, :height)
+    end
+    image.save
+  end
+
   def set_default_format
     request.format = :json
   end

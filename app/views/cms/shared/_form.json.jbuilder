@@ -1,4 +1,9 @@
 form_options = @form_options || {}
+actions = []
+if @type == 'edit' || @type == 'create'
+  actions << {type: 'reset', label: I18n.t('reset'), size: "lg"}
+  actions << {type: 'submit', label: I18n.t('submit'), level: 'info', size: "lg"}
+end
 
 json.type 'wrapper'
 json.style do
@@ -22,14 +27,11 @@ json.body do
     json.body do
       json.child! do
         json.merge! amis_form_base(**form_options)
-
         json.redirect @redirect
 
-        if @type == 'edit' || @type == 'create'
-          @fields << {type: 'reset', label: I18n.t('reset')}
-          @fields << {type: 'submit', label: I18n.t('submit')}
-        end
         json.body @fields
+
+        json.actions actions
       end
     end
   end

@@ -7,7 +7,8 @@ module Neucore
             type: 'operation',
             label: options[:label] || I18n.t('operation'),
             width: options[:width] || 140,
-            toggled: true
+            toggled: true,
+            fixed: 'right'
           }
 
           schema

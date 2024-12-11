@@ -25,7 +25,7 @@ module Neucore
           schemas = []
           I18n.ml_locales.each do |locale|
             schemas << amis_text_property(options).merge(
-              label: model.human_attribute_name("#{property}_#{locale}") || 'd',
+              label: model.human_attribute_name("#{property}_#{locale}"),
               content: content_ml[locale]
             )
           end

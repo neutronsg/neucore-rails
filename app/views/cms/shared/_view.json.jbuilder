@@ -31,8 +31,7 @@ json.body do
       @panels&.each do |panel|
         json.child! do
           json.type 'panel'
-          json.title panel[:title]
-          json.body panel[:body]
+          json.merge! panel
         end      
       end
 

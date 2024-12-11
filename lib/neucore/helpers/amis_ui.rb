@@ -1,6 +1,7 @@
 require_relative 'amis_ui/crud'
 require_relative 'amis_ui/base'
 require_relative 'amis_ui/form'
+require_relative 'amis_ui/form_static'
 require_relative 'amis_ui/button'
 require_relative 'amis_ui/property'
 require_relative 'amis_ui/filter'
@@ -13,6 +14,7 @@ module Neucore
       include Button
       include Property
       include Form
+      include FormStatic
       include Filter
 
       def amis_custom_clickable object

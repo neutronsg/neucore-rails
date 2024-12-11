@@ -22,7 +22,12 @@ class CmsController < NeucoreController
     case @type
     when 'edit', 'view', 'create'
       if @type == 'view' && File.exist?("#{Rails.root}/app/views/cms/#{@resource}/view_schema.json.jbuilder")
-        render "cms/#{@resource}/view_schema"
+        # render "cms/#{@resource}/view_schema"
+        if @resource == 'community_posts'
+          render "cms/#{@resource}/view_schema"
+        else
+          render "cms/#{@resource}/view_schema"
+        end
       else
         if %w(examples1 examples2 examples3 examples4).include?(@resource)
           render "cms/examples/#{@resource}"

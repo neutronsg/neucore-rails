@@ -21,6 +21,7 @@ zh-CN:
         name: 名称
         owner: 所有者
         permissions: 权限
+        admin_role_scope: 角色范围
         admin_role_scopes: 角色范围
         created_at: 创建时间
       admin_role_scope: 

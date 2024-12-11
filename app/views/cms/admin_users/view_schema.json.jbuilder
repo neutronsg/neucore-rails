@@ -9,15 +9,16 @@
 panel1 = {
   title: I18n.t('forms.basic_information'),
   body: {
-    type: 'property',
-    column: 2,
-    items: [
-      amis_number_property(label: AdminUser.human_attribute_name(:id), content: @object.id),
-      amis_boolean_property(label: AdminUser.human_attribute_name(:super_admin), content: @object.super_admin),
-      amis_text_property(label: AdminUser.human_attribute_name(:name), content: @object.name),
-      amis_text_property(label: AdminUser.human_attribute_name(:email), content: @object.email),
-      amis_links_property(label: AdminUser.human_attribute_name(:admin_roles), content: amis_custom_clickables(@object.admin_roles)),
-    ]
+    type: 'form',
+    wrapWithPanel: false,
+    columnCount: 3,
+    body: [
+      amis_static_text(label: AdminUser.human_attribute_name(:id), value: @object.id),
+      amis_static_text(label: AdminUser.human_attribute_name(:super_admin), value: @object.super_admin),
+      amis_static_text(label: AdminUser.human_attribute_name(:name), value: @object.name),
+      amis_static_text(label: AdminUser.human_attribute_name(:email), value: @object.email),
+      amis_static_datetime(label: AdminUser.human_attribute_name(:created_at), value: @object.created_at)
+    ].flatten
   }
 }
 

@@ -50,13 +50,14 @@ module Neucore
               "ID#{value}(#{I18n.t('paper_trail.destroyed', default: 'Deleted')})"
             end
           elsif value.try(:end_with?, '.jpg') || value.try(:end_with?, '.jpeg') || value.try(:end_with?, '.png')
-            if value.try(:start_with, 'http')
-              image_tag(value, width: '120')
+            if value.try(:start_with?, 'http')
+              # image_tag(value, width: '120')
+              value
             else
               if version.item.send(field).blank?
                 I18n.t('paper_trail.empty', default: 'Empty')
               else
-                version.item.send(field).retrieve_from_store!(value)
+                # version.item.send(field).retrieve_from_store!(value)
                 image_tag(version.item.send(field).versions[:small].try(:url) || version.item.send(field).try(:url), width: '120')
               end
             end

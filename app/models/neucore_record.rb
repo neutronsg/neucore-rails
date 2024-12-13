@@ -8,7 +8,7 @@ class NeucoreRecord < ActiveRecord::Base
   primary_abstract_class
 
   has_paper_trail on: [:update, :create, :destroy], ignore: [
-    :updated_at
+    :updated_at, :moodle_snapshot
   ]
 
   def display_name

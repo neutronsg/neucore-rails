@@ -18,7 +18,6 @@
 class Neucore::AdminUser < NeucoreRecord
   self.table_name = 'admin_users'
   
-  include Neucore::JwtTokenIssuer
   auto_strip_attributes :name, :email
   validates_uniqueness_of :email
 

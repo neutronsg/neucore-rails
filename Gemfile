@@ -11,4 +11,8 @@ gem "minitest", "~> 5.16"
 
 gem "rubocop", "~> 1.21"
 
+gem "devise"
+
+gem 'aws-sdk-cognitoidentityprovider'
+
 gem "rails"

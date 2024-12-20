@@ -50,26 +50,26 @@ module Neucore
     end
 
     def verify_token!
-      result = verify_token
+      result = verify_token(access_token)
       raise Neucore::Unauthorized unless result
     end
 
-    def verify_token
-      jwt_payload = JWT.decode(access_token, Neucore.configuration.jwt_secret_key).first rescue nil
-      return false if jwt_payload.nil?
+    def verify_token(token)
+      case Neucore.configuration.auth_strategy
+      when :in_house
+        resource, scp = InHouseAuthService.verify_token(token)
+        return false unless resource.present?
 
-      id = jwt_payload['sub']
-      scp = jwt_payload['scp']
-      exp = jwt_payload['exp']
-      exp = Time.at(exp) || Time.yesterday
-      return false if exp < Time.now
+        self.instance_variable_set("@current_#{scp}", resource)
+      when :cognito
+        resource, scp = CognitoAuthService.verify_token(token)
+        return false unless resource.present?
 
-      cont = scp.to_s.classify.constantize rescue nil
-      return false unless cont
-
-      resource = cont.find_by(id: id)
-      return false unless resource
-      self.instance_variable_set("@current_#{scp}", resource)
+        self.instance_variable_set("@current_#{scp}", resource)
+      else
+        false
+      end
     end
+
   end
 end

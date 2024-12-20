@@ -4,14 +4,20 @@ module Neucore
     DEFAULT_JWT_EXPIRY_TIME = 7.days.to_i
     DEFAULT_JWT_SECRET_KEY = "default_secret_key_change_this" # Replace with a more secure fallback or random key
     DEFAULT_ISSUER_NAME = "Neucore"
+    DEFAULT_AUTH_STRATEGY = :in_house
 
-    attr_accessor :jwt_secret_key, :jwt_expiry_time, :jwt_issuer
+    attr_accessor :jwt_secret_key, :jwt_expiry_time, :jwt_issuer, :auth_strategy,
+                  :cognito_fields_mapping
 
     def initialize
       # Set defaults if no custom values are provided in the initializer
       @jwt_secret_key = DEFAULT_JWT_SECRET_KEY
       @jwt_expiry_time = DEFAULT_JWT_EXPIRY_TIME
       @jwt_issuer = DEFAULT_ISSUER_NAME
+      @auth_strategy = DEFAULT_AUTH_STRATEGY
+      # Array of hashes
+      # {model: "User", user_pool_id: "abc", client_id: "client_id", region: "ap-southeast-1"}
+      @cognito_fields_mapping = []
     end
   end
 

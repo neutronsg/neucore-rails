@@ -9,8 +9,10 @@ require 'ransack'
 require_relative "neucore/version"
 require "neucore/engine"
 require "neucore/configuration"
-require "neucore/jwt_token_issuer"       # Adjust based on your actual token generation file
-require "neucore/jwt_token_authenticator" # Make sure this matches the new file/module name
+require "neucore/auth/auth_manager" # Adjust based on your actual token generation file
+require "neucore/auth/cognito_auth_service" # Adjust based on your actual token generation file
+require "neucore/auth/in_house_auth_service" # Adjust based on your actual token generation file
+require "neucore/auth/jwt_token_authenticator" # Adjust based on your actual token generation file
 require "neucore/auto_strip_attributes" # Make sure this matches the new file/module name
 require "neucore/localeable" # Make sure this matches the new file/module name
 require "neucore/enumable" # Make sure this matches the new file/module name
@@ -20,6 +22,9 @@ require "neucore/base_client" # Make sure this matches the new file/module name
 
 module Neucore
   class Unauthorized < StandardError; end
+
+  class AuthStrategyError < StandardError; end
+
   # Your code goes here...
 
   ActiveSupport.on_load(:action_view) do

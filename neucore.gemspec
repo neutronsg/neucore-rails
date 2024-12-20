@@ -37,6 +37,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "paranoia"
   spec.add_dependency "paper_trail"
   spec.add_dependency "faraday"
+  spec.add_dependency "devise"
+  spec.add_dependency "aws-sdk-cognitoidentityprovider"
   spec.add_dependency "faraday-multipart"
   spec.add_dependency "ransack", "~> 4.2"
   # spec.add_dependency "mobility"

@@ -106,6 +106,7 @@ module Neucore
           schema[:joinValues] = false
           schema[:extractValue] = true
           schema[:clearValueOnHidden] = true
+          schema[:clearable] = true
           
           schema
         end

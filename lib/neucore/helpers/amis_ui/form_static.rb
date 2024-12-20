@@ -24,6 +24,14 @@ module Neucore
           schemas
         end
 
+        def amis_static_rating options = {}
+          schema = options
+          schema[:count] ||= 5
+          schema[:type] = 'input-rating'
+          schema[:readOnly] = true
+          schema
+        end
+
         def amis_static_link options = {}
           return {
             type: 'static',

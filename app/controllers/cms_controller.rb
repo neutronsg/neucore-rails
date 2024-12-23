@@ -3,12 +3,13 @@ class CmsController < NeucoreController
   before_action :set_default_format
   skip_before_action :verify_authenticity_token
 
-  before_action :token_authenticate_admin_user!
+  before_action :token_authenticate_user!
   before_action :set_current_ability
   before_action :set_paper_trail_whodunnit
   before_action :load_object, only: [:show, :update, :destroy, :edit]
 
-  jwt_token_auth ['admin_user']
+  # jwt_token_auth ['admin_user']
+  jwt_token_auth ['user']
   layout 'cms'
 
   def schema
@@ -168,7 +169,7 @@ class CmsController < NeucoreController
 
   def set_current_ability
     # tc = AdminUser.find 1
-    @current_ability ||= ::Ability.new(current_admin_user)
+    @current_ability ||= ::Ability.new(current_user)
   end
   
   def load_object
@@ -180,8 +181,8 @@ class CmsController < NeucoreController
   end
 
   def user_for_paper_trail
-    return nil unless current_admin_user.present?
-    "0#{current_admin_user.name}(#{current_admin_user.id})"
+    return nil unless current_user.present?
+    "0#{current_user.name}(#{current_user.id})"
   end
 
   def authorize_index!

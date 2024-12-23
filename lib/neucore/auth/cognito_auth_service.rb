@@ -4,22 +4,26 @@ module Neucore
 
     class << self
       def set_cognito(opts = {})
-        model = opts[:model]
-        mappings = Neucore.configuration.cognito_fields_mapping
-        mapping = mappings.select { |m| m[:model] == model }.first
-        @client = Aws::CognitoIdentityProvider::Client.new(region: mapping[:region])
-        @user_pool_id = mapping[:user_pool_id]
-        @client_id = mapping[:client_id]
+        model = opts[:model] || 'User'
+        @client = Aws::CognitoIdentityProvider::Client.new(
+          region: Rails.application.credentials.aws.region,
+          access_key_id: Rails.application.credentials.aws.access_key_id,
+          secret_access_key: Rails.application.credentials.aws.secret_access_key
+        )
+        cognito_config = Rails.application.credentials.aws.cognito.select{|m| m[:model] == model}.first
+        @user_pool_id = cognito_config[:pool_id]
+        @client_id = cognito_config[:client_id]
       end
 
-      def refresh_token!(refresh_token)
+      def refresh_token!(opts = {})
+        set_cognito(opts)
         begin
           resp = @client.initiate_auth(
             {
               auth_flow: 'REFRESH_TOKEN',
               client_id: @client_id,
               auth_parameters: {
-                'REFRESH_TOKEN' => refresh_token
+                'REFRESH_TOKEN' => opts[:refresh_token]
               }
             }
           )
@@ -52,16 +56,17 @@ module Neucore
           user_attributes << { name: "email", value: email } if email.present?
           user_attributes << { name: "phone_number", value: phone_number } if phone_number.present?
           sign_up_params[:user_attributes] = user_attributes if user_attributes.present?
-          @client.sign_up(sign_up_params)
+          resp = @client.sign_up(sign_up_params)
           token = confirm_sign_up!(username)
-          if auto_sign_in
-            {
-              access_token: token.authentication_result.id_token,
-              refresh_token: token.authentication_result.refresh_token
-            }
-          else
-            true
-          end
+          # if auto_sign_in
+          #   {
+          #     access_token: token.authentication_result.id_token,
+          #     refresh_token: token.authentication_result.refresh_token
+          #   }
+          # else
+          #   true
+          # end
+          resp[:user_sub]
         rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
           raise e
         end
@@ -115,11 +120,11 @@ module Neucore
 
         pool_id = match[2]
 
-        mappings = Neucore.configuration.cognito_fields_mapping
-        mapping = mappings.select { |m| m[:user_pool_id] == pool_id }.first
-        region = mapping[:region]
-        model = mapping[:model]
-        id_field = mapping[:id_field]
+        cognito_config = Rails.application.credentials.aws.cognito.select{|m| m[:pool_id] == pool_id}.first
+
+        region = Rails.application.credentials.aws.region
+        model = cognito_config[:model]
+        id_field = cognito_config[:id_field]
         cont = model.to_s.classify.constantize rescue nil
         return false unless cont
 

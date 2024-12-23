@@ -48,7 +48,7 @@ module Neucore
         when :in_house
           # pass first
         when :cognito
-          CognitoAuthService.new(opts[:model]).refresh_token!(opts[:refresh_token])
+          CognitoAuthService.refresh_token!(opts)
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end

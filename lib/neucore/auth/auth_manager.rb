@@ -42,13 +42,33 @@ module Neucore
 
       # @param opts [Hash] - options for authentication
       # opts[:model] - the model to authenticate (e.g., :user, :admin)
-      # opts[:refresh_token] - the unique field used for login (e.g., :email, :username)
+      # opts[:refresh_token] - refresh token
       def refresh_token!(opts = {})
         case Neucore.configuration.auth_strategy
         when :in_house
           # pass first
         when :cognito
-          CognitoAuthService.new(opts[:model]).refresh_token!(opts[:refresh_token])
+          CognitoAuthService.refresh_token!(opts)
+        else
+          raise Neucore::AuthStrategyError, "Auth Strategy not set"
+        end
+      end
+
+      # @param opts [Hash] - options for authentication
+      # opts[:model] - the model to authenticate (e.g., :user, :admin)
+      # opts[:model] - the model to authenticate (e.g., :user, :admin)
+      # opts[:username] - unique identifier of user
+      # opts[:email] - email of user
+      # opts[:email_verified]
+      # opts[:phone_number] - email of user
+      # opts[:phone_number_verified]
+      # opts[:password] - new password of user
+      def update_user_attributes!(opts = {})
+        case Neucore.configuration.auth_strategy
+        when :in_house
+          # pass first
+        when :cognito
+          CognitoAuthService.update_attributes!(opts)
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end

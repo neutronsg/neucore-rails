@@ -12,9 +12,56 @@ module Neucore
         @client_id = mapping[:client_id]
       end
 
-      def refresh_token!(refresh_token)
+      # @param opts [Hash] - options for authentication
+      # opts[:model] - the model to authenticate (e.g., :user, :admin)
+      # opts[:username] - unique identifier of user
+      # opts[:new_username] - unique identifier of user
+      # opts[:email] - email of user
+      # opts[:email_verified]
+      # opts[:phone_number] - email of user
+      # opts[:phone_number_verified]
+      # opts[:password] - new password of user
+      def update_attributes!(opts = {})
+        set_cognito(opts)
+        new_password = opts[:password]
+        username = opts[:username]
+        email = opts[:email]
+        email_verified = opts[:email_verified]
+        phone_number = opts[:phone_number]
+        phone_number_verified = opts[:phone_number_verified]
+        user_attributes = []
+        user_attributes << { name: "email", value: email } if email.present?
+        user_attributes << { name: "email_verified", value: 'true' } if email_verified.present?
+        user_attributes << { name: "phone_number", value: phone_number } if phone_number.present?
+        user_attributes << { name: "phone_number_verified", value: 'true' } if phone_number_verified.present?
+        if user_attributes.present?
+          @client.admin_update_user_attributes(
+            {
+              user_pool_id: @user_pool_id, # required
+              username: username, # required
+              user_attributes: user_attributes
+            }
+          )
+        end
+
+        if new_password.present?
+          @client.admin_set_user_password(
+            {
+              user_pool_id: @user_pool_id,
+              username: username,
+              password: new_password,
+              permanent: true
+            }
+          )
+        end
+
+      end
+
+      def refresh_token!(opts = {})
+        set_cognito(opts)
+        refresh_token = opts[:refresh_token]
         begin
-          resp = @client.initiate_auth(
+          resp = @client.admin_initiate_auth(
             {
               auth_flow: 'REFRESH_TOKEN',
               client_id: @client_id,
@@ -30,7 +77,7 @@ module Neucore
             refresh_token: resp.authentication_result.refresh_token
           }
         rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
-          raise "Cognito authentication failed: #{e.message}"
+          raise e
         end
       end
 
@@ -52,16 +99,10 @@ module Neucore
           user_attributes << { name: "email", value: email } if email.present?
           user_attributes << { name: "phone_number", value: phone_number } if phone_number.present?
           sign_up_params[:user_attributes] = user_attributes if user_attributes.present?
-          @client.sign_up(sign_up_params)
-          token = confirm_sign_up!(username)
-          if auto_sign_in
-            {
-              access_token: token.authentication_result.id_token,
-              refresh_token: token.authentication_result.refresh_token
-            }
-          else
-            true
-          end
+          sign_up_resp = @client.sign_up(sign_up_params)
+          user_sub = sign_up_resp.user_sub
+          confirm_sign_up!(username)
+          user_sub
         rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
           raise e
         end
@@ -82,9 +123,9 @@ module Neucore
         username = opts[:username]
         password = opts[:password]
         begin
-          resp = @client.initiate_auth(
+          resp = @client.admin_initiate_auth(
             {
-              auth_flow: 'USER_PASSWORD_AUTH',
+              auth_flow: 'ADMIN_USER_PASSWORD_AUTH',
               client_id: @client_id,
               auth_parameters: {
                 'USERNAME' => username,

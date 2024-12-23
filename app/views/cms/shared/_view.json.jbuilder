@@ -35,6 +35,12 @@ json.body do
         end      
       end
 
+      @partials&.each do |partial|
+        json.child! do
+          json.partial! partial
+        end
+      end
+
       json.child! do
         json.partial! 'cms/versions/schema'
       end unless @hide_versions

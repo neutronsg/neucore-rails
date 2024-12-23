@@ -18,7 +18,7 @@ module Neucore
         when :in_house
           InHouseAuthService.sign_up!(opts)
         when :cognito
-          CognitoAuthService.sign_up!(opts)
+          CognitoAuthService.new.sign_up!(opts)
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end
@@ -34,7 +34,7 @@ module Neucore
         when :in_house
           InHouseAuthService.sign_in!(opts)
         when :cognito
-          CognitoAuthService.sign_in!(opts)
+          CognitoAuthService.new.sign_in!(opts)
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end
@@ -42,13 +42,33 @@ module Neucore
 
       # @param opts [Hash] - options for authentication
       # opts[:model] - the model to authenticate (e.g., :user, :admin)
-      # opts[:refresh_token] - the unique field used for login (e.g., :email, :username)
+      # opts[:refresh_token] - refresh token
       def refresh_token!(opts = {})
         case Neucore.configuration.auth_strategy
         when :in_house
           # pass first
         when :cognito
-          CognitoAuthService.refresh_token!(opts)
+          CognitoAuthService.new.refresh_token!(opts)
+        else
+          raise Neucore::AuthStrategyError, "Auth Strategy not set"
+        end
+      end
+
+      # @param opts [Hash] - options for authentication
+      # opts[:model] - the model to authenticate (e.g., :user, :admin)
+      # opts[:model] - the model to authenticate (e.g., :user, :admin)
+      # opts[:username] - unique identifier of user
+      # opts[:email] - email of user
+      # opts[:email_verified]
+      # opts[:phone_number] - email of user
+      # opts[:phone_number_verified]
+      # opts[:password] - new password of user
+      def update_user_attributes!(opts = {})
+        case Neucore.configuration.auth_strategy
+        when :in_house
+          # pass first
+        when :cognito
+          CognitoAuthService.new.update_attributes!(opts)
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end

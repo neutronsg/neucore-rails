@@ -1,3 +1,4 @@
+# https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_Operations.html
 module Neucore
   class CognitoAuthService
     require 'aws-sdk-cognitoidentityprovider'
@@ -14,28 +15,6 @@ module Neucore
       @user_pool_id = Rails.application.credentials.aws.cognito[@model]['user_pool_id']
       @client_id = Rails.application.credentials.aws.cognito[@model]['client_id']
       @id_field = Rails.application.credentials.aws.cognito[@model]['id_field']
-    end
-
-    def refresh_token!(refresh_token = nil)
-      begin
-        resp = client.admin_initiate_auth(
-          {
-            auth_flow: 'REFRESH_TOKEN',
-            client_id: client_id,
-            auth_parameters: {
-              'REFRESH_TOKEN' => refresh_token
-            }
-          }
-        )
-        # Extract the JWT tokens from the response
-        {
-          access_token: resp.authentication_result.id_token,
-          # access_token: resp.authentication_result.access_token,
-          refresh_token: resp.authentication_result.refresh_token
-        }
-      rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
-        raise e
-      end
     end
 
     def list_users
@@ -76,25 +55,17 @@ module Neucore
       )
     end
 
-    def sign_in!(opts = {})
+    def admin_initiate_auth! auth_flow = nil, auth_parameters = {}
       begin
         resp = client.admin_initiate_auth(
           {
             user_pool_id: user_pool_id,
-            auth_flow: 'ADMIN_USER_PASSWORD_AUTH',
+            auth_flow: auth_flow,
             client_id: client_id,
-            auth_parameters: {
-              'USERNAME' => opts[:username],
-              'PASSWORD' => opts[:password]
-            }
+            auth_parameters: auth_parameters
           }
         )
-        # Extract the JWT tokens from the response
-        {
-          access_token: resp.authentication_result.id_token,
-          # access_token: resp.authentication_result.access_token,
-          refresh_token: resp.authentication_result.refresh_token
-        }
+        resp.authentication_result
       rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
         raise e
       end
@@ -134,28 +105,27 @@ module Neucore
       end
     end
 
-    def verify_token(token)
+    def self.verify_token(token)
       payload = JWT.decode(token, nil, false).first rescue nil
       return false unless payload.present?
 
       iss = payload['iss']
       match = iss.match(/https:\/\/cognito-idp\.(.*?)\.amazonaws\.com\/(.*)/)
-      sub = payload['sub']
-
       return false unless match.present?
 
-      resource = model.classify.constantize.find_by(id_field => sub)
+      cognito_config = Rails.application.credentials.aws.cognito.select{|_, v| v[:user_pool_id] == match[2]}
+      return false unless cognito_config.present?
+      cognito_config = cognito_config.first
+
+      model = cognito_config[0].to_s
+      id_field = cognito_config[1][:id_field]
+      resource = model.classify.constantize.find_by(id_field => payload['sub'])
       return false unless resource
 
       begin
-        jwks_url = "https://cognito-idp.#{Rails.application.credentials.aws.region}.amazonaws.com/#{user_pool_id}/.well-known/jwks.json"
+        jwks_url = "https://cognito-idp.#{Rails.application.credentials.aws.region}.amazonaws.com/#{match[2]}/.well-known/jwks.json"
         jwks_keys = fetch_jwks(jwks_url)
-        JWT.decode(token, nil, true,
-                   {
-                     algorithms: ['RS256'],
-                     jwks: jwks_keys
-                   }
-        )
+        JWT.decode(token, nil, true, { algorithms: ['RS256'], jwks: jwks_keys })
         [resource, model.underscore]
       rescue
         false
@@ -163,7 +133,7 @@ module Neucore
     end
 
     private
-    def fetch_jwks(url)
+    def self.fetch_jwks(url)
       response = Net::HTTP.get(URI(url))
       JSON.parse(response, symbolize_names: true)[:keys]
     end

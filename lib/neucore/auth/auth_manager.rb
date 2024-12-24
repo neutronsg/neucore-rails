@@ -34,7 +34,7 @@ module Neucore
         when :in_house
           InHouseAuthService.sign_in!(opts)
         when :cognito
-          CognitoAuthService.new.sign_in!(opts)
+          CognitoAuthService.new.admin_initiate_auth!('ADMIN_USER_PASSWORD_AUTH', {'USERNAME' => opts[:username], 'PASSWORD' => opts[:password]})
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end
@@ -48,7 +48,7 @@ module Neucore
         when :in_house
           # pass first
         when :cognito
-          CognitoAuthService.new.refresh_token!(opts)
+          CognitoAuthService.new.admin_initiate_auth!('REFRESH_TOKEN', {'REFRESH_TOKEN' => opts[:refresh_token]})
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end

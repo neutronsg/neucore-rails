@@ -62,7 +62,7 @@ module Neucore
 
         self.instance_variable_set("@current_#{scp}", resource)
       when :cognito
-        resource, scp = CognitoAuthService.new.verify_token(token)
+        resource, scp = CognitoAuthService.verify_token(token)
         return false unless resource.present?
 
         self.instance_variable_set("@current_#{scp}", resource)

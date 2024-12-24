@@ -197,6 +197,7 @@ class CmsController < NeucoreController
       sentry_messages << error[:message].to_s
     end
     Sentry.capture_message(sentry_messages.join(","))
-    render json: {request_id: request.uuid, status: 1, msg: sentry_messages.join(",") || I18n.t('operation_failed')}
+    status = status == :unauthorized ? 401 : 200
+    render json: {request_id: request.uuid, status: 1, msg: sentry_messages.join(",") || I18n.t('operation_failed')}, status: status
   end
 end

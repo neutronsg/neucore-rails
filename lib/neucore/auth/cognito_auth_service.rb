@@ -22,8 +22,12 @@ module Neucore
       resp
     end
 
-    def admin_get_user
-      resp = client.admin_get_user(user_pool_id: user_pool_id, username: '+8619983141609')
+    def admin_get_user username
+      resp = client.admin_get_user(user_pool_id: user_pool_id, username: username)
+    end
+
+    def revoke_token token
+      resp = client.revoke_token(client_id: client_id, token: token)
     end
 
     def sign_up!(opts = {})
@@ -67,7 +71,11 @@ module Neucore
         )
         resp.authentication_result
       rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
-        raise e
+        if e.message == 'Password attempts exceeded'
+          raise I18n.t('Password attempts exceeded')
+        else
+          raise e
+        end
       end
     end
 

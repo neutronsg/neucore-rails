@@ -19,14 +19,13 @@ class Neucore::AdminUser < NeucoreRecord
   self.table_name = 'admin_users'
   
   auto_strip_attributes :name, :email
-  validates_uniqueness_of :email
 
   has_many :admin_user_roles
   has_many :admin_roles, through: :admin_user_roles
   belongs_to :owner, polymorphic: true, required: false
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable
 
   delegate :can?, :cannot?, to: :ability
 

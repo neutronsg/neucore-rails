@@ -7,7 +7,7 @@ module Neucore
     DEFAULT_AUTH_STRATEGY = :in_house
 
     attr_accessor :jwt_secret_key, :jwt_expiry_time, :jwt_issuer, :auth_strategy,
-                  :cognito_fields_mapping
+                  :cognito_fields_mapping, :aws_access_key_id, :aws_secret_access_key
 
     def initialize
       # Set defaults if no custom values are provided in the initializer

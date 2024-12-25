@@ -6,7 +6,11 @@ module Neucore
       def set_cognito(opts = {})
         model = opts[:model] || "user"
         mapping = Neucore.configuration.cognito_fields_mapping[model]
-        @client = Aws::CognitoIdentityProvider::Client.new(region: mapping[:region])
+        @client = Aws::CognitoIdentityProvider::Client.new(
+          region: mapping[:region],
+          access_key_id: Neucore.configuration.aws_access_key_id,
+          secret_access_key: Neucore.configuration.aws_secret_access_key
+        )
         @user_pool_id = mapping[:user_pool_id]
         @client_id = mapping[:client_id]
       end
@@ -56,30 +60,6 @@ module Neucore
 
       end
 
-      def refresh_token!(opts = {})
-        set_cognito(opts)
-        refresh_token = opts[:refresh_token]
-        begin
-          resp = @client.admin_initiate_auth(
-            {
-              auth_flow: 'REFRESH_TOKEN',
-              client_id: @client_id,
-              auth_parameters: {
-                'REFRESH_TOKEN' => refresh_token
-              }
-            }
-          )
-          # Extract the JWT tokens from the response
-          {
-            access_token: resp.authentication_result.id_token,
-            # access_token: resp.authentication_result.access_token,
-            refresh_token: resp.authentication_result.refresh_token
-          }
-        rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
-          raise e
-        end
-      end
-
       # Sign up user (create new user in Cognito)
       def sign_up!(opts = {})
         set_cognito(opts)
@@ -118,39 +98,31 @@ module Neucore
 
       def sign_in!(opts = {})
         set_cognito(opts)
-        username = opts[:username]
-        password = opts[:password]
-        auth_flow = opts[:auth_flow]
-        begin
-          if auth_flow == "CUSTOM_AUTH"
-            resp = @client.admin_initiate_auth(
-              {
-                auth_flow: 'CUSTOM_AUTH',
-                user_pool_id: @user_pool_id,
-                client_id: @client_id,
-                auth_parameters: {
-                  'USERNAME' => username
-                }
-              }
-            )
-          else
-            resp = @client.admin_initiate_auth(
-              {
-                auth_flow: 'ADMIN_USER_PASSWORD_AUTH',
-                client_id: @client_id,
-                auth_parameters: {
-                  'USERNAME' => username,
-                  'PASSWORD' => password
-                }
-              }
-            )
-          end
-          # Extract the JWT tokens from the response
-          {
-            access_token: resp.authentication_result.id_token,
-            # access_token: resp.authentication_result.access_token,
-            refresh_token: resp.authentication_result.refresh_token
+        auth_flow = opts[:auth_flow] || 'ADMIN_USER_PASSWORD_AUTH'
+        auth_parameters = {}
+        case auth_flow
+        when 'ADMIN_USER_PASSWORD_AUTH'
+          auth_parameters = {
+            "USERNAME" => opts[:username],
+            "PASSWORD" => opts[:password]
           }
+        when "CUSTOM_AUTH"
+          auth_parameters = {
+            "USERNAME" => opts[:username],
+          }
+        when "REFRESH_TOKEN"
+          auth_parameters = {
+            "REFRESH_TOKEN" => opts[:refresh_token]
+          }
+        end
+        begin
+          resp = @client.admin_initiate_auth(
+            auth_flow: auth_flow,
+            user_pool_id: @user_pool_id,
+            client_id: @client_id,
+            auth_parameters: auth_parameters
+          )
+          resp.authentication_result
         rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
           raise e
         end
@@ -169,11 +141,12 @@ module Neucore
         pool_id = match[2]
 
         mappings = Neucore.configuration.cognito_fields_mapping
-        mapping = mappings.select { |m| m[:user_pool_id] == pool_id }.first
+        model, mapping = mappings.select { |_, m| m[:user_pool_id] == pool_id }.first
         region = mapping[:region]
-        model = mapping[:model]
         id_field = mapping[:id_field]
-        cont = model.to_s.classify.constantize rescue nil
+        model = model.to_s
+
+        cont = model.classify.constantize rescue nil
         return false unless cont
 
         resource = cont.find_by(id_field => sub)
@@ -189,8 +162,8 @@ module Neucore
                      }
           )
           [resource, model.underscore]
-        rescue
-          false
+        rescue Exception => e
+          raise e
         end
       end
 
@@ -199,6 +172,20 @@ module Neucore
         JSON.parse(response, symbolize_names: true)[:keys]
       end
 
+      def list_users
+        model = "user"
+        mapping = Neucore.configuration.cognito_fields_mapping[model]
+
+        client = Aws::CognitoIdentityProvider::Client.new(
+          region: mapping[:region],
+          access_key_id: Neucore.configuration.aws_access_key_id,
+          secret_access_key: Neucore.configuration.aws_secret_access_key
+        )
+
+        # r = client.list_users(user_pool_id: mapping[:user_pool_id])
+        r = client.admin_get_user(user_pool_id: mapping[:user_pool_id], username: '+8619980000100')
+        r = client.admin_delete_user(user_pool_id: mapping[:user_pool_id], username: '+8619980000100')
+      end
     end
   end
 end

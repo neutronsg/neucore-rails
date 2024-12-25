@@ -28,10 +28,10 @@ module Neucore
       # opts[:model] - the model to authenticate (e.g., :user, :admin)
       # opts[:login] - the unique field used for login (e.g., :email, :username)
       # opts[:username] - the value of the unique field
-      # opts[:password] - the user's password, required if auth_flow == ADMIN_USER_PASSWORD_AUTH
+      # opts[:password] - the user's password, required if auth_flow != CUSTOM_AUTH
       # opts[:auth_flow] - Cognito only
-      #  - CUSTOM_AUTH: Force Sign In
-      #  - ADMIN_USER_PASSWORD_AUTH: Username & Password
+      #  - if CUSTOM_AUTH: Force Sign In
+      #  - else username & password
       def sign_in!(opts = {})
         case Neucore.configuration.auth_strategy
         when :in_house

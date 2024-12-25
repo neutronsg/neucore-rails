@@ -122,18 +122,7 @@ module Neucore
         password = opts[:password]
         auth_flow = opts[:auth_flow]
         begin
-          if auth_flow == "ADMIN_USER_PASSWORD_AUTH"
-            resp = @client.admin_initiate_auth(
-              {
-                auth_flow: 'ADMIN_USER_PASSWORD_AUTH',
-                client_id: @client_id,
-                auth_parameters: {
-                  'USERNAME' => username,
-                  'PASSWORD' => password
-                }
-              }
-            )
-          elsif auth_flow == "CUSTOM_AUTH"
+          if auth_flow == "CUSTOM_AUTH"
             resp = @client.admin_initiate_auth(
               {
                 auth_flow: 'CUSTOM_AUTH',
@@ -141,6 +130,17 @@ module Neucore
                 client_id: @client_id,
                 auth_parameters: {
                   'USERNAME' => username
+                }
+              }
+            )
+          else
+            resp = @client.admin_initiate_auth(
+              {
+                auth_flow: 'ADMIN_USER_PASSWORD_AUTH',
+                client_id: @client_id,
+                auth_parameters: {
+                  'USERNAME' => username,
+                  'PASSWORD' => password
                 }
               }
             )

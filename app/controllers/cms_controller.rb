@@ -8,8 +8,7 @@ class CmsController < NeucoreController
   before_action :set_paper_trail_whodunnit
   before_action :load_object, only: [:show, :update, :destroy, :edit]
 
-  # jwt_token_auth ['admin_user']
-  jwt_token_auth ['user']
+  jwt_token_auth ['user', 'admin_user']
   layout 'cms'
 
   def schema

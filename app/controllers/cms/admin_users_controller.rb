@@ -1,5 +1,4 @@
 class Cms::AdminUsersController < CmsController
-  jwt_token_auth ['admin_user']
   skip_before_action :token_authenticate_admin_user!, only: [:sign_in]
   before_action :authorize_index!, only: :index
   

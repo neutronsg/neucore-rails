@@ -162,8 +162,8 @@ module Neucore
                      }
           )
           [resource, model.underscore]
-        rescue Exception => e
-          raise e
+        rescue
+          false
         end
       end
 

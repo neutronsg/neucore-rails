@@ -4,9 +4,8 @@ module Neucore
 
     class << self
       def set_cognito(opts = {})
-        model = opts[:model]
-        mappings = Neucore.configuration.cognito_fields_mapping
-        mapping = mappings.select { |m| m[:model] == model }.first
+        model = opts[:model] || "user"
+        mapping = Neucore.configuration.cognito_fields_mapping[model]
         @client = Aws::CognitoIdentityProvider::Client.new(region: mapping[:region])
         @user_pool_id = mapping[:user_pool_id]
         @client_id = mapping[:client_id]

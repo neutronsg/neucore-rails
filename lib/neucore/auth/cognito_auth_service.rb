@@ -118,20 +118,33 @@ module Neucore
 
       def sign_in!(opts = {})
         set_cognito(opts)
-        Rails.logger.debug "FFFFFFFFFFFFFF #{opts}"
         username = opts[:username]
         password = opts[:password]
+        auth_flow = opts[:auth_flow]
         begin
-          resp = @client.admin_initiate_auth(
-            {
-              auth_flow: 'ADMIN_USER_PASSWORD_AUTH',
-              client_id: @client_id,
-              auth_parameters: {
-                'USERNAME' => username,
-                'PASSWORD' => password
+          if auth_flow == "ADMIN_USER_PASSWORD_AUTH"
+            resp = @client.admin_initiate_auth(
+              {
+                auth_flow: 'ADMIN_USER_PASSWORD_AUTH',
+                client_id: @client_id,
+                auth_parameters: {
+                  'USERNAME' => username,
+                  'PASSWORD' => password
+                }
               }
-            }
-          )
+            )
+          elsif auth_flow == "CUSTOM_AUTH"
+            resp = @client.admin_initiate_auth(
+              {
+                auth_flow: 'CUSTOM_AUTH',
+                user_pool_id: @user_pool_id,
+                client_id: @client_id,
+                auth_parameters: {
+                  'USERNAME' => username
+                }
+              }
+            )
+          end
           # Extract the JWT tokens from the response
           {
             access_token: resp.authentication_result.id_token,

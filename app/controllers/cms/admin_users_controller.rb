@@ -1,7 +1,7 @@
 class Cms::AdminUsersController < CmsController
-  skip_before_action :token_authenticate_admin_user!, only: [:sign_in]
+  # skip_before_action :token_authenticate_admin_user!, only: [:sign_in]
   before_action :authorize_index!, only: :index
-  
+
   def index
     q = params.permit(:name_cont, :email_cont)
     objects = AdminUser.all

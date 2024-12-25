@@ -12,7 +12,6 @@ module Neucore
 
         models.each do |model|
           class_eval <<-METHODS, __FILE__, __LINE__ + 1
-
           def token_authenticate_#{model}
             verify_token
           end

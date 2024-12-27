@@ -128,6 +128,11 @@ module Neucore
         end
       end
 
+      def admin_delete_user opts = {}
+        set_cognito(opts)
+        @client.admin_delete_user(user_pool_id: @user_pool_id, username: opts[:username]) rescue nil
+      end
+
       def verify_token(token)
         payload = JWT.decode(token, nil, false).first rescue nil
         return false unless payload.present?
@@ -183,7 +188,7 @@ module Neucore
         )
 
         # r = client.list_users(user_pool_id: mapping[:user_pool_id])
-        r = client.admin_get_user(user_pool_id: mapping[:user_pool_id], username: '+8619980000100')
+        r = client.admin_get_user(user_pool_id: mapping[:user_pool_id], username: '+8610000000000')
         r = client.admin_delete_user(user_pool_id: mapping[:user_pool_id], username: '+8619980000100')
       end
     end

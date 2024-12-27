@@ -1,11 +1,6 @@
 class NeucoreController < ActionController::Base
   around_action :set_locale
 
-  rescue_from StandardError, with: :standard_error
-  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-  rescue_from Neucore::Unauthorized, with: :unauthorized
-
   # helper_method :human_enum
 
   private
@@ -63,7 +58,6 @@ class NeucoreController < ActionController::Base
       error[:message] = I18n.t("errors.#{error[:code]}", default: error[:code].titleize) unless error[:message].present?
       sentry_messages << error[:message].to_s
     end
-    Sentry.capture_message(sentry_messages.join(","))
     render json: {errors: errors, request_id: request.uuid}, status: status
   end
 

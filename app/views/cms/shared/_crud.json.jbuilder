@@ -36,6 +36,7 @@ json.body do
         json.headerToolbar @headerToolbar
         json.bulkActions @bulkActions
         json.deferApi @deferApi
+        json.quickSaveItemApi @quickSaveItemApi
         json.columns @columns
         json.footerToolbar @footerToolbar || ['statistics', 'switch-per-page', 'pagination']
       end

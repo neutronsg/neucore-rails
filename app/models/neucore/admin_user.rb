@@ -24,8 +24,7 @@ class Neucore::AdminUser < NeucoreRecord
   has_many :admin_roles, through: :admin_user_roles
   belongs_to :owner, polymorphic: true, required: false
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable
+  devise :database_authenticatable, :registerable, :rememberable
 
   delegate :can?, :cannot?, to: :ability
 

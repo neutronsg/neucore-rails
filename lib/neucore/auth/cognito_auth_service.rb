@@ -128,9 +128,14 @@ module Neucore
         end
       end
 
-      def admin_delete_user opts = {}
+      def delete_user! opts = {}
         set_cognito(opts)
         @client.admin_delete_user(user_pool_id: @user_pool_id, username: opts[:username]) rescue nil
+      end
+
+      def user_exists? opts = {}
+        set_cognito(opts)
+        @client.admin_get_user(user_pool_id: @user_pool_id, username: opts[:username]).present? rescue false
       end
 
       def verify_token(token)

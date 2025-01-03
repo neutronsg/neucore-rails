@@ -76,6 +76,28 @@ module Neucore
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end
       end
+
+      def delete_user! opts = {}
+        case Neucore.configuration.auth_strategy
+        when :in_house
+          # pass first
+        when :cognito
+          CognitoAuthService.delete_user!(opts)
+        else
+          raise Neucore::AuthStrategyError, "Auth Strategy not set"
+        end
+      end
+
+      def user_exists? opts = {}
+        case Neucore.configuration.auth_strategy
+        when :in_house
+          # pass first
+        when :cognito
+          CognitoAuthService.user_exists?(opts)
+        else
+          raise Neucore::AuthStrategyError, "Auth Strategy not set"
+        end
+      end
     end
   end
 end

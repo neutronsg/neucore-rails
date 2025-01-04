@@ -36,7 +36,7 @@ module Neucore
           schema[:name] = "#{name}_eq"
           schema[:type] ||= 'select'
           schema[:label] ||= I18n.t("filters.#{name}", default: name.titleize)
-          schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
+          schema[:placeholder] ||= ''
 
           schema
         end

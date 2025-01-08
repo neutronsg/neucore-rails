@@ -11,7 +11,7 @@ zh-CN:
         name: 姓名
         email: 邮箱
         super_admin: 超级管理员
-        admin_role: 角色
+        admin_role: 管理员角色
         owner: 所有者
         password: 密码
         password_confirmation: 确认密码

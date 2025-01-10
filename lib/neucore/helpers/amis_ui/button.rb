@@ -55,7 +55,7 @@ module Neucore
           if @type == 'list'
             schema[:reload] = 'page_crud,crud'
           else
-            schema[:redirect] = "/#{resource}"
+            schema[:redirect] ||= "/#{resource}"
           end
           schema
         end

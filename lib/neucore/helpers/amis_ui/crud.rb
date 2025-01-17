@@ -170,7 +170,8 @@ module Neucore
               actions: [
                 {
                   actionType: 'ajax',
-                  api: "#{method}:cms/#{resource}/${id}/#{action}",
+                  api: "#{method}:cms/#{resource}/${id}/#{action}"
+                  # reload: 'crud'
                 }
               ]
             }

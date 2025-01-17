@@ -42,7 +42,7 @@ module Neucore
         end
       elsif %i(post put patch).include?(method)
         request_body =  case headers['Content-Type']
-                        when 'application/json'
+                        when 'application/json', 'application/vnd.whispir.message-v1+json'
                           params.to_json
                         when 'application/x-www-form-urlencoded', 'multipart/form-data'
                           URI.encode_www_form(params)
@@ -77,6 +77,7 @@ module Neucore
     def handle_response!(resp)
       Rails.logger.info "Response info contains code: #{resp.status}, header: #{resp.headers}, body: #{resp.body.force_encoding('utf-8')}"
       return resp if resp.headers['content-type'] =~ /text\/(xml|plain)/ 
+      return resp if resp.headers['content-type'] == 'application/vnd.whispir.message-v1+json'
 
       if resp.status <= 299 && resp.status >= 200
         data = JSON.parse(resp.body) rescue []

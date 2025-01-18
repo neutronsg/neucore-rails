@@ -1,6 +1,7 @@
 form_options = @form_options || {}
 actions = []
 if @type == 'edit' || @type == 'create'
+  actions << {type: 'button', label: I18n.t('cancel'), size: 'lg', onEvent: {click: {actions: [{actionType: 'goBack'}]}}}
   actions << {type: 'reset', label: I18n.t('reset'), size: "lg"}
   actions << {type: 'submit', label: I18n.t('submit'), level: 'info', size: "lg"}
 end

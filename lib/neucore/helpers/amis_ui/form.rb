@@ -11,6 +11,16 @@ module Neucore
           schema
         end
 
+        def amis_form_richtext options = {}
+          schema = options
+          schema[:type] ||= 'input-rich-text'
+          schema[:trimContents] = true
+          schema[:clearValueOnHidden] = true
+          schema[:labelAlign] = 'left'
+          schema[:receiver] ||= 'cms/images'
+          schema
+        end
+
         def amis_form_ml options = {}
           schemas = []
           name = options.delete(:name)
@@ -18,6 +28,18 @@ module Neucore
 
           I18n.ml_locales.each do |locale|
             schemas << amis_form_text(options).merge(name: "#{name}_ml.#{locale}", label: model.human_attribute_name("#{name}_#{locale}"), labelAlign: 'left')
+          end
+
+          schemas
+        end
+
+        def amis_form_richml options = {}
+          schemas = []
+          name = options.delete(:name)
+          model = options.delete(:model)
+
+          I18n.ml_locales.each do |locale|
+            schemas << amis_form_richtext(options).merge(name: "#{name}_ml.#{locale}", label: model.human_attribute_name("#{name}_#{locale}"), labelAlign: 'left')
           end
 
           schemas

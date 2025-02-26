@@ -53,6 +53,22 @@ module Neucore
           schema
         end
 
+        def amis_static_ml_html options = {}
+          schemas = []
+          property = options.delete(:property)
+          model = options.delete(:model)
+          value_ml = options.delete(:value_ml)
+
+          I18n.ml_locales.each do |locale|
+            schemas << amis_static_html(options).merge(
+              label: model.human_attribute_name("#{property}_#{locale}"),
+              value: value_ml[locale]
+            )
+          end
+
+          schemas
+        end
+
         def amis_static_datetime options = {}
           schema = options
           schema[:type] ||= 'static-datetime'

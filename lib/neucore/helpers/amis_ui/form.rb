@@ -91,6 +91,23 @@ module Neucore
           schema
         end
 
+        def amis_form_files options = {}
+          schema = options
+          schema[:name] ||= 'files'
+          schema[:label] ||= I18n.t('files', default: 'Files')
+          schema[:labelAlign] = 'left'
+          schema[:type] ||= 'input-file'
+          schema[:receiver] ||= 'cms/images'
+          schema[:joinValues] = false
+          schema[:multiple] = true
+          schema[:maxLength] ||= 5
+          schema[:useChunk] = false
+          schema[:accept] = options[:accept]
+          schema[:maxSize] ||= 200 * 1024 * 1024
+          
+          schema
+        end
+
         def amis_form_switch options = {}
           schema = options
           schema[:type] ||= 'switch'
@@ -124,6 +141,18 @@ module Neucore
         def amis_form_select options = {}
           schema = options
           schema[:type] ||= 'select'
+          schema[:labelAlign] = 'left'
+          schema[:joinValues] = false
+          schema[:extractValue] = true
+          schema[:clearValueOnHidden] = true
+          schema[:clearable] = true
+          
+          schema
+        end
+
+        def amis_form_tree_select options = {}
+          schema = options
+          schema[:type] ||= 'tree-select'
           schema[:labelAlign] = 'left'
           schema[:joinValues] = false
           schema[:extractValue] = true

@@ -44,6 +44,10 @@ class Ability
           if model.attribute_names.include?('user_id')
             can action, model, user: {foreign_key => user.send(foreign_key)}
           end
+
+          if model.name != scope && !model.attribute_names.include?(foreign_key) && !model.attribute_names.include?('user_id')
+            can action, model
+          end
         end
       end
     end

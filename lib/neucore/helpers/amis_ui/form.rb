@@ -171,6 +171,16 @@ module Neucore
           schema
         end
 
+        def amis_form_table options = {}
+          schema = options
+          schema[:type] = 'input-table'
+          schema[:needConfirm] = false
+          schema[:removable] = true
+          schema[:addable] = true
+        
+          schema
+        end
+
         def amis_panel_actions
           schema = {
             type: 'flex',

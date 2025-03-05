@@ -100,6 +100,13 @@ module Neucore
           schema[:style] = {width: 500}
           schema
         end
+
+        def amis_static_table options = {}
+          schema = options
+          schema[:type] = 'input-table'
+        
+          schema
+        end
       end
     end
   end

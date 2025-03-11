@@ -7,6 +7,7 @@ if @type == 'edit' || @type == 'create'
 end
 
 json.type 'wrapper'
+json.className 'form'
 json.style do
   json.padding '0'
 end

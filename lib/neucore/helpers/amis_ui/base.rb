@@ -21,7 +21,11 @@ module Neucore
           end
           schema[:items].last[:href] = "/#{items.last.tableize}"
 
-          schema[:items] << {label: I18n.t(@type)} if @type.present? && @type != 'list'
+          if @type == 'custom'
+            schema[:items] << {label: I18n.t(@id)}
+          else
+            schema[:items] << {label: I18n.t(@type)} if @type.present? && @type != 'list'
+          end
           schema[:style] = {'margin-bottom' => '12px'}
 
           schema

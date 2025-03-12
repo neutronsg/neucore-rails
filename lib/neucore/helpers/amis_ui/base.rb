@@ -71,6 +71,14 @@ module Neucore
             "cms/#{resource}"
           end
         end
+
+        def amis_qrcode options = {}
+          schema = options
+          schema[:codeSize] ||= 128
+          schema[:type] = 'qr-code'
+
+          schema
+        end
       end
     end
   end

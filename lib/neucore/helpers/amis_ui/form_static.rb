@@ -28,7 +28,7 @@ module Neucore
           schema = options
           schema[:count] ||= 5
           schema[:type] = 'input-rating'
-          schema[:readOnly] = true
+          schema[:readOnly] = true if schema[:readOnly].nil?
           schema
         end
 
@@ -88,7 +88,7 @@ module Neucore
         def amis_static_images options = {}
           schema = options
           schema[:type] ||= 'static-images'
-          schema[:enlargeAble] = true
+          schema[:enlargeAble] = true if schema[:enlargeAble].nil?
           schema[:originalSrc] = schema[:value]
 
           schema

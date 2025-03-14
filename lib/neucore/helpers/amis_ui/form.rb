@@ -5,8 +5,8 @@ module Neucore
         def amis_form_text options = {}
           schema = options
           schema[:type] ||= 'input-text'
-          schema[:trimContents] = true
-          schema[:clearValueOnHidden] = true
+          schema[:trimContents] = true if schema[:trimContents].nil?
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           schema[:labelAlign] = 'left'
           schema
         end
@@ -14,8 +14,8 @@ module Neucore
         def amis_form_richtext options = {}
           schema = options
           schema[:type] ||= 'input-rich-text'
-          schema[:trimContents] = true
-          schema[:clearValueOnHidden] = true
+          schema[:trimContents] = true if schema[:trimContents].nil?
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           schema[:labelAlign] = 'left'
           schema[:receiver] ||= 'cms/images'
           schema
@@ -52,7 +52,7 @@ module Neucore
           schema[:labelAlign] = 'left'
           schema[:type] ||= 'input-image'
           schema[:receiver] ||= 'cms/images'
-          schema[:joinValues] = false
+          schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:maxSize] ||= 10 * 1024 * 1024
 
           schema
@@ -65,11 +65,11 @@ module Neucore
           schema[:labelAlign] = 'left'
           schema[:type] ||= 'input-image'
           schema[:receiver] ||= 'cms/images'
-          schema[:joinValues] = false
-          schema[:multiple] = true
+          schema[:joinValues] = false if schema[:joinValues].nil?
+          schema[:multiple] = true if schema[:multiple].nil?
           schema[:maxSize] ||= "10m"
           schema[:maxLength] ||= 10 * 1024 * 1024
-          schema[:draggable] = true
+          schema[:draggable] = true if schema[:draggable].nil?
 
           schema
         end
@@ -81,10 +81,10 @@ module Neucore
           schema[:labelAlign] = 'left'
           schema[:type] ||= 'input-file'
           schema[:receiver] ||= 'cms/images'
-          schema[:joinValues] = false
-          schema[:multiple] = true
+          schema[:joinValues] = false if schema[:joinValues].nil?
+          schema[:multiple] = true if schema[:multiple].nil?
           schema[:maxLength] ||= 5
-          schema[:useChunk] = false
+          schema[:useChunk] = false if schema[:useChunk].nil?
           schema[:accept] = '.mp4'
           schema[:maxSize] ||= 200 * 1024 * 1024
           
@@ -98,10 +98,10 @@ module Neucore
           schema[:labelAlign] = 'left'
           schema[:type] ||= 'input-file'
           schema[:receiver] ||= 'cms/images'
-          schema[:joinValues] = false
-          schema[:multiple] = true
+          schema[:joinValues] = false if schema[:joinValues].nil?
+          schema[:multiple] = true if schema[:multiple].nil?
           schema[:maxLength] ||= 5
-          schema[:useChunk] = false
+          schema[:useChunk] = false if schema[:useChunk].nil?
           schema[:accept] = options[:accept]
           schema[:maxSize] ||= 200 * 1024 * 1024
           
@@ -112,7 +112,7 @@ module Neucore
           schema = options
           schema[:type] ||= 'switch'
           schema[:labelAlign] = 'left'
-          schema[:clearValueOnHidden] = true
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           
           schema
         end
@@ -121,7 +121,7 @@ module Neucore
           schema = options
           schema[:type] ||= 'checkbox'
           schema[:labelAlign] = 'left'
-          schema[:clearValueOnHidden] = true
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           
           schema
         end
@@ -130,10 +130,10 @@ module Neucore
           schema = options
           schema[:type] ||= 'checkboxes'
           schema[:labelAlign] = 'left'
-          schema[:joinValues] = false
-          schema[:extractValue] = true
-          schema[:checkAll] = true
-          schema[:clearValueOnHidden] = true
+          schema[:joinValues] = false if schema[:joinValues].nil?
+          schema[:extractValue] = true if schema[:extractValue].nil?
+          schema[:checkAll] = true if schema[:checkAll].nil?
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           
           schema
         end
@@ -142,10 +142,10 @@ module Neucore
           schema = options
           schema[:type] ||= 'select'
           schema[:labelAlign] = 'left'
-          schema[:joinValues] = false
-          schema[:extractValue] = true
-          schema[:clearValueOnHidden] = true
-          schema[:clearable] = true
+          schema[:joinValues] = false if schema[:joinValues].nil?
+          schema[:extractValue] = true if schema[:extractValue].nil?
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
+          schema[:clearable] = true if schema[:clearable].nil?
           
           schema
         end
@@ -154,10 +154,10 @@ module Neucore
           schema = options
           schema[:type] ||= 'tree-select'
           schema[:labelAlign] = 'left'
-          schema[:joinValues] = false
-          schema[:extractValue] = true
-          schema[:clearValueOnHidden] = true
-          schema[:clearable] = true
+          schema[:joinValues] = false if schema[:joinValues].nil?
+          schema[:extractValue] = true if schema[:extractValue].nil?
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
+          schema[:clearable] = true if schema[:clearable].nil?
           
           schema
         end
@@ -166,7 +166,7 @@ module Neucore
           schema = options
           schema[:type] ||= 'radios'
           schema[:labelAlign] = 'left'
-          schema[:clearValueOnHidden] = true
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           
           schema
         end
@@ -174,9 +174,9 @@ module Neucore
         def amis_form_table options = {}
           schema = options
           schema[:type] = 'input-table'
-          schema[:needConfirm] = false
-          schema[:removable] = true
-          schema[:addable] = true
+          schema[:needConfirm] = false if schema[:needConfirm].nil?
+          schema[:removable] = true if schema[:removable].nil?
+          schema[:addable] = true if schema[:addable].nil?
         
           schema
         end

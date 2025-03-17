@@ -11,6 +11,15 @@ module Neucore
           schema
         end
 
+        def amis_form_tag options = {}
+          schema = options
+          schema[:type] ||= 'input-tag'
+          schema[:enableBatchAdd] = true if schema[:enableBatchAdd].nil?
+          schema[:joinValues] = false if schema[:joinValues].nil?
+          schema[:extractValue] = true if schema[:extractValue].nil?
+          schema
+        end
+
         def amis_form_richtext options = {}
           schema = options
           schema[:type] ||= 'input-rich-text'

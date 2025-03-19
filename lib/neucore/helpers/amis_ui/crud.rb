@@ -48,6 +48,14 @@ module Neucore
           schema
         end
 
+        def amis_status_column options = {}
+          schema = options
+          schema[:type] = 'status'
+          schema[:value] = "${#{options[:name]}}"
+
+          schema
+        end
+
         def amis_string_column options = {}
           popOver = options.delete(:popOver)
           schema = options

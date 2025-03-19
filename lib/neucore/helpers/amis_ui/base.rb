@@ -57,6 +57,7 @@ module Neucore
             labelTpl: "${id} ${name}",
             autoGenerateFilter: true,
             filterTogglable: true,
+            # columnsTogglable: false,
             headerToolbar: ["bulkActions", "pagination"],
             footerToolbar: ['statistics', 'switch-per-page', 'pagination']
           }

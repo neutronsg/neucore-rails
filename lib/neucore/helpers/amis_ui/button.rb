@@ -20,9 +20,9 @@ module Neucore
           resource = options.delete(:resource) || @resource
           schema = options
           schema[:type] ||= 'button'
-          schema[:level] ||= 'link'
+          schema[:level] ||= 'primary'
           schema[:label] ||= I18n.t('view')
-          schema[:actionType] ||= 'link'
+          schema[:actionType] ||= 'button'
           schema[:link] ||= "/#{resource}/${id}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'read')}"
 
@@ -33,9 +33,9 @@ module Neucore
           resource = options.delete(:resource) || @resource
           schema = options
           schema[:type] ||= 'button'
-          schema[:level] ||= 'link'
+          schema[:level] ||= 'primary'
           schema[:label] ||= I18n.t('edit')
-          schema[:actionType] ||= 'link'
+          schema[:actionType] ||= 'button'
           schema[:link] ||= "/#{resource}/${id}/edit"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'update')}"
 
@@ -46,7 +46,7 @@ module Neucore
           resource = options.delete(:resource) || @resource
           schema = options
           schema[:type] ||= 'button'
-          schema[:level] ||= 'link'
+          schema[:level] ||= 'danger'
           schema[:label] ||= I18n.t('delete')
           schema[:actionType] ||= 'ajax'
           schema[:confirmText] = I18n.t('delete_confirmation')
@@ -64,7 +64,7 @@ module Neucore
           resource = options.delete(:resource) || @resource
           schema = options
           schema[:type] ||= 'button'
-          schema[:level] ||= 'link'
+          schema[:level] ||= 'primary'
           schema[:label] ||= I18n.t('restore')
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "post:cms/#{resource}/${id}/restore"
@@ -85,7 +85,7 @@ module Neucore
           schema = options
 
           schema[:type] ||= 'button'
-          schema[:level] ||= 'link'
+          schema[:level] ||= 'primary'
           schema[:label] ||= I18n.t(action, default: action.titleize)
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "#{method}:cms/#{resource}/${id}/#{action}"

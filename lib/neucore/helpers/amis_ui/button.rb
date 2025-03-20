@@ -22,7 +22,7 @@ module Neucore
           schema[:type] ||= 'button'
           schema[:level] ||= 'primary'
           schema[:label] ||= I18n.t('view')
-          schema[:actionType] ||= 'button'
+          schema[:actionType] ||= 'link'
           schema[:link] ||= "/#{resource}/${id}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'read')}"
 
@@ -35,7 +35,7 @@ module Neucore
           schema[:type] ||= 'button'
           schema[:level] ||= 'primary'
           schema[:label] ||= I18n.t('edit')
-          schema[:actionType] ||= 'button'
+          schema[:actionType] ||= 'link'
           schema[:link] ||= "/#{resource}/${id}/edit"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'update')}"
 

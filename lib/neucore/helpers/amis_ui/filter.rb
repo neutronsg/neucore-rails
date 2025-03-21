@@ -7,13 +7,11 @@ module Neucore
           schema = options
           schema[:name] = "#{name}_cont"
           schema[:type] ||= 'input-text'
-          schema[:label] ||= I18n.t("filters.#{name}", default: name.titleize)
+          schema[:label] ||= false
           placeholder = I18n.t("filters.#{name}", default: name.titleize)
           placeholder = "${CAPITALIZE('content')}" if placeholder == 'Content'
           schema[:placeholder] ||= placeholder
           
-          # schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
-
           schema
         end
 
@@ -22,7 +20,7 @@ module Neucore
           schema = options
           schema[:name] = "#{name}_ml_cont"
           schema[:type] ||= 'input-text'
-          schema[:label] ||= I18n.t("filters.#{name}", default: name.titleize)
+          schema[:label] ||= false
           placeholder = I18n.t("filters.#{name}", default: name.titleize)
           placeholder = "${CAPITALIZE('content')}" if placeholder == 'Content'
           schema[:placeholder] ||= placeholder
@@ -35,8 +33,8 @@ module Neucore
           schema = options
           schema[:name] = "#{name}_eq"
           schema[:type] ||= 'select'
-          schema[:label] ||= I18n.t("filters.#{name}", default: name.titleize)
-          schema[:placeholder] ||= ''
+          schema[:label] ||= false
+          schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
 
           schema
         end
@@ -48,7 +46,7 @@ module Neucore
           schema[:type] ||= 'input-date-range'
           schema[:valueFormat] ||= "YYYYMMDD"
           schema[:delimiter] = 'to'
-          schema[:label] ||= I18n.t("filters.#{name}", default: name.titleize)
+          schema[:label] ||= false
           schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
 
           schema

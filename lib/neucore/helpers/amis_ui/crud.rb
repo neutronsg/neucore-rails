@@ -56,6 +56,13 @@ module Neucore
           schema
         end
 
+        def amis_mapping_column options = {}
+          schema = options
+          schema[:type] = 'mapping'
+
+          schema
+        end
+
         def amis_string_column options = {}
           popOver = options.delete(:popOver)
           schema = options

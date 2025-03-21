@@ -55,7 +55,10 @@ module Neucore
             maxItemSelectionLength: 50,
             autoFillHeight: false,
             labelTpl: "${id} ${name}",
-            autoGenerateFilter: true,
+            autoGenerateFilter: {
+              columnsNum: 4,
+              showBtnToolbar: false
+            },
             filterTogglable: true,
             # columnsTogglable: false,
             headerToolbar: ["bulkActions", "pagination"],

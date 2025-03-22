@@ -57,7 +57,8 @@ module Neucore
             labelTpl: "${id} ${name}",
             autoGenerateFilter: {
               columnsNum: 4,
-              showBtnToolbar: false
+              showBtnToolbar: false,
+              defaultCollapsed: false
             },
             filterTogglable: true,
             # columnsTogglable: false,

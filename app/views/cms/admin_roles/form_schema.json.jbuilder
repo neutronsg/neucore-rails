@@ -28,6 +28,6 @@ panel2 = {
   body: ps
 }
 
-@fields = [panel1, panel2, amis_panel_actions]
+@fields = [panel1, panel2]
 
 json.partial! 'cms/shared/form'

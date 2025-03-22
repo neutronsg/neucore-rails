@@ -196,10 +196,15 @@ module Neucore
             justify: 'flex-end',
             items: [
               {
-                type: 'reset', label: I18n.t('reset'), size: 'lg'
+                type: 'button', label: I18n.t('cancel'), size: 'sm', 
+                onEvent: {click: {actions: [{actionType: 'goBack'}]}},
+                style: {'margin-right': 8}
               },
               {
-                type: 'submit', label: I18n.t('submit'), size: 'lg', level: 'info', style: {'margin-left': 8}
+                type: 'reset', label: I18n.t('reset'), size: 'sm'
+              },
+              {
+                type: 'submit', label: I18n.t('submit'), size: 'sm', level: 'primary', style: {'margin-left': 8}
               }
             ]
           }

@@ -49,7 +49,7 @@ module Neucore
     end
 
     def verify_token!
-      result = verify_token(access_token)
+      result = verify_token
       raise Neucore::Unauthorized unless result
     end
 

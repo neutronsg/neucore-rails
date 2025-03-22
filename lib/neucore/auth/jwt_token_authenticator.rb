@@ -53,7 +53,8 @@ module Neucore
       raise Neucore::Unauthorized unless result
     end
 
-    def verify_token(token)
+    def verify_token
+      token = access_token
       case Neucore.configuration.auth_strategy
       when :in_house
         resource, scp = InHouseAuthService.verify_token(token)

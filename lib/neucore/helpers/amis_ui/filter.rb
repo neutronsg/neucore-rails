@@ -34,6 +34,8 @@ module Neucore
           schema[:name] = "#{name}_eq"
           schema[:type] ||= 'select'
           schema[:label] ||= false
+          schema[:clearable] = true if schema[:clearable].nil?
+          schema[:searchable] = true if schema[:searchable].nil? && schema[:options].length > 6
           schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
 
           schema

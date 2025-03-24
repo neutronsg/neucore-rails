@@ -21,6 +21,10 @@ module Neucore
           end
           schema[:items].last[:href] = "/#{items.last.tableize}"
 
+          if @type == 'view'
+            schema[:items] << {label: @object.id.to_s}
+          end
+
           if @type == 'custom'
             schema[:items] << {label: I18n.t(@id)}
           else

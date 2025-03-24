@@ -8,29 +8,12 @@ json.body do
     json.perPage 50
   end
 
-  json.columns do
-    json.child! do
-      json.name 'id'
-      json.label I18n.t("forms.id")
-      json.width '100px'
-    end
+  columns = []
+  columns << amis_id_column
+  columns << amis_html_column(label: I18n.t("forms.changeset"), name: 'changeset')
+  columns << amis_datetime_column(label: I18n.t("forms.created_at"), name: 'created_at')
+  columns << amis_string_column(label: I18n.t("forms.operator"), name: 'operator')
 
-    json.child! do
-      json.name 'changeset'
-      json.label I18n.t("forms.changeset")
-    end
 
-    json.child! do
-      json.label I18n.t("forms.created_at")
-      json.type 'tpl'
-      json.tpl "${DATETOSTR(created_at)}"
-      json.width '180px'
-    end
-
-    json.child! do
-      json.name 'operator'
-      json.label I18n.t("forms.operator")
-      json.width '180px'
-    end
-  end
+  json.columns columns
 end

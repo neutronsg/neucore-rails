@@ -81,6 +81,9 @@ module Neucore
           schema = options
           schema[:type] ||= 'static-image'
           schema[:originalSrc] = schema[:value]
+          schema[:enlargeAble] = true if schema[:enlargeAble].nil?
+          schema[:thumbMode] = 'cover'
+          schema[:thumbRatio] = '4:3'
 
           schema
         end

@@ -9,7 +9,7 @@ class Cms::AdminUsersController < CmsController
       objects = objects.public_send(params[:scope])
     end
 
-    @objects = objects.ransack(q).result(distinct: true).order(default_order).page(page).per(per_page)
+    @objects = objects.ransack(q).result(distinct: true).order(custom_order).page(page).per(per_page)
   end
   
   def reset_password

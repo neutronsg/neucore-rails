@@ -67,6 +67,7 @@ module Neucore
           schema[:level] ||= 'primary'
           schema[:label] ||= I18n.t('restore')
           schema[:actionType] ||= 'ajax'
+          schema[:confirmText] = I18n.t('restore_confirmation')
           schema[:api] ||= "post:cms/#{resource}/${id}/restore"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'restore')}"
           if @type == 'list'

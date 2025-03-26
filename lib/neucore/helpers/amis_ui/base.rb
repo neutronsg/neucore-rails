@@ -16,9 +16,20 @@ module Neucore
 
         def amis_breadcrumb items = []
           schema = {type: 'breadcrumb', items: []}
-          items.each do |item|
-            schema[:items] << {label: I18n.t("permissions.#{item}")}
+          href = nil
+          items.each_with_index do |item, index|
+            if item.is_a?(Integer)
+              schema[:items] << {label: item.to_s, href: "#{href}/#{item}"}
+            else
+              if index == 0
+                schema[:items] << {label: I18n.t("permissions.#{item}")}
+              else
+                href = "/#{item.tableize}"
+                schema[:items] << {label: I18n.t("permissions.#{item}"), href: href}
+              end
+            end
           end
+
           schema[:items].last[:href] = "/#{items.last.tableize}"
 
           if @type == 'view'

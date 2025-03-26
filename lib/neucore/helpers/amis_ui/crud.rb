@@ -166,7 +166,8 @@ module Neucore
               level: 'link',
               label: "${item.label}",
               link: "/${item.resource}/${item.id}"
-            }
+            },
+            searchable: options[:searchable]
           }
 
           schema

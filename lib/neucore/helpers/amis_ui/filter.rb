@@ -41,6 +41,21 @@ module Neucore
           schema
         end
 
+        def amis_boolean_filter options = {}
+          name = options.delete(:name)
+          schema = options
+          schema[:name] = "#{name}_eq"
+          schema[:type] ||= 'select'
+          schema[:label] ||= false
+          schema[:clearable] = true if schema[:clearable].nil?
+          schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
+          schema[:options] = [
+            {label: 'YES', value: true},
+            {label: 'NO', value: false}
+          ]
+          schema
+        end
+
         def amis_daterange_filter options = {}
           name = options.delete(:name)
           schema = options

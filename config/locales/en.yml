@@ -21,8 +21,8 @@ en:
         name: Name
         owner: Owner
         permissions: Permissions
-        admin_role_scope: Admin Role Scope
-        admin_role_scopes: Admin Role Scopes
+        admin_role_scope: Role Scope
+        admin_role_scopes: Role Scopes
         created_at: Created At
       admin_role_scope: 
         id: ID

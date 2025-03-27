@@ -10,6 +10,8 @@ json.body do
 
   json.child! do
     json.type 'page'
+    json.className 'detail-page bg-transparent'
+    json.bodyClassName 'pd-0'
 
     json.data do
       json.id @object.id
@@ -21,6 +23,7 @@ json.body do
       json.child! do
         json.type 'flex'
         json.justify 'flex-end'
+        json.className 'detail-action'
         json.style do
           json.padding '0 0 12px 12px'
           json.gap '12px'
@@ -31,6 +34,7 @@ json.body do
       @panels&.each do |panel|
         json.child! do
           json.type 'panel'
+          json.className 'detail-panel'
           json.merge! panel
         end      
       end

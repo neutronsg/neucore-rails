@@ -1,5 +1,6 @@
 json.type 'panel'
 json.title  I18n.t('forms.history_information')
+json.className 'detail-panel'
 json.body do
   json.type 'crud'
   json.syncLocation false

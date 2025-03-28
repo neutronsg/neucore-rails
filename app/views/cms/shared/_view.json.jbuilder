@@ -23,11 +23,7 @@ json.body do
       json.child! do
         json.type 'flex'
         json.justify 'flex-end'
-        json.className 'detail-action'
-        json.style do
-          json.padding '0 0 12px 12px'
-          json.gap '12px'
-        end
+        json.className 'cxd-Panel detail-panel'
         json.items @toolbar
       end if @toolbar
 
@@ -41,6 +37,7 @@ json.body do
 
       @partials&.each do |partial|
         json.child! do
+          json.className 'detail-panel'
           json.partial! partial
         end
       end

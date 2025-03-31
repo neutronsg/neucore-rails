@@ -41,6 +41,21 @@ module Neucore
           schema
         end
 
+        def amis_array_filter options = {}
+          name = options.delete(:name)
+          schema = options
+          schema[:name] = "#{name}_contains_array"
+          schema[:type] ||= 'select'
+          schema[:label] ||= false
+          schema[:joinValues] = true if schema[:joinValues].nil?
+          schema[:extractValue] = true if schema[:extractValue].nil?
+          schema[:clearable] = true if schema[:clearable].nil?
+          schema[:searchable] = true if schema[:searchable].nil? && schema[:options].length > 6
+          schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
+
+          schema
+        end
+
         def amis_boolean_filter options = {}
           name = options.delete(:name)
           schema = options

@@ -24,7 +24,7 @@ module Neucore
           schema[:label] ||= I18n.t('view')
           schema[:actionType] ||= 'link'
           schema[:link] ||= "/#{resource}/${id}"
-          schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'read')}"
+          schema[:visibleOn] = options[:visibleOn] || "${ARRAYINCLUDES(permissions, 'read')}"
 
           schema
         end

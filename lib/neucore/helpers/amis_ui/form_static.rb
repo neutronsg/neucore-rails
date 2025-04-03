@@ -8,6 +8,12 @@ module Neucore
           schema
         end
 
+        def amis_static_mapping options = {}
+          schema = options
+          schema[:type] ||= 'static-mapping'
+          schema
+        end
+
         def amis_static_ml_text options = {}
           schemas = []
           property = options.delete(:property)

@@ -34,9 +34,16 @@ module Neucore
           schema = options
           schema[:count] ||= 5
           schema[:type] = 'input-rating'
-          schema[:readOnly] = true if schema[:readOnly].nil?
+          schema[:half] = true
+          schema[:readOnly] = true
+          schema[:colors] = "#ffa900"
+          schema[:inactiveColor] = "#aaa"
+          schema[:className] = "crud-rating"
+
           schema
         end
+
+
 
         def amis_static_link options = {}
           return {

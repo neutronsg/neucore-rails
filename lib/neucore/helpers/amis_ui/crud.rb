@@ -104,7 +104,8 @@ module Neucore
           name = options.delete(:name)
           schema = options
           schema[:width] ||= 150
-          schema[:tpl] = "${ DATETOSTR(#{name}) }"
+          # schema[:tpl] = "${ DATETOSTR(#{name}) }"
+          schema[:tpl] = "${ IF(#{name}, DATETOSTR(#{name}), #{name}) }"
 
           schema
         end

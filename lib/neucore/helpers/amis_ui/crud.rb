@@ -105,7 +105,7 @@ module Neucore
           schema = options
           schema[:width] ||= 150
           # schema[:tpl] = "${ DATETOSTR(#{name}) }"
-          schema[:tpl] = "${ IF(#{name}, DATETOSTR(#{name}), #{name}) }"
+          schema[:tpl] = "${ #{name} ? DATETOSTR(#{name}) : '-' }"
 
           schema
         end

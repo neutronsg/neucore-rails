@@ -31,6 +31,13 @@ json.body do
         json.merge! amis_crud_tabs(@scopes || @data[:scope_keys])
       end if @data[:scope_keys]
 
+      if @brief.present?
+        json.child! do
+          json.type 'panel'
+          json.merge! @brief
+        end
+      end
+
       json.child! do
         json.merge! amis_crud_base
         json.headerToolbar @headerToolbar

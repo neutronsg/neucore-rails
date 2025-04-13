@@ -177,6 +177,7 @@ module Neucore
           resource = options.delete(:resource) || @resource
           action = options.delete(:action) || options[:name] || 'switch'
           method = options.delete(:method) || 'post'
+          api = options.delete(:api) || "#{method}:cms/#{resource}/${id}/#{action}"
 
           schema = options
           schema[:type] = 'switch'
@@ -186,7 +187,7 @@ module Neucore
               actions: [
                 {
                   actionType: 'ajax',
-                  api: "#{method}:cms/#{resource}/${id}/#{action}"
+                  api: api
                   # reload: 'crud'
                 }
               ]

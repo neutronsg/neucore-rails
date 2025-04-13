@@ -182,6 +182,12 @@ module Neucore
         JSON.parse(response, symbolize_names: true)[:keys]
       end
 
+      def revoke_token token
+        set_cognito
+        r = @client.revoke_token(token: token, client_id: @client_id)
+        r
+      end
+
       def list_users
         model = "user"
         mapping = Neucore.configuration.cognito_fields_mapping[model]

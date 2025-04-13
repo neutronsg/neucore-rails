@@ -88,11 +88,24 @@ module Neucore
           schema
         end
 
+        def amis_rating_column options = {}
+          schema = options
+          schema[:count] ||= 5
+          schema[:type] = 'input-rating'
+          schema[:half] = true
+          schema[:readOnly] = true
+          schema[:colors] = "#ffa900"
+          schema[:inactiveColor] = "#aaa"
+          schema[:className] = "crud-rating"
+          schema
+        end
+
         def amis_datetime_column options = {}
           name = options.delete(:name)
           schema = options
           schema[:width] ||= 150
-          schema[:tpl] = "${ DATETOSTR(#{name}) }"
+          # schema[:tpl] = "${ DATETOSTR(#{name}) }"
+          schema[:tpl] = "${ IF(#{name}, DATETOSTR(#{name}), #{name}) }"
 
           schema
         end

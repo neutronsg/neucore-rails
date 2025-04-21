@@ -38,6 +38,13 @@ json.body do
         end
       end
 
+      if @table.present?
+        json.child! do
+          json.type 'panel'
+          json.merge! @table
+        end
+      end
+
       json.child! do
         json.merge! amis_crud_base
         json.headerToolbar @headerToolbar

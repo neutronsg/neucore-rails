@@ -67,7 +67,7 @@ module Neucore
             draggable: false,
             syncLocation: true,
             perPage: 50,
-            maxItemSelectionLength: 50,
+            maxItemSelectionLength: 1000,
             autoFillHeight: false,
             labelTpl: "${id} ${name}",
             autoGenerateFilter: {

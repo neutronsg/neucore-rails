@@ -73,13 +73,15 @@ module Neucore
 
         def amis_daterange_filter options = {}
           name = options.delete(:name)
+          placeholder = options[:placeholder] || I18n.t("filters.#{name}", default: name.titleize)
           schema = options
           schema[:name] = "#{name}_between"
           schema[:type] ||= 'input-date-range'
           schema[:valueFormat] ||= "YYYYMMDD"
           schema[:delimiter] = 'to'
           schema[:label] ||= false
-          schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
+          schema[:startPlaceholder] = placeholder
+          schema[:endPlaceholder] = placeholder
 
           schema
         end

@@ -75,6 +75,9 @@ module Neucore
               showBtnToolbar: false,
               defaultCollapsed: false
             },
+            defaultParams: {
+              perPage: 50
+            },
             filterTogglable: true,
             # columnsTogglable: false,
             headerToolbar: ["bulkActions", "pagination"],

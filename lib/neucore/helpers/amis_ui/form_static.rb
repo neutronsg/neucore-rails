@@ -43,8 +43,6 @@ module Neucore
           schema
         end
 
-
-
         def amis_static_link options = {}
           return {
             type: 'static',

@@ -160,7 +160,7 @@ module Neucore
             level: 'link',
             # tooltip: options[:tooltip] || options[:label],
             actionType: 'link',
-            label: "${#{options[:name]}.label}",
+            label: "${raw(#{options[:name]}.label)}",
             link: "/${#{options[:name]}.resource}/${#{options[:name]}.id}"
           }
 
@@ -177,7 +177,7 @@ module Neucore
               type: 'button',
               actionType: 'link',
               level: 'link',
-              label: "${item.label}",
+              label: "${raw(item.label)}",
               link: "/${item.resource}/${item.id}"
             },
             searchable: options[:searchable]

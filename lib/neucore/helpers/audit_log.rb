@@ -42,6 +42,8 @@ module Neucore
         if value.present?
           association_name = field.delete_suffix('_id').split('_').map(&:capitalize).join
           association_class = association_name.constantize rescue nil
+          association_class = nil if association_class.class == Module
+          
           if field.end_with?('_id') && association_class.present?
             association = association_class.find_by_id(value)
             if association.present?

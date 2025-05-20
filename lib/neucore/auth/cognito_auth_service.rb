@@ -178,8 +178,34 @@ module Neucore
       end
 
       def fetch_jwks(url)
-        response = Net::HTTP.get(URI(url))
-        JSON.parse(response, symbolize_names: true)[:keys]
+        resp_body = Rails.cache.fetch("COGNITO-JWKS", expires_in: 60.seconds) do
+          conn = Faraday.new do |faraday|
+            faraday.adapter Faraday.default_adapter
+            faraday.ssl.verify = true
+          end
+
+          retry_count = 0
+          resp = nil
+          while(retry_count < 5) do 
+            begin
+              resp = conn.get(url) do |req|
+                req.options.timeout = 1
+              end
+              break
+            rescue
+              retry_count += 1
+            end
+          end
+
+          if resp.nil?
+            Rails.cache.delete("COGNITO-JWKS")
+            resp_body = nil
+          else
+            resp_body = resp.body
+          end
+        end
+
+        JSON.parse(resp_body, symbolize_names: true)[:keys]
       end
 
       def revoke_token token

@@ -136,8 +136,8 @@ module Neucore
         now = Time.now.to_i
 
         if time > now
-          t = Time.at(time).strftime("%Y-%m-%d %H:%M:%S")
-          t.gsub!("00:00:00", "")
+          t = Time.at(time).strftime("%I:%M %p, %m %b %Y")
+          t.gsub!("12:00 AM, ", "")
           t.strip!
           t
         elsif time + 60 > now

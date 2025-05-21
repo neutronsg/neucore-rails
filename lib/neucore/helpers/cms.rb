@@ -124,6 +124,41 @@ module Neucore
 
         batch_actions
       end
+
+      def readabletime time
+        return "" if time.nil?
+
+        if time.is_a?(Date)
+          time = time.to_time.to_i
+        elsif time.is_a?(Time)
+          time = time.to_i
+        end
+        now = Time.now.to_i
+
+        if time > now
+          t = Time.at(time).strftime("%Y-%m-%d %H:%M:%S")
+          t.gsub!("00:00:00", "")
+          t.strip!
+          t
+        elsif time + 60 > now
+          'Just Now'
+        elsif time + 3600 > now
+          "#{(now - time) / 60} minutes ago"
+        elsif time + 3600 * 24 > now
+          "#{(now - time) / 3600} hours ago"
+        elsif time + 3600 * 24 * 7 > now
+          d = (now - time) / 3600 / 24
+          d == 1 ? "1 day ago" : "#{d} days ago"
+        else
+          time = Time.at(time)
+          now = Time.at(now)
+          if time.year == now.year
+            time.strftime("%-d %b")
+          else
+            time.strftime("%-d %b, %Y")
+          end
+        end
+      end
     end
   end
 end

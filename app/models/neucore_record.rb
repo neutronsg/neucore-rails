@@ -7,9 +7,15 @@ class NeucoreRecord < ActiveRecord::Base
   acts_as_paranoid
   primary_abstract_class
 
-  has_paper_trail on: [:update, :create, :destroy], ignore: [
-    :updated_at, :moodle_snapshot
+  has_paper_trail on: [:update, :destroy], ignore: [
+    :created_at, :updated_at, :deleted_at, :image, :avatar, :log, 
+    :file, :html_body, :description, :extra_data, :desc, :date_types,
+    :sync_percentage
   ]
+
+  # has_paper_trail on: [:update, :create, :destroy], ignore: [
+  #   :updated_at, :moodle_snapshot
+  # ]
 
   def display_name
     if respond_to?(:name)

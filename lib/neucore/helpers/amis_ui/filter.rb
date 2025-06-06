@@ -15,6 +15,19 @@ module Neucore
           schema
         end
 
+        def amis_number_filter options = {}
+          name = options.delete(:name)
+          schema = options
+          schema[:name] = "#{name}_eq"
+          schema[:type] ||= 'input-number'
+          schema[:label] ||= false
+          placeholder = I18n.t("filters.#{name}", default: name.titleize)
+          placeholder = "${CAPITALIZE('content')}" if placeholder == 'Content'
+          schema[:placeholder] ||= placeholder
+          
+          schema
+        end
+
         def amis_ml_text_filter options = {}
           name = options.delete(:name)
           schema = options

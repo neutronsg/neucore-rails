@@ -189,7 +189,7 @@ module Neucore
           while(retry_count < 5) do 
             begin
               resp = conn.get(url) do |req|
-                req.options.timeout = 1
+                req.options.timeout = 10
               end
               break
             rescue

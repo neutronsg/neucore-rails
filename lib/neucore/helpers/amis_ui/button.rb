@@ -91,10 +91,10 @@ module Neucore
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "#{method}:cms/#{resource}/${id}/#{action}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, '#{action}')}"
-          if @type == 'list'
+          if @type == 'list' && schema[:redirect].nil?
             schema[:reload] = 'page_crud,crud'
           else
-            schema[:redirect] = "/#{resource}"
+            schema[:redirect] ||= "/#{resource}"
           end
 
           schema

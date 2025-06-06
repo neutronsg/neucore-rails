@@ -43,7 +43,7 @@ json.body do
       end
 
       json.child! do
-        json.partial! 'cms/versions/schema'
+        json.partial! "#{Neucore.configuration.cms_path}/versions/schema"
       end unless @hide_versions
     end
   end

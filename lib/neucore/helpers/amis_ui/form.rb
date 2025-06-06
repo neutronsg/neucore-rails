@@ -26,7 +26,7 @@ module Neucore
           schema[:trimContents] = true if schema[:trimContents].nil?
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           schema[:labelAlign] = 'left'
-          schema[:receiver] ||= 'cms/images'
+          schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema
         end
 
@@ -60,7 +60,7 @@ module Neucore
           schema[:label] ||= I18n.t('image', default: 'Image')
           schema[:labelAlign] = 'left'
           schema[:type] ||= 'input-image'
-          schema[:receiver] ||= 'cms/images'
+          schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:maxSize] ||= 10 * 1024 * 1024
 
@@ -73,7 +73,7 @@ module Neucore
           schema[:label] ||= I18n.t('images', default: 'Images')
           schema[:labelAlign] = 'left'
           schema[:type] ||= 'input-image'
-          schema[:receiver] ||= 'cms/images'
+          schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:multiple] = true if schema[:multiple].nil?
           schema[:maxSize] ||= "10m"
@@ -89,7 +89,7 @@ module Neucore
           schema[:label] ||= I18n.t('videos', default: 'Videos')
           schema[:labelAlign] = 'left'
           schema[:type] ||= 'input-file'
-          schema[:receiver] ||= 'cms/images'
+          schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:multiple] = true if schema[:multiple].nil?
           schema[:maxLength] ||= 5
@@ -106,7 +106,7 @@ module Neucore
           schema[:label] ||= I18n.t('files', default: 'Files')
           schema[:labelAlign] = 'left'
           schema[:type] ||= 'input-file'
-          schema[:receiver] ||= 'cms/images'
+          schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:multiple] = true if schema[:multiple].nil?
           schema[:maxLength] ||= 5

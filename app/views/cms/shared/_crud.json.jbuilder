@@ -47,6 +47,7 @@ json.body do
 
       json.child! do
         json.merge! amis_crud_base
+        json.rowClassNameExpr @rowClassNameExpr
         json.headerToolbar @headerToolbar
         json.bulkActions @bulkActions
         json.deferApi @deferApi

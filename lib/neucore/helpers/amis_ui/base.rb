@@ -18,14 +18,18 @@ module Neucore
           schema = {type: 'breadcrumb', items: []}
           href = nil
           items.each_with_index do |item, index|
-            if item.is_a?(Integer)
-              schema[:items] << {label: item.to_s, href: "#{href}/#{item}"}
+            if item.is_a?(Hash)
+              schema[:items] << item
             else
-              if index == 0
-                schema[:items] << {label: I18n.t("permissions.#{item}")}
+              if item.is_a?(Integer)
+                schema[:items] << {label: item.to_s, href: "#{href}/#{item}"}
               else
-                href = "/#{item.tableize}"
-                schema[:items] << {label: I18n.t("permissions.#{item}"), href: href}
+                if index == 0
+                  schema[:items] << {label: I18n.t("permissions.#{item}")}
+                else
+                  href = "/#{item.tableize}"
+                  schema[:items] << {label: I18n.t("permissions.#{item}"), href: href}
+                end
               end
             end
           end

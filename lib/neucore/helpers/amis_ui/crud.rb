@@ -8,7 +8,8 @@ module Neucore
             tabs << {
               title: {
                 type: 'tpl',
-                tpl: "${scopes.#{scope}.title}(${scopes.#{scope}.count})"
+                # tpl: "${scopes.#{scope}.title}(${scopes.#{scope}.count})"
+                tpl: "${scopes.#{scope}.title}${scopes.#{scope}.count == undefined ? '' : '(' + ${scopes.#{scope}.count} + ')'}"
               }
             }
           end

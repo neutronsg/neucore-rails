@@ -1,3 +1,19 @@
+columns_toggler = {
+  type: 'columns-toggler',
+  align: 'right',
+  draggable: true,
+  icon: 'fas fa-cog',
+  overlay: true,
+  footerToolbar: 'sm'
+}
+
+if @headerToolbar.present?
+  @headerToolbar << 'pagination'
+  @headerToolbar << columns_toggler
+else
+  @headerToolbar = ['pagination', columns_toggler]
+end
+
 json.type 'wrapper'
 json.style do
   json.padding '0'

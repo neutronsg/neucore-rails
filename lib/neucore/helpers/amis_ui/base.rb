@@ -97,9 +97,9 @@ module Neucore
           type ||= @type
 
           if type == 'edit'
-            "put:cms/#{resource}/#{id}"
+            "put:#{Neucore.configuration.cms_path}/#{resource}/#{id}"
           elsif type == 'create' || type == 'list'
-            "cms/#{resource}"
+            "#{Neucore.configuration.cms_path}/#{resource}"
           end
         end
 

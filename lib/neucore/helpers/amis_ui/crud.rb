@@ -191,7 +191,7 @@ module Neucore
           resource = options.delete(:resource) || @resource
           action = options.delete(:action) || options[:name] || 'switch'
           method = options.delete(:method) || 'post'
-          api = options.delete(:api) || "#{method}:cms/#{resource}/${id}/#{action}"
+          api = options.delete(:api) || "#{method}:#{Neucore.configuration.cms_path}/#{resource}/${id}/#{action}"
 
           schema = options
           schema[:type] = 'switch'

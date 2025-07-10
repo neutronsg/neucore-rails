@@ -168,6 +168,21 @@ module Neucore
           schema
         end
 
+        def amis_download_column options = {}
+          resource = options.delete(:resource) || @resource
+          schema = options.slice(:name, :label, :searchable)
+          schema[:type] = 'button'
+          schema[:body] = {
+            type: 'button',
+            level: 'link',
+            actionType: 'download',
+            label: "${#{options[:name]}}",
+            api: "get:cms/#{resource}/${id}/#{options[:action]}"
+          }
+
+          schema
+        end
+
         def amis_clickables_column options = {}
           schema = {
             name: options[:name],

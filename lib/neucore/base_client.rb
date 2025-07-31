@@ -18,11 +18,19 @@ module Neucore
     private
     attr_reader :conn, :multipart_conn, :host
 
+    # 使用Rails的参数过滤器来过滤敏感数据
+    def filter_sensitive_data(data)
+      return data unless data.is_a?(Hash)
+      
+      parameter_filter = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
+      parameter_filter.filter(data)
+    end
+
     def do_request! method, url, params = {}, headers = {}
       param_in_get_body = params.delete(:param_in_get_body) || false
       timeout = params.delete(:timeout) || 60
       headers['Content-Type'] ||= 'application/json'
-      Rails.logger.info "Request info contains url: #{url}, http method: #{method}, header: #{headers}, payload: #{params}"
+      Rails.logger.info "Request info contains url: #{url}, http method: #{method}, header: #{filter_sensitive_data(headers)}, payload: #{filter_sensitive_data(params)}"
       method = method.downcase.to_sym
 
       if method == :delete
@@ -64,7 +72,7 @@ module Neucore
     end
 
     def do_multipart_request! method, url, params = {}, headers = {}
-      Rails.logger.info "Request info contains url: #{url}, http method: #{method}, header: #{headers}, payload: #{params}"
+      Rails.logger.info "Request info contains url: #{url}, http method: #{method}, header: #{filter_sensitive_data(headers)}, payload: #{filter_sensitive_data(params)}"
       method = method.downcase.to_sym
       resp = multipart_conn.send(method, url) do |req|
         req.body = params

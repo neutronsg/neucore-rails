@@ -155,8 +155,9 @@ module Neucore
           schema[:extractValue] = true if schema[:extractValue].nil?
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           schema[:clearable] = true if schema[:clearable].nil?
-          schema[:searchable] = true if schema[:searchable].nil?
-          
+          if schema[:searchable].nil?
+            schema[:searchable] = schema[:options].nil? || (schema[:options].present? && schema[:options].length > 5)
+          end
           schema
         end
 

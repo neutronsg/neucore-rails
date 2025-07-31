@@ -7,7 +7,7 @@ class NeucoreRecord < ActiveRecord::Base
   acts_as_paranoid
   primary_abstract_class
 
-  has_paper_trail on: [:update, :destroy], ignore: [
+  has_paper_trail on: [:update, :create, :destroy], ignore: [
     :created_at, :updated_at, :deleted_at, :image, :avatar, :log, 
     :file, :html_body, :description, :extra_data, :desc, :date_types,
     :sync_percentage

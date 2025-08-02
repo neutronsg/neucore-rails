@@ -25,7 +25,7 @@ module Neucore
             resource_name = resource.class.name.underscore
             if field == "#{resource_name}_id" && values[0].nil? && values[1] == resource.id
               ''
-            elsif values[0].is_a?(Hash)
+            elsif values[0].is_a?(Hash) && false
               nil
             else
               format_version_change_text(resource, version, field, values)

@@ -399,7 +399,6 @@ module Neucore
             draggable: options[:draggable] != false, # default to true
             minLength: options[:minLength] || 0,
             maxLength: options[:maxLength], # optional max length
-            items: items,
             addButtonText: options[:addButtonText] || I18n.t('actions.add', default: 'Add'),
             scaffold: options[:scaffold] || {},
             tabsMode: options[:tabsMode], # for tabbed layout within combo items

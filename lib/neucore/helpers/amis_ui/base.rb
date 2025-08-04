@@ -59,7 +59,7 @@ module Neucore
           schema[:mode] ||= 'horizontal'
           schema[:actions] ||= []
           # schema[:debug] = true
-          
+
           schema
         end
 
@@ -87,7 +87,7 @@ module Neucore
             headerToolbar: ["bulkActions", "pagination"],
             footerToolbar: ['statistics', 'switch-per-page', 'pagination']
           }
-          
+
           schema
         end
 
@@ -109,6 +109,17 @@ module Neucore
           schema[:type] = 'qr-code'
 
           schema
+        end
+
+        # Helper method to create Amis tabs component
+        def amis_tabs(options = {})
+          schema = {
+            type: 'tabs',
+            tabsMode: options[:tabsMode] || 'line',
+            tabs: options[:tabs] || [],
+            className: options[:className]
+          }
+          schema.compact
         end
       end
     end

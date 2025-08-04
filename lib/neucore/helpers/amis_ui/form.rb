@@ -317,7 +317,7 @@ module Neucore
           if schema[:searchable].nil?
             schema[:searchable] = schema[:options].nil? || (schema[:options].present? && schema[:options].length > 5)
           end
-          
+
           schema
         end
 
@@ -384,6 +384,32 @@ module Neucore
           schema
         end
 
+        # Helper method to create Amis combo component for nested forms
+        def amis_form_combo(options = {})
+          schema = options
+          schema = schema.merge({
+            type: 'combo',
+            name: options[:name],
+            label: options[:label],
+            description: options[:description],
+            multiple: options[:multiple] != false, # default to true
+            multiLine: options[:multiLine] != false, # default to true
+            addable: options[:addable] != false, # default to true
+            removable: options[:removable] != false, # default to true
+            draggable: options[:draggable] != false, # default to true
+            minLength: options[:minLength] || 0,
+            maxLength: options[:maxLength], # optional max length
+            items: items,
+            addButtonText: options[:addButtonText] || I18n.t('actions.add', default: 'Add'),
+            scaffold: options[:scaffold] || {},
+            tabsMode: options[:tabsMode], # for tabbed layout within combo items
+            tabsLabelTpl: options[:tabsLabelTpl], # template for tab labels
+            mode: options[:mode] # 'table', 'normal', 'tabs', etc.
+          })
+
+          # Remove nil values to keep the schema clean
+          schema.compact
+        end
         # Generates standard form panel actions (Cancel, Reset, Submit buttons)
         # Provides a consistent set of action buttons for form panels
         #

@@ -29,10 +29,9 @@ json.body do
     json.body do
       json.child! do
         json.merge! amis_form_base(**form_options)
+        json.rules @rules
         json.redirect @redirect
-
         json.body @fields
-
         json.actions actions
       end
     end

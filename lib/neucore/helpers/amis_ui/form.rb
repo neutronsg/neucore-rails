@@ -25,6 +25,20 @@ module Neucore
           schema
         end
 
+        def amis_form_mentions options = {}
+          schema = options
+          schema[:type] ||= 'mentions'
+          schema[:output] ||= 'html'
+          schema[:searchApi] ||= 'cms/users/mentions'
+          schema[:mentionButtonText] ||= 'Mention'
+          schema[:searchParamName] ||= 'keyword'
+          schema[:mentionColor] ||= '#27ae60'
+          schema[:mentionBgColor] ||= 'rgba(39, 174, 96, 0.1)'
+          schema[:mentionBorderColor] ||= 'rgba(39, 174, 96, 0.3)'
+
+          schema
+        end
+
         # Generates a tag input field schema for Amis forms
         # Allows users to input multiple tags with batch adding support
         #

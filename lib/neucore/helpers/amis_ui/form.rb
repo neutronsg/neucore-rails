@@ -32,9 +32,9 @@ module Neucore
           schema[:searchApi] ||= 'cms/users/mentions'
           schema[:mentionButtonText] ||= 'Mention'
           schema[:searchParamName] ||= 'keyword'
-          schema[:mentionColor] ||= '#27ae60'
-          schema[:mentionBgColor] ||= 'rgba(39, 174, 96, 0.1)'
-          schema[:mentionBorderColor] ||= 'rgba(39, 174, 96, 0.3)'
+          # schema[:mentionColor] ||= '#27ae60'
+          # schema[:mentionBgColor] ||= 'rgba(39, 174, 96, 0.1)'
+          # schema[:mentionBorderColor] ||= 'rgba(39, 174, 96, 0.3)'
 
           schema
         end

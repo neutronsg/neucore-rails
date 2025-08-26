@@ -79,6 +79,14 @@ module Neucore
           schema
         end
 
+        def amis_checkbox_column(options = {})
+          schema = options
+          schema[:type] = "checkbox"
+          schema[:value] = "${#{options[:name]}}"
+
+          schema
+        end
+
         # Generates a mapping column for displaying mapped values
         # Creates a column that maps data values to display labels using Amis mapping
         #

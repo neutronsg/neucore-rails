@@ -76,6 +76,16 @@ module Neucore
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
           schema[:labelAlign] = 'left'
           schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
+          schema[:options] = {
+            content_style: `
+              blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
+                margin-block-start: 0;
+                margin-block-end: 0;
+                margin-top: 0;
+                margin-bottom: 0;
+              }
+            `
+          }
           schema
         end
 

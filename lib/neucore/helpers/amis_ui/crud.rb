@@ -137,6 +137,7 @@ module Neucore
         def amis_string_column(options = {})
           popOver = options.delete(:popOver)
           schema = options
+          schema[:className] ||='line-clamp-3'
           if options[:maxLength]
             schema[:type] = "tpl"
             schema[:className] = "line-clamp-1"
@@ -209,6 +210,7 @@ module Neucore
         def amis_html_column(options = {})
           name = options.delete(:name)
           schema = options
+          schema[:className] ||= 'line-clamp-3'
           schema[:type] = "html"
           schema[:html] = "${raw(#{name})}"
 

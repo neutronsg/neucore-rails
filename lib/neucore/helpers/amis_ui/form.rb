@@ -408,6 +408,19 @@ module Neucore
           schema
         end
 
+        def amis_label_remark options = {}
+          schema = options
+          schema[:type] ||= 'remark'
+          schema[:icon] ||= 'fa fa-question-circle'
+          schema[:placement] ||= 'right'
+          schema[:shape] ||= 'circle'
+          schema[:trigger] ||= ['hover', 'focus']
+          schema[:removable] = true if schema[:removable].nil?
+          schema[:addable] = true if schema[:addable].nil?
+
+          schema
+        end
+
         # Helper method to create Amis combo component for nested forms
         def amis_form_combo(options = {})
           schema = options

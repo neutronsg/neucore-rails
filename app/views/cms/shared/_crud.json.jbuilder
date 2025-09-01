@@ -33,7 +33,7 @@ json.body do
     end
     json.toolbar do
       json.type 'flex'
-      json.justify 'flex-start'
+      json.justify @flex_justify || 'flex-start'
       json.style do
         json.padding '12px 12px 0 12px'
         json.gap '12px'

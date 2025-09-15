@@ -20,8 +20,12 @@ json.body do
   json.child! do
     json.type 'page'
     json.data do
-      if @type == 'edit' && File.exist?("#{Rails.root}/app/views/#{Neucore.configuration.cms_path}/#{@resource}/_attributes.json.jbuilder")
-        json.partial! "#{Neucore.configuration.cms_path}/#{@resource}/attributes"
+      if @type == 'edit'
+        if @child_resource.present? && File.exist?("#{Rails.root}/app/views/#{Neucore.configuration.cms_path}/#{@parent_resource}/#{@chlid_resource}/_attributes.json.jbuilder")
+          json.partial! "#{Neucore.configuration.cms_path}/#{@parent_resource}/#{@child_resource}/attributes"
+        elsif File.exist?("#{Rails.root}/app/views/#{Neucore.configuration.cms_path}/#{@resource}/_attributes.json.jbuilder")
+          json.partial! "#{Neucore.configuration.cms_path}/#{@resource}/attributes"
+        end
       end
       json.merge! @data || {}
     end

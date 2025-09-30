@@ -25,6 +25,21 @@ module Neucore
           schema
         end
 
+        def amis_form_date options = {}
+          schema = amis_form_text(options)
+          schema[:type] = 'input-date'
+          schema[:valueFormat] = options[:valueFormat] || 'YYYY-MM-DD'
+          schema
+        end
+
+        def amis_form_datetime options = {}
+          schema = amis_form_text(options)
+          schema[:type] = 'input-datetime'
+          schema[:valueFormat] = options[:valueFormat] || 'YYYY-MM-DD HH:mm:ss'
+          schema[:displayFormat] = options[:displayFormat] || 'YYYY-MM-DD HH:mm'
+          schema
+        end
+
         def amis_form_mentions options = {}
           schema = options
           schema[:type] ||= 'mentions'
@@ -32,9 +47,6 @@ module Neucore
           schema[:searchApi] ||= 'cms/users/mentions'
           schema[:mentionButtonText] ||= 'Mention'
           schema[:searchParamName] ||= 'keyword'
-          # schema[:mentionColor] ||= '#27ae60'
-          # schema[:mentionBgColor] ||= 'rgba(39, 174, 96, 0.1)'
-          # schema[:mentionBorderColor] ||= 'rgba(39, 174, 96, 0.3)'
 
           schema
         end

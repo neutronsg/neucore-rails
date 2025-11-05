@@ -50,7 +50,7 @@ module Neucore
           schema[:label] ||= I18n.t('delete')
           schema[:actionType] ||= 'ajax'
           schema[:confirmText] = I18n.t('delete_confirmation')
-          schema[:api] ||= "delete:cms/#{resource}/${id}"
+          schema[:api] ||= "delete:#{Neucore.configuration.cms_path}/#{resource}/${id}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'destroy')}"
           if @type == 'list'
             schema[:reload] = 'page_crud,crud'
@@ -68,7 +68,7 @@ module Neucore
           schema[:label] ||= I18n.t('restore')
           schema[:actionType] ||= 'ajax'
           schema[:confirmText] = I18n.t('restore_confirmation')
-          schema[:api] ||= "post:cms/#{resource}/${id}/restore"
+          schema[:api] ||= "post:#{Neucore.configuration.cms_path}/#{resource}/${id}/restore"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'restore')}"
           if @type == 'list'
             schema[:reload] = 'page_crud,crud'
@@ -89,7 +89,7 @@ module Neucore
           schema[:level] ||= 'primary'
           schema[:label] ||= I18n.t(action, default: action.titleize)
           schema[:actionType] ||= 'ajax'
-          schema[:api] ||= "#{method}:cms/#{resource}/${id}/#{action}"
+          schema[:api] ||= "#{method}:#{Neucore.configuration.cms_path}/#{resource}/${id}/#{action}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, '#{action}')}"
           if @type == 'list' && schema[:redirect].nil?
             schema[:reload] = 'page_crud,crud'

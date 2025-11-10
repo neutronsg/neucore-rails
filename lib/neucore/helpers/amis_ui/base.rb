@@ -52,6 +52,7 @@ module Neucore
 
         def amis_form_base options = {}
           schema = options
+          schema[:id] ||= 'form'
           schema[:type] ||= 'form'
           schema[:static] ||= @type == 'view'
           schema[:api] = amis_api

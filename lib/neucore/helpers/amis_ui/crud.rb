@@ -191,11 +191,8 @@ module Neucore
         # @option options [Integer] :width Column width (default: 150)
         # @return [Hash] Amis template column schema for datetime formatting
         def amis_datetime_column(options = {})
-          name = options.delete(:name)
           schema = options
-          schema[:width] ||= 150
-          # schema[:tpl] = "${ DATETOSTR(#{name}) }"
-          schema[:tpl] = "${ #{name} ? DATETOSTR(#{name}) : '-' }"
+          schema[:width] ||= 190
 
           schema
         end

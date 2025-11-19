@@ -21,10 +21,21 @@ json.body do
     json.type 'page'
     json.data do
       if @type == 'edit'
+        partial = nil
         if @child_resource.present? && File.exist?("#{Rails.root}/app/views/#{Neucore.configuration.cms_path}/#{@parent_resource}/#{@chlid_resource}/_attributes.json.jbuilder")
-          json.partial! "#{Neucore.configuration.cms_path}/#{@parent_resource}/#{@child_resource}/attributes"
+          partial = "#{Neucore.configuration.cms_path}/#{@parent_resource}/#{@child_resource}/attributes"
         elsif File.exist?("#{Rails.root}/app/views/#{Neucore.configuration.cms_path}/#{@resource}/_attributes.json.jbuilder")
-          json.partial! "#{Neucore.configuration.cms_path}/#{@resource}/attributes"
+          partial = "#{Neucore.configuration.cms_path}/#{@resource}/attributes"
+        end
+
+        if partial
+          str = ApplicationController.render(
+            partial: partial,
+            assigns: { object: @object }
+          )
+
+          obj = JSON.parse(str)
+          json.merge! amis_escape_obj(obj)
         end
       end
       json.merge! @data || {}

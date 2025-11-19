@@ -17,21 +17,21 @@ module Neucore
       include FormStatic
       include Filter
 
-      def amis_custom_clickable object
+      def amis_custom_clickable object, options = {}
         return unless object
         {
-          resource: object.class.name.tableize,
-          label: object&.display_name || object&.id,
+          resource: options[:resource] || object.class.name.tableize,
+          label: options[:label] || object&.display_name || object&.id,
           id: object.id
         }
       end
 
-      def amis_custom_clickables objects
+      def amis_custom_clickables objects, options = {}
         return unless objects
         objects.map do |object|
           {
-            resource: object.class.name.tableize,
-            label: object&.display_name || object&.id,
+            resource: options[:resource] || object.class.name.tableize,
+            label: options[:label] || object&.display_name || object&.id,
             id: object.id
           }
         end

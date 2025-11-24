@@ -12,9 +12,8 @@ json.body do
   columns = []
   columns << amis_id_column
   columns << amis_html_column(label: I18n.t("forms.changeset"), name: 'changeset', className: '')
-  columns << amis_string_column(label: I18n.t("forms.created_at"), name: 'created_at')
+  columns << amis_datetime_column(label: I18n.t("forms.created_at"), name: 'created_at')
   columns << amis_string_column(label: I18n.t("forms.operator"), name: 'operator')
-
 
   json.columns columns
 end

@@ -197,6 +197,13 @@ module Neucore
           schema
         end
 
+        def amis_date_column(options = {})
+          schema = options
+          schema[:width] ||= 125
+
+          schema
+        end
+
         # Generates an HTML content display column
         # Creates a column that renders raw HTML content safely
         #

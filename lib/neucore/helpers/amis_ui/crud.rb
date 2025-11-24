@@ -192,7 +192,7 @@ module Neucore
         # @return [Hash] Amis template column schema for datetime formatting
         def amis_datetime_column(options = {})
           schema = options
-          schema[:width] ||= 190
+          schema[:width] ||= 200
 
           schema
         end

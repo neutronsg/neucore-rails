@@ -376,13 +376,13 @@ module Neucore
           schema = options
           schema[:type] = "switch"
           schema[:mode] = "horizontal"
+          schema[:disabledOn] ||= "${scope == 'only_deleted' || !ARRAYINCLUDES(permissions, 'update')}"
           schema[:onEvent] = {
             change: {
               actions: [
                 {
                   actionType: "ajax",
                   api: api
-                  # reload: 'crud'
                 }
               ]
             }

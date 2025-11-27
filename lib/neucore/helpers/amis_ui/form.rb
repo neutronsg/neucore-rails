@@ -205,7 +205,7 @@ module Neucore
           schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:multiple] = true if schema[:multiple].nil?
           schema[:maxSize] ||= "10m"
-          schema[:maxLength] ||= 10 * 1024 * 1024
+          schema[:maxLength] ||= 100
           schema[:draggable] = true if schema[:draggable].nil?
 
           schema

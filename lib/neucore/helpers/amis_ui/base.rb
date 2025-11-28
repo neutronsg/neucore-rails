@@ -34,8 +34,8 @@ module Neucore
             end
           end
 
-          schema[:items].last[:href] = "/#{items.last.tableize}"
-
+          schema[:items].last[:href] = "/#{items.last.tableize}" unless items.last.is_a?(Hash)
+ 
           if @type == 'view'
             schema[:items] << {label: @object.id.to_s}
           end

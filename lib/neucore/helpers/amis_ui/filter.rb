@@ -28,6 +28,47 @@ module Neucore
           schema
         end
 
+        def amis_year_filter options = {}
+          name = options[:name] || 'year'
+          schema = options
+          schema[:name] = name
+          schema[:type] ||= 'input-year'
+          schema[:valueFormat] ||= "YYYY"
+          schema[:label] ||= false
+          placeholder = I18n.t("filters.#{name}", default: name.titleize)
+          schema[:placeholder] ||= placeholder
+          
+          schema
+        end
+
+        def amis_month_filter options = {}
+          name = options[:name] || 'month'
+          schema = options
+          schema[:name] = name
+          schema[:type] ||= 'input-month'
+          schema[:valueFormat] ||= "YYYYMM"
+          schema[:label] ||= false
+          placeholder = I18n.t("filters.#{name}", default: name.titleize)
+          schema[:placeholder] ||= placeholder
+          
+          schema
+        end
+
+        def amis_month_range_filter options = {}
+          name = options[:name] || 'month_range'
+          schema = options
+          schema[:name] = name
+          schema[:type] ||= 'input-month-range'
+          schema[:valueFormat] ||= "YYYYMM"
+          schema[:label] ||= false
+          placeholder = I18n.t("filters.#{name}", default: name.titleize)
+          schema[:placeholder] ||= placeholder
+          schema[:startPlaceholder] ||= 'Start Month'
+          schema[:endPlaceholder] ||= 'End Month'
+          
+          schema
+        end
+
         def amis_ml_text_filter options = {}
           name = options.delete(:name)
           schema = options

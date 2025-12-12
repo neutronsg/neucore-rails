@@ -413,10 +413,20 @@ module Neucore
         # @return [Hash] Amis input-table schema
         def amis_form_table options = {}
           schema = options
+          onEvent = options.delete(:onEvent) || {}
+          onEvent[:rowMouseEnter] = {
+            actions: [
+              {
+                actionType: 'custom',
+                script: "document.querySelectorAll('.cxd-Field--quickEditable').forEach(item => item.addEventListener('keypress', e => e.stopImmediatePropagation(), true));"
+              }
+            ]
+          }
           schema[:type] = 'input-table'
           schema[:needConfirm] = false if schema[:needConfirm].nil?
           schema[:removable] = true if schema[:removable].nil?
           schema[:addable] = true if schema[:addable].nil?
+          schema[:onEvent] = onEvent
 
           schema
         end

@@ -112,6 +112,14 @@ module Neucore
           schema
         end
 
+        def amis_alert options = {}
+          schema = options
+          schema[:type] = 'alert'
+          schema[:showCloseButton] = true if schema[:showCloseButton].nil?
+          schema[:level] ||='info'
+          schema
+        end
+
         # Helper method to create Amis tabs component
         def amis_tabs(options = {})
           schema = {

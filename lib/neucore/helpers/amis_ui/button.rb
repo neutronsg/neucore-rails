@@ -102,12 +102,14 @@ module Neucore
 
         def amis_download_button options = {}
           resource = options[:resource] || @resource
+          action = options.delete(:action)
           method = options[:method] || 'get'
           api = options.delete(:api) || "#{method}:#{Neucore.configuration.cms_path}/#{resource}/${id}/#{action}"
           schema = {
             type: options[:type] || 'button',
             label: options[:label] || I18n.t(action, default: action.titleize),
             level: options[:level] || 'primary',
+            visibleOn: "${ARRAYINCLUDES(permissions, '#{action}')}",
             onEvent: {
               click: {
                 actions: [

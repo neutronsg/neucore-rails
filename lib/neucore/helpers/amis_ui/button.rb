@@ -99,6 +99,41 @@ module Neucore
 
           schema
         end
+
+        def amis_download_button options = {}
+          resource = options[:resource] || @resource
+          method = options[:method] || 'get'
+          api = options.delete(:api) || "#{method}:#{Neucore.configuration.cms_path}/#{resource}/${id}/#{action}"
+          schema = {
+            type: options[:type] || 'button',
+            label: options[:label] || I18n.t(action, default: action.titleize),
+            level: options[:level] || 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: 'ajax',
+                    args: {
+                      api: api
+                    }
+                  },
+                  {
+                    actionType: 'url',
+                    data: {
+                      url: "${responseResult.url}"
+                    },
+                    args: {
+                      url: "${url}",
+                      blank: true
+                    }
+                  }
+                ]
+              }
+            }
+          }
+
+          schema
+        end
       end
     end
   end

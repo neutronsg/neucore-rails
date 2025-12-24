@@ -100,9 +100,9 @@ module Neucore
           schema
         end
 
-        def amis_download_button options = {}
+        def amis_download_link_button options = {}
           resource = options[:resource] || @resource
-          action = options.delete(:action)
+          action = options[:action] || 'download'
           method = options[:method] || 'get'
           api = options.delete(:api) || "#{method}:#{Neucore.configuration.cms_path}/#{resource}/${id}/#{action}"
           schema = {

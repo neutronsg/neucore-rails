@@ -126,7 +126,7 @@ module Neucore
                     },
                     args: {
                       url: "${url}",
-                      blank: true
+                      blank: false
                     }
                   }
                 ]

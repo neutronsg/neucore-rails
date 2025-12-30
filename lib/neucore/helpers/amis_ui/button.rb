@@ -136,6 +136,80 @@ module Neucore
 
           schema
         end
+
+        def amis_selection_dialog options = {}
+          crud = amis_crud_base
+          crud[:api] = options[:api]
+          # crud[:id] = "ticket_products_dialog"
+          crud[:selectable] = true
+          crud[:multiple] = true
+          crud[:headerToolbar] = []
+          crud[:columns] = options[:columns]
+
+          crud[:onEvent] = {
+            selectedChange: {
+              actions: [
+                {
+                  actionType: "setValue",
+                  componentId: "selection_dialog_form",
+                  args: {
+                    value: {
+                      ids: "${ARRAYMAP(event.data.selectedItems, item => item.id)}"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+
+          schema = {
+            type: "button",
+            label: options[:label] || 'Add Item',
+            level: options[:level] || 'primary',
+            onEvent: {
+              click: {
+                actions: [
+                  {
+                    actionType: "dialog",
+                    dialog: {
+                      title: options[:label] || 'Add Item',
+                      size: options[:size] || "xl",
+                      body: [
+                        {
+                          type: "form",
+                          id: "selection_dialog_form",
+                          preventEnterSubmit: true,
+                          data: {ids: []},
+                          onEvent: {
+                            submit: {
+                              actions: [
+                                {
+                                  actionType: "setValue",
+                                  componentId: "form",
+                                  args: {
+                                    value: {
+                                      selection_ids:
+                                        "${CONCAT(ids, selection_ids)}"
+                                    }
+                                  }
+                                },
+                                {
+                                  actionType: "reload",
+                                  componentId: "selection_table"
+                                }
+                              ]
+                            }
+                          },
+                          body: crud
+                        }
+                      ]
+                    }
+                  },
+                ]
+              }
+            }
+          }
+        end
       end
     end
   end

@@ -492,6 +492,28 @@ module Neucore
             ]
           }
         end
+
+        def amis_selection_table options = {}
+          schema = {
+            type: 'service',
+            id: options[:id] || 'selection_table',
+            api: options[:api],
+            body: [
+              {
+                type: 'input-table',
+                label: false,
+                removable: true,
+                deleteBtnLabel: I18n.t('remove'),
+                deleteBtnIcon: '',
+                columnsTogglable: false,
+                name: 'selections',
+                columns: options[:columns]
+              }
+            ]
+          }
+
+          schema
+        end
       end
     end
   end

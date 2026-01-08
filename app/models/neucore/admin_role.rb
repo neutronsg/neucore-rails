@@ -27,11 +27,16 @@ class Neucore::AdminRole < NeucoreRecord
     begin
       file = File.open("#{Rails.root}/config/neucore.yml")
       result = YAML.load(file)['permissions']
-      defauts = result.delete('default')
-      customs = result.delete('custom')
+      defauts = result.delete('default') || []
+      no_destroys = result.delete('no_destroy') || []
+      customs = result.delete('custom') || []
       ps = {}
       defauts.each do |model|
         ps[model] = %w(create read update destroy)
+      end
+
+      no_destroys.each do |model|
+        ps[model] = %w(create read update)
       end
 
       customs.each do |model, actions|
@@ -41,7 +46,7 @@ class Neucore::AdminRole < NeucoreRecord
           ps[model] = actions
         end
       end
-      ps
+      ps.sort
     rescue
       raise 'Permissions load failed'
     end

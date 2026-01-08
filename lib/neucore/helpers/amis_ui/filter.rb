@@ -95,6 +95,19 @@ module Neucore
           schema
         end
 
+        def amis_enums_filter(options = {})
+          name = options.delete(:name)
+          schema = options
+          schema[:name] = "#{name}_in"
+          schema[:type] ||= "select"
+          schema[:multiple] ||= true
+          schema[:label] ||= false
+          schema[:clearable] = true if schema[:clearable].nil?
+          schema[:searchable] = true if schema[:searchable].nil? && schema[:options].length > 6
+          schema[:placeholder] ||= I18n.t("filters.#{name}", default: name.titleize)
+          schema
+        end
+
         def amis_array_filter options = {}
           name = options.delete(:name)
           schema = options

@@ -15,7 +15,7 @@ json.body do
 
     json.data do
       json.id @object.id
-      json.permissions default_member_permissions(@object)
+      json.permissions @permissions || default_member_permissions(@object)
       json.merge! @data || {}
     end
 

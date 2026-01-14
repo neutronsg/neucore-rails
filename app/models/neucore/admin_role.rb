@@ -46,7 +46,7 @@ class Neucore::AdminRole < NeucoreRecord
           ps[model] = actions
         end
       end
-      ps.sort
+      ps.sort.to_h
     rescue
       raise 'Permissions load failed'
     end

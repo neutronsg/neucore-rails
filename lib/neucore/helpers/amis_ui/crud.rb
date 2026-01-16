@@ -296,11 +296,11 @@ module Neucore
           schema[:body] = {
             type: "button",
             level: "link",
-            # tooltip: options[:tooltip] || options[:label],
             actionType: "link",
             label: "${raw(#{options[:name]}.label)}",
             link: "/${#{options[:name]}.resource}/${#{options[:name]}.id}"
           }
+          schema[:body][:className] = options[:className] if options[:className].present?
 
           schema
         end

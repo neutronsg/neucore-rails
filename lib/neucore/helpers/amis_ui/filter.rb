@@ -28,6 +28,19 @@ module Neucore
           schema
         end
 
+        def amis_date_filter options = {}
+          name = options[:name] || 'month'
+          schema = options
+          schema[:name] = name
+          schema[:type] ||= 'input-date'
+          schema[:valueFormat] ||= "YYYY-MM-DD"
+          schema[:label] ||= false
+          placeholder = I18n.t("filters.#{name}", default: name.titleize)
+          schema[:placeholder] ||= placeholder
+          
+          schema
+        end
+
         def amis_year_filter options = {}
           name = options[:name] || 'year'
           schema = options

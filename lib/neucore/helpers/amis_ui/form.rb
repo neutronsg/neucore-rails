@@ -21,7 +21,7 @@ module Neucore
           schema[:type] ||= 'input-text'
           schema[:trimContents] = true if schema[:trimContents].nil?
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema
         end
 
@@ -96,7 +96,7 @@ module Neucore
           schema[:type] ||= 'input-rich-text'
           schema[:trimContents] = true if schema[:trimContents].nil?
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:options] = tinymce_options
           schema
@@ -173,7 +173,7 @@ module Neucore
           schema = options
           schema[:name] ||= 'image'
           schema[:label] ||= I18n.t('image', default: 'Image')
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:type] ||= 'input-image'
           schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:joinValues] = false if schema[:joinValues].nil?
@@ -199,7 +199,7 @@ module Neucore
           schema = options
           schema[:name] ||= 'images'
           schema[:label] ||= I18n.t('images', default: 'Images')
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:type] ||= 'input-image'
           schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:joinValues] = false if schema[:joinValues].nil?
@@ -228,7 +228,7 @@ module Neucore
           schema = options
           schema[:name] ||= 'videos'
           schema[:label] ||= I18n.t('videos', default: 'Videos')
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:type] ||= 'input-file'
           schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:joinValues] = false if schema[:joinValues].nil?
@@ -259,7 +259,7 @@ module Neucore
           schema = options
           schema[:name] ||= 'files'
           schema[:label] ||= I18n.t('files', default: 'Files')
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:type] ||= 'input-file'
           schema[:receiver] ||= "#{Neucore.configuration.cms_path}/images"
           schema[:joinValues] = false if schema[:joinValues].nil?
@@ -283,7 +283,7 @@ module Neucore
         def amis_form_switch options = {}
           schema = options
           schema[:type] ||= 'switch'
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
 
           schema
@@ -300,7 +300,7 @@ module Neucore
         def amis_form_checkbox options = {}
           schema = options
           schema[:type] ||= 'checkbox'
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
 
           schema
@@ -321,7 +321,7 @@ module Neucore
         def amis_form_checkboxes options = {}
           schema = options
           schema[:type] ||= 'checkboxes'
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:extractValue] = true if schema[:extractValue].nil?
           schema[:checkAll] = true if schema[:checkAll].nil?
@@ -346,7 +346,7 @@ module Neucore
         def amis_form_select options = {}
           schema = options
           schema[:type] ||= 'select'
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:extractValue] = true if schema[:extractValue].nil?
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
@@ -373,7 +373,7 @@ module Neucore
         def amis_form_tree_select options = {}
           schema = options
           schema[:type] ||= 'tree-select'
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:joinValues] = false if schema[:joinValues].nil?
           schema[:extractValue] = true if schema[:extractValue].nil?
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
@@ -394,7 +394,7 @@ module Neucore
         def amis_form_radios options = {}
           schema = options
           schema[:type] ||= 'radios'
-          schema[:labelAlign] = 'left'
+          schema[:labelAlign] ||= 'left'
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
 
           schema

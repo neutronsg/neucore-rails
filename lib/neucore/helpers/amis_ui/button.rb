@@ -90,7 +90,7 @@ module Neucore
           schema[:label] ||= I18n.t(action, default: action.titleize)
           schema[:actionType] ||= 'ajax'
           schema[:api] ||= "#{method}:#{Neucore.configuration.cms_path}/#{resource}/${id}/#{action}"
-          schema[:visibleOn] = "${ARRAYINCLUDES(permissions, '#{action}')}"
+          schema[:visibleOn] ||= "${ARRAYINCLUDES(permissions, '#{action}')}"
           if @type == 'list' && schema[:redirect].nil?
             schema[:reload] = 'page_crud,crud'
           else

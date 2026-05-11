@@ -55,7 +55,7 @@ module Neucore
           schema[:id] ||= 'form'
           schema[:type] ||= 'form'
           schema[:static] ||= @type == 'view'
-          schema[:api] = amis_api
+          schema[:api] ||= amis_api
           schema[:title] ||= I18n.t("forms.basic_information")
           schema[:mode] ||= 'horizontal'
           schema[:actions] ||= []

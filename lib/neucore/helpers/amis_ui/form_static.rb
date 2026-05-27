@@ -58,6 +58,15 @@ module Neucore
           schema
         end
 
+        def amis_static_links options = {}
+          html = options[:links].map do |link|
+            href = "/#{link[:resource]}/#{link[:id]}"
+            %(<a href="#{href}">#{ERB::Util.html_escape(link[:label])}</a>)
+          end.join(" ")
+
+          amis_static_html(label: options[:label], value: html)
+        end
+
         def amis_static_html options = {}
           schema = options
           schema[:type] ||= 'static-html'

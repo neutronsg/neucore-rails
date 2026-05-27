@@ -49,7 +49,7 @@ module Neucore
           schema[:level] ||= 'danger'
           schema[:label] ||= I18n.t('delete')
           schema[:actionType] ||= 'ajax'
-          schema[:confirmText] = I18n.t('delete_confirmation')
+          schema[:confirmText] ||= I18n.t('delete_confirmation')
           schema[:api] ||= "delete:#{Neucore.configuration.cms_path}/#{resource}/${id}"
           schema[:visibleOn] = "${ARRAYINCLUDES(permissions, 'destroy')}"
           if @type == 'list'

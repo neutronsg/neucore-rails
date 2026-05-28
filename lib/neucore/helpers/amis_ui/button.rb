@@ -144,6 +144,7 @@ module Neucore
           crud[:selectable] = true
           crud[:multiple] = true
           crud[:headerToolbar] = []
+          crud[:keepItemSelectionOnPageChange] = true
           crud[:columns] = options[:columns]
 
           crud[:onEvent] = {

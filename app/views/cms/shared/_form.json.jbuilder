@@ -47,7 +47,7 @@ json.body do
         json.rules @rules
         json.redirect @redirect
         json.body @fields
-        json.actions actions
+        json.actions @actions || actions
       end
     end
   end

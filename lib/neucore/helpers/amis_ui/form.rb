@@ -25,6 +25,42 @@ module Neucore
           schema
         end
 
+        def amis_form_number options = {}
+          schema = options
+          min = schema.delete(:min)
+          max = schema.delete(:max)
+
+          schema[:type] ||= 'input-number'
+          schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?
+          schema[:labelAlign] ||= 'left'
+
+          schema[:validations] ||= {}
+          schema[:validationErrors] ||= {}
+
+          unless min.nil?
+            schema[:validations][:minimum] ||= min
+            schema[:validationErrors][:minimum] ||= I18n.t(
+              'amis.validation.minimum',
+              min: min,
+              default: "Must be greater than or equal to #{min}"
+            )
+          end
+
+          unless max.nil?
+            schema[:validations][:maximum] ||= max
+            schema[:validationErrors][:maximum] ||= I18n.t(
+              'amis.validation.maximum',
+              max: max,
+              default: "Must be less than or equal to #{max}"
+            )
+          end
+
+          schema.delete(:validations) if schema[:validations].blank?
+          schema.delete(:validationErrors) if schema[:validationErrors].blank?
+
+          schema
+        end
+
         def amis_form_date options = {}
           schema = amis_form_text(options)
           schema[:type] = 'input-date'

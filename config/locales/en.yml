@@ -1,4 +1,8 @@
 en:
+  amis:
+    validation:
+      minimum: "Must be greater than or equal to %{min}"
+      maximum: "Must be less than or equal to %{max}"
   activerecord:
     models:
       admin_user: Admin User

@@ -1,4 +1,8 @@
 zh-CN:
+  amis:
+    validation:
+      minimum: "必须大于或等于 %{min}"
+      maximum: "必须小于或等于 %{max}"
   activerecord:
     models:
       admin_user: 管理员

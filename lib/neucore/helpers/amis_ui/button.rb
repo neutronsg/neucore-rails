@@ -146,6 +146,7 @@ module Neucore
           crud[:headerToolbar] = []
           crud[:keepItemSelectionOnPageChange] = true
           crud[:columns] = options[:columns]
+          crud[:maxItemSelectionLength] = options[:maxItemSelectionLength] unless options[:maxItemSelectionLength].nil?
 
           crud[:onEvent] = {
             selectedChange: {

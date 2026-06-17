@@ -85,9 +85,9 @@ module Neucore
           locales = Array(options[:locales] || I18n.ml_locales)
           label = model.human_attribute_name(property)
           locales.each do |locale|
-            locale_lable = locales.length > 1 ? model.human_attribute_name("#{name}_#{property}") : label
+            locale_lable = locales.length > 1 ? model.human_attribute_name("#{property}_#{locale}") : label
             schemas << amis_static_html(options).merge(
-              label: model.human_attribute_name("#{property}_#{locale}"),
+              label: locale_lable,
               value: value_ml[locale]
             )
           end

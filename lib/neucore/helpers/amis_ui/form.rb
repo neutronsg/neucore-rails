@@ -151,8 +151,11 @@ module Neucore
           name = options.delete(:name)
           model = options.delete(:model)
 
-          I18n.ml_locales.each do |locale|
-            schemas << amis_form_text(options).merge(name: "#{name}_#{locale}", label: model.human_attribute_name("#{name}_#{locale}"), labelAlign: 'left')
+          locales = Array(options[:locales] || I18n.ml_locales)
+          label = model.human_attribute_name(name)
+          locales.each do |locale|
+            locale_lable = locales.length > 1 ? model.human_attribute_name("#{name}_#{locale}") : label
+            schemas << amis_form_text(options).merge(name: "#{name}_#{locale}", label: locale_lable, labelAlign: 'left')
           end
 
           schemas
@@ -170,8 +173,11 @@ module Neucore
           name = options.delete(:name)
           model = options.delete(:model)
 
-          I18n.ml_locales.each do |locale|
-            schemas << amis_form_text(options).merge(name: "#{name}_ml.#{locale}", label: model.human_attribute_name("#{name}_#{locale}"), labelAlign: 'left')
+          locales = Array(options[:locales] || I18n.ml_locales)
+          label = model.human_attribute_name(name)
+          locales.each do |locale|
+            locale_lable = locales.length > 1 ? model.human_attribute_name("#{name}_#{locale}") : label
+            schemas << amis_form_text(options).merge(name: "#{name}_ml.#{locale}", label: locale_lable, labelAlign: 'left')
           end
 
           schemas
@@ -189,8 +195,12 @@ module Neucore
           name = options.delete(:name)
           model = options.delete(:model)
 
-          I18n.ml_locales.each do |locale|
-            schemas << amis_form_richtext(options).merge(name: "#{name}_ml.#{locale}", label: model.human_attribute_name("#{name}_#{locale}"), labelAlign: 'left')
+          locales = Array(options[:locales] || I18n.ml_locales)
+          label = model.human_attribute_name(name)
+
+          locales.each do |locale|
+            locale_lable = locales.length > 1 ? model.human_attribute_name("#{name}_#{locale}") : label
+            schemas << amis_form_richtext(options).merge(name: "#{name}_ml.#{locale}", label: locale_lable, labelAlign: 'left')
           end
 
           schemas

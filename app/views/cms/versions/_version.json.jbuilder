@@ -5,7 +5,7 @@ operator = nil
 if version.whodunnit.to_s.start_with?("0")
   operator = "#{I18n.t('activerecord.models.admin_user')} #{version.whodunnit[1..-1]}"
 elsif version.whodunnit.to_s.start_with?("1")
-  operator ||= "#{I18n.t('activerecord.models.user')} #{version.whodunnit[1..-1].to_i}"
+  operator ||= "#{I18n.t('activerecord.models.user')} #{version.whodunnit[1..-1]}"
 else
   operator = I18n.t('system')
 end

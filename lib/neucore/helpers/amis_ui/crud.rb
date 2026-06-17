@@ -115,9 +115,12 @@ module Neucore
           property = options.delete(:property)
           model = options.delete(:model)
 
-          I18n.ml_locales.each do |locale|
+          locales = Array(options[:locales] || I18n.ml_locales)
+          label = model.human_attribute_name(property)
+          locales.each do |locale|
+            locale_lable = locales.length > 1 ? model.human_attribute_name("#{property}_#{locale}") : label
             schemas << amis_string_column(options).merge(
-              label: model.human_attribute_name("#{property}_#{locale}"),
+              label: locale_lable,
               name: "#{property}_#{locale}"
             )
           end

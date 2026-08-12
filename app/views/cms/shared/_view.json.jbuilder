@@ -25,7 +25,7 @@ json.body do
         json.justify 'flex-end'
         json.className 'cxd-Panel detail-panel'
         json.items @toolbar
-      end if @toolbar
+      end if @toolbar.presence
 
       @panels&.each do |panel|
         json.child! do

@@ -1,6 +1,8 @@
 module Neucore
   class CognitoAuthService
     require 'aws-sdk-cognitoidentityprovider'
+    require 'base64'
+    require 'openssl'
 
     class << self
       def set_cognito(opts = {})
@@ -13,6 +15,7 @@ module Neucore
         )
         @user_pool_id = mapping[:user_pool_id]
         @client_id = mapping[:client_id]
+        @client_secret = mapping[:client_secret]
       end
 
       # @param opts [Hash] - options for authentication
@@ -97,35 +100,72 @@ module Neucore
       end
 
       def sign_in!(opts = {})
-        set_cognito(opts)
-        auth_flow = opts[:auth_flow] || 'ADMIN_USER_PASSWORD_AUTH'
-        auth_parameters = {}
-        case auth_flow
-        when 'ADMIN_USER_PASSWORD_AUTH'
-          auth_parameters = {
-            "USERNAME" => opts[:username],
-            "PASSWORD" => opts[:password]
-          }
-        when "CUSTOM_AUTH"
-          auth_parameters = {
-            "USERNAME" => opts[:username],
-          }
-        when "REFRESH_TOKEN"
-          auth_parameters = {
-            "REFRESH_TOKEN" => opts[:refresh_token]
-          }
-        end
         begin
-          resp = @client.admin_initiate_auth(
-            auth_flow: auth_flow,
-            user_pool_id: @user_pool_id,
-            client_id: @client_id,
-            auth_parameters: auth_parameters
-          )
-          resp.authentication_result
+          initiate_auth!(opts).authentication_result
         rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
           raise e
         end
+      end
+
+      def sign_in_with_challenge!(opts = {})
+        initiate_auth!(opts)
+      end
+
+      def respond_to_auth_challenge!(opts = {})
+        set_cognito(opts)
+        challenge_name = opts[:challenge_name].to_s
+        challenge_responses = challenge_responses_for(challenge_name, opts)
+        add_secret_hash!(challenge_responses, opts[:username])
+
+        resp = @client.admin_respond_to_auth_challenge(
+          user_pool_id: @user_pool_id,
+          client_id: @client_id,
+          challenge_name: challenge_name,
+          session: opts[:session],
+          challenge_responses: challenge_responses
+        )
+        resp.authentication_result || resp
+      end
+
+      def associate_software_token!(opts = {})
+        set_cognito(opts)
+        params = software_token_session_params(opts)
+        @client.associate_software_token(params)
+      end
+
+      def verify_software_token!(opts = {})
+        set_cognito(opts)
+        params = software_token_session_params(opts)
+        params[:user_code] = opts[:user_code] || opts[:code]
+        params[:friendly_device_name] = opts[:friendly_device_name] if opts[:friendly_device_name].present?
+        @client.verify_software_token(params)
+      end
+
+      def admin_set_user_mfa_preference!(opts = {})
+        set_cognito(opts)
+        params = {
+          user_pool_id: @user_pool_id,
+          username: opts[:username],
+          sms_mfa_settings: mfa_settings(opts, :sms_mfa),
+          software_token_mfa_settings: mfa_settings(opts, :software_token_mfa)
+        }.compact
+        @client.admin_set_user_mfa_preference(params)
+      end
+
+      def disable_user_mfa!(opts = {})
+        admin_set_user_mfa_preference!(
+          opts.merge(
+            sms_mfa_enabled: false,
+            sms_mfa_preferred: false,
+            software_token_mfa_enabled: false,
+            software_token_mfa_preferred: false
+          )
+        )
+      end
+
+      def admin_get_user!(opts = {})
+        set_cognito(opts)
+        @client.admin_get_user(user_pool_id: @user_pool_id, username: opts[:username])
       end
 
       def delete_user! opts = {}
@@ -227,6 +267,81 @@ module Neucore
         # r = client.list_users(user_pool_id: mapping[:user_pool_id])
         r = client.admin_get_user(user_pool_id: mapping[:user_pool_id], username: '+8610000000000')
         r = client.admin_delete_user(user_pool_id: mapping[:user_pool_id], username: '+8619980000100')
+      end
+
+      private
+
+      def initiate_auth!(opts = {})
+        set_cognito(opts)
+        auth_flow = opts[:auth_flow] || 'ADMIN_USER_PASSWORD_AUTH'
+        auth_parameters = {}
+        case auth_flow
+        when 'ADMIN_USER_PASSWORD_AUTH'
+          auth_parameters = {
+            "USERNAME" => opts[:username],
+            "PASSWORD" => opts[:password]
+          }
+        when "CUSTOM_AUTH"
+          auth_parameters = {
+            "USERNAME" => opts[:username],
+          }
+        when "REFRESH_TOKEN"
+          auth_parameters = {
+            "REFRESH_TOKEN" => opts[:refresh_token]
+          }
+        end
+        add_secret_hash!(auth_parameters, opts[:username]) if opts[:username].present?
+
+        @client.admin_initiate_auth(
+          auth_flow: auth_flow,
+          user_pool_id: @user_pool_id,
+          client_id: @client_id,
+          auth_parameters: auth_parameters
+        )
+      end
+
+      def challenge_responses_for(challenge_name, opts)
+        responses = { "USERNAME" => opts[:username] }
+        case challenge_name
+        when "SOFTWARE_TOKEN_MFA"
+          responses["SOFTWARE_TOKEN_MFA_CODE"] = opts[:code] || opts[:software_token_mfa_code]
+        when "SMS_MFA"
+          responses["SMS_MFA_CODE"] = opts[:code] || opts[:sms_mfa_code]
+        when "MFA_SETUP"
+          # Cognito expects the session returned by VerifySoftwareToken.
+        when "SELECT_MFA_TYPE"
+          responses["ANSWER"] = opts[:answer] || "SOFTWARE_TOKEN_MFA"
+        when "NEW_PASSWORD_REQUIRED"
+          responses["NEW_PASSWORD"] = opts[:new_password]
+        end
+        responses.compact
+      end
+
+      def software_token_session_params(opts)
+        if opts[:access_token].present?
+          { access_token: opts[:access_token] }
+        else
+          { session: opts[:session] }
+        end
+      end
+
+      def mfa_settings(opts, prefix)
+        enabled_key = "#{prefix}_enabled".to_sym
+        preferred_key = "#{prefix}_preferred".to_sym
+        return nil unless opts.key?(enabled_key) || opts.key?(preferred_key)
+
+        {
+          enabled: opts[enabled_key],
+          preferred_mfa: opts[preferred_key]
+        }.compact
+      end
+
+      def add_secret_hash!(params, username)
+        return params if @client_secret.blank? || username.blank?
+
+        digest = OpenSSL::HMAC.digest("sha256", @client_secret, "#{username}#{@client_id}")
+        params["SECRET_HASH"] = Base64.strict_encode64(digest)
+        params
       end
     end
   end

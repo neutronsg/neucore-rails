@@ -43,6 +43,10 @@ module Neucore
         end
       end
 
+      def sign_in_with_challenge!(opts = {})
+        cognito_only(:sign_in_with_challenge!, opts)
+      end
+
       # @param opts [Hash] - options for authentication
       # opts[:model] - the model to authenticate (e.g., :user, :admin)
       # opts[:refresh_token] - refresh token
@@ -94,6 +98,43 @@ module Neucore
           # pass first
         when :cognito
           CognitoAuthService.user_exists?(opts)
+        else
+          raise Neucore::AuthStrategyError, "Auth Strategy not set"
+        end
+      end
+
+      def respond_to_auth_challenge!(opts = {})
+        cognito_only(:respond_to_auth_challenge!, opts)
+      end
+
+      def associate_software_token!(opts = {})
+        cognito_only(:associate_software_token!, opts)
+      end
+
+      def verify_software_token!(opts = {})
+        cognito_only(:verify_software_token!, opts)
+      end
+
+      def admin_set_user_mfa_preference!(opts = {})
+        cognito_only(:admin_set_user_mfa_preference!, opts)
+      end
+
+      def disable_user_mfa!(opts = {})
+        cognito_only(:disable_user_mfa!, opts)
+      end
+
+      def admin_get_user!(opts = {})
+        cognito_only(:admin_get_user!, opts)
+      end
+
+      private
+
+      def cognito_only(method_name, opts)
+        case Neucore.configuration.auth_strategy
+        when :in_house
+          # pass first
+        when :cognito
+          CognitoAuthService.public_send(method_name, opts)
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end

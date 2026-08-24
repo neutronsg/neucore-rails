@@ -7,6 +7,8 @@ module Neucore
     class << self
       def set_cognito(opts = {})
         model = opts[:model] || "user"
+        client_key = opts[:client_key] || :client_id
+        client_key = client_key.to_sym
         mapping = Neucore.configuration.cognito_fields_mapping[model]
         @client = Aws::CognitoIdentityProvider::Client.new(
           region: mapping[:region],
@@ -14,7 +16,7 @@ module Neucore
           secret_access_key: Neucore.configuration.aws_secret_access_key
         )
         @user_pool_id = mapping[:user_pool_id]
-        @client_id = mapping[:client_id]
+        @client_id = mapping[client_key]
         @client_secret = mapping[:client_secret]
       end
 
@@ -178,7 +180,7 @@ module Neucore
         @client.admin_get_user(user_pool_id: @user_pool_id, username: opts[:username]).present? rescue false
       end
 
-      def verify_token(token)
+      def verify_token(token, client_key: nil)
         payload = JWT.decode(token, nil, false).first rescue nil
         return false unless payload.present?
 
@@ -192,6 +194,9 @@ module Neucore
 
         mappings = Neucore.configuration.cognito_fields_mapping
         model, mapping = mappings.select { |_, m| m[:user_pool_id] == pool_id }.first
+        return false unless mapping
+        return false unless token_client_matches?(payload, mapping, client_key)
+
         region = mapping[:region]
         id_field = mapping[:id_field]
         model = model.to_s
@@ -215,6 +220,17 @@ module Neucore
         rescue
           false
         end
+      end
+
+      def token_client_matches?(payload, mapping, client_key)
+        return true if client_key.nil? || client_key == ""
+
+        expected_client_id = mapping[client_key.to_sym] || mapping[client_key.to_s]
+        return false if expected_client_id.blank?
+
+        token_client_id = payload["aud"]
+        token_client_id = payload["client_id"] if token_client_id.nil? || token_client_id == ""
+        token_client_id == expected_client_id
       end
 
       def fetch_jwks(url)

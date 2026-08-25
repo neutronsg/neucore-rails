@@ -119,14 +119,33 @@ module Neucore
         challenge_responses = challenge_responses_for(challenge_name, opts)
         add_secret_hash!(challenge_responses, opts[:username])
 
-        resp = @client.admin_respond_to_auth_challenge(
+        params = {
           user_pool_id: @user_pool_id,
           client_id: @client_id,
           challenge_name: challenge_name,
           session: opts[:session],
           challenge_responses: challenge_responses
-        )
+        }
+        params[:client_metadata] = opts[:client_metadata] if opts[:client_metadata].present?
+
+        resp = @client.admin_respond_to_auth_challenge(params)
         resp.authentication_result || resp
+      end
+
+      def custom_challenge_auth!(opts = {}, &block)
+        resp = sign_in_with_challenge!(opts.merge(auth_flow: "CUSTOM_AUTH"))
+        raise "Unexpected Cognito custom auth challenge" unless resp.challenge_name.to_s == "CUSTOM_CHALLENGE"
+
+        answer = block_given? ? yield(resp, @client_id) : opts[:answer]
+        raise "Custom challenge answer is missing" if answer.blank?
+
+        respond_to_auth_challenge!(
+          opts.merge(
+            challenge_name: "CUSTOM_CHALLENGE",
+            session: resp.session,
+            answer: answer
+          )
+        )
       end
 
       def associate_software_token!(opts = {})
@@ -299,6 +318,7 @@ module Neucore
           }
         when "CUSTOM_AUTH"
           auth_parameters = {
+            "CHALLENGE_NAME" => opts[:challenge_name] || "CUSTOM_CHALLENGE",
             "USERNAME" => opts[:username],
           }
         when "REFRESH_TOKEN"
@@ -308,12 +328,15 @@ module Neucore
         end
         add_secret_hash!(auth_parameters, opts[:username]) if opts[:username].present?
 
-        @client.admin_initiate_auth(
+        params = {
           auth_flow: auth_flow,
           user_pool_id: @user_pool_id,
           client_id: @client_id,
           auth_parameters: auth_parameters
-        )
+        }
+        params[:client_metadata] = opts[:client_metadata] if opts[:client_metadata].present?
+
+        @client.admin_initiate_auth(params)
       end
 
       def challenge_responses_for(challenge_name, opts)
@@ -327,6 +350,8 @@ module Neucore
           # Cognito expects the session returned by VerifySoftwareToken.
         when "SELECT_MFA_TYPE"
           responses["ANSWER"] = opts[:answer] || "SOFTWARE_TOKEN_MFA"
+        when "CUSTOM_CHALLENGE"
+          responses["ANSWER"] = opts[:answer]
         when "NEW_PASSWORD_REQUIRED"
           responses["NEW_PASSWORD"] = opts[:new_password]
         end

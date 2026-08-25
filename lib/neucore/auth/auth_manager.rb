@@ -47,6 +47,10 @@ module Neucore
         cognito_only(:sign_in_with_challenge!, opts)
       end
 
+      def custom_challenge_auth!(opts = {}, &block)
+        cognito_only(:custom_challenge_auth!, opts, &block)
+      end
+
       # @param opts [Hash] - options for authentication
       # opts[:model] - the model to authenticate (e.g., :user, :admin)
       # opts[:refresh_token] - refresh token
@@ -129,12 +133,12 @@ module Neucore
 
       private
 
-      def cognito_only(method_name, opts)
+      def cognito_only(method_name, opts, &block)
         case Neucore.configuration.auth_strategy
         when :in_house
           # pass first
         when :cognito
-          CognitoAuthService.public_send(method_name, opts)
+          CognitoAuthService.public_send(method_name, opts, &block)
         else
           raise Neucore::AuthStrategyError, "Auth Strategy not set"
         end

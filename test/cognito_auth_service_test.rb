@@ -106,6 +106,28 @@ class CognitoAuthServiceTest < Minitest::Test
     end
   end
 
+  def test_sign_in_with_challenge_passes_client_metadata
+    challenge_response = OpenStruct.new(
+      authentication_result: nil,
+      challenge_name: "CUSTOM_CHALLENGE",
+      challenge_parameters: { "nonce" => "nonce" },
+      session: "challenge-session"
+    )
+    fake_client = FakeClient.new(admin_initiate_auth_response: challenge_response)
+
+    Aws::CognitoIdentityProvider::Client.stub(:new, fake_client) do
+      Neucore::AuthManager.sign_in_with_challenge!(
+        model: "user",
+        auth_flow: "CUSTOM_AUTH",
+        username: "username",
+        client_metadata: { purpose: "app_login" }
+      )
+
+      assert_equal({ purpose: "app_login" }, fake_client.admin_initiate_auth_params[:client_metadata])
+      assert_equal "CUSTOM_CHALLENGE", fake_client.admin_initiate_auth_params[:auth_parameters]["CHALLENGE_NAME"]
+    end
+  end
+
   def test_software_token_setup_and_verify_use_cognito_session
     fake_client = FakeClient.new
 
@@ -136,6 +158,80 @@ class CognitoAuthServiceTest < Minitest::Test
       assert_equal authentication_result, response
       assert_equal "SOFTWARE_TOKEN_MFA", fake_client.admin_respond_to_auth_challenge_params[:challenge_name]
       assert_equal "123456", fake_client.admin_respond_to_auth_challenge_params[:challenge_responses]["SOFTWARE_TOKEN_MFA_CODE"]
+    end
+  end
+
+  def test_custom_challenge_response_uses_answer_and_client_metadata
+    authentication_result = OpenStruct.new(id_token: "id-token")
+    fake_client = FakeClient.new(
+      admin_respond_to_auth_challenge_response: OpenStruct.new(authentication_result: authentication_result)
+    )
+
+    Aws::CognitoIdentityProvider::Client.stub(:new, fake_client) do
+      response = Neucore::AuthManager.respond_to_auth_challenge!(
+        model: "user",
+        challenge_name: "CUSTOM_CHALLENGE",
+        username: "username",
+        session: "challenge-session",
+        answer: "signed-answer",
+        client_metadata: { purpose: "app_login" }
+      )
+
+      assert_equal authentication_result, response
+      assert_equal "CUSTOM_CHALLENGE", fake_client.admin_respond_to_auth_challenge_params[:challenge_name]
+      assert_equal "signed-answer", fake_client.admin_respond_to_auth_challenge_params[:challenge_responses]["ANSWER"]
+      assert_equal({ purpose: "app_login" }, fake_client.admin_respond_to_auth_challenge_params[:client_metadata])
+    end
+  end
+
+  def test_custom_challenge_auth_answers_custom_challenge
+    authentication_result = OpenStruct.new(id_token: "id-token")
+    challenge_response = OpenStruct.new(
+      authentication_result: nil,
+      challenge_name: "CUSTOM_CHALLENGE",
+      challenge_parameters: { "nonce" => "nonce" },
+      session: "challenge-session"
+    )
+    fake_client = FakeClient.new(
+      admin_initiate_auth_response: challenge_response,
+      admin_respond_to_auth_challenge_response: OpenStruct.new(authentication_result: authentication_result)
+    )
+
+    Aws::CognitoIdentityProvider::Client.stub(:new, fake_client) do
+      response = Neucore::AuthManager.custom_challenge_auth!(
+        model: "user",
+        username: "username",
+        client_metadata: { purpose: "app_login" }
+      ) do |challenge, client_id|
+        assert_equal challenge_response, challenge
+        assert_equal "client-id", client_id
+        "signed-answer"
+      end
+
+      assert_equal authentication_result, response
+      assert_equal "CUSTOM_AUTH", fake_client.admin_initiate_auth_params[:auth_flow]
+      assert_equal "CUSTOM_CHALLENGE", fake_client.admin_initiate_auth_params[:auth_parameters]["CHALLENGE_NAME"]
+      assert_equal "CUSTOM_CHALLENGE", fake_client.admin_respond_to_auth_challenge_params[:challenge_name]
+      assert_equal "signed-answer", fake_client.admin_respond_to_auth_challenge_params[:challenge_responses]["ANSWER"]
+    end
+  end
+
+  def test_custom_challenge_auth_rejects_unexpected_challenge
+    challenge_response = OpenStruct.new(
+      authentication_result: nil,
+      challenge_name: "SMS_MFA",
+      session: "challenge-session"
+    )
+    fake_client = FakeClient.new(admin_initiate_auth_response: challenge_response)
+
+    Aws::CognitoIdentityProvider::Client.stub(:new, fake_client) do
+      assert_raises RuntimeError do
+        Neucore::AuthManager.custom_challenge_auth!(
+          model: "user",
+          username: "username",
+          client_metadata: { purpose: "app_login" }
+        ) { "signed-answer" }
+      end
     end
   end
 

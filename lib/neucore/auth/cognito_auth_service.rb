@@ -184,6 +184,22 @@ module Neucore
         )
       end
 
+      def admin_delete_software_token!(opts = {})
+        set_cognito(opts)
+        @client.admin_delete_software_token(
+          user_pool_id: @user_pool_id,
+          username: opts[:username]
+        )
+      end
+
+      def admin_user_global_sign_out!(opts = {})
+        set_cognito(opts)
+        @client.admin_user_global_sign_out(
+          user_pool_id: @user_pool_id,
+          username: opts[:username]
+        )
+      end
+
       def admin_get_user!(opts = {})
         set_cognito(opts)
         @client.admin_get_user(user_pool_id: @user_pool_id, username: opts[:username])

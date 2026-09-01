@@ -127,6 +127,14 @@ module Neucore
         cognito_only(:disable_user_mfa!, opts)
       end
 
+      def admin_delete_software_token!(opts = {})
+        cognito_only(:admin_delete_software_token!, opts)
+      end
+
+      def admin_user_global_sign_out!(opts = {})
+        cognito_only(:admin_user_global_sign_out!, opts)
+      end
+
       def admin_get_user!(opts = {})
         cognito_only(:admin_get_user!, opts)
       end

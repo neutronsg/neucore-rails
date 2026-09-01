@@ -8,7 +8,8 @@ class CognitoAuthServiceTest < Minitest::Test
   FakeClient = Struct.new(:admin_initiate_auth_response, :admin_respond_to_auth_challenge_response, keyword_init: true) do
     attr_reader :admin_initiate_auth_params, :admin_respond_to_auth_challenge_params,
       :associate_software_token_params, :verify_software_token_params,
-      :admin_set_user_mfa_preference_params
+      :admin_set_user_mfa_preference_params, :admin_delete_software_token_params,
+      :admin_user_global_sign_out_params
 
     def admin_initiate_auth(params)
       @admin_initiate_auth_params = params
@@ -32,6 +33,16 @@ class CognitoAuthServiceTest < Minitest::Test
 
     def admin_set_user_mfa_preference(params)
       @admin_set_user_mfa_preference_params = params
+      true
+    end
+
+    def admin_delete_software_token(params)
+      @admin_delete_software_token_params = params
+      true
+    end
+
+    def admin_user_global_sign_out(params)
+      @admin_user_global_sign_out_params = params
       true
     end
   end
@@ -244,5 +255,18 @@ class CognitoAuthServiceTest < Minitest::Test
       assert_equal false, fake_client.admin_set_user_mfa_preference_params[:sms_mfa_settings][:enabled]
       assert_equal false, fake_client.admin_set_user_mfa_preference_params[:software_token_mfa_settings][:enabled]
     end
+  end
+
+  def test_admin_can_delete_software_token_and_globally_sign_out_user
+    fake_client = FakeClient.new
+
+    Aws::CognitoIdentityProvider::Client.stub(:new, fake_client) do
+      Neucore::AuthManager.admin_delete_software_token!(model: "user", username: "username")
+      Neucore::AuthManager.admin_user_global_sign_out!(model: "user", username: "username")
+    end
+
+    expected_params = { user_pool_id: "pool-id", username: "username" }
+    assert_equal expected_params, fake_client.admin_delete_software_token_params
+    assert_equal expected_params, fake_client.admin_user_global_sign_out_params
   end
 end

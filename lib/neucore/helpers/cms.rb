@@ -129,7 +129,7 @@ module Neucore
         return "" if time.nil?
 
         if time.is_a?(Date)
-          time.strftime("%-d %b, %Y")
+          time.strftime("%d %b %Y")
         elsif time.is_a?(DateTime)
           time.strftime("%I:%M %p")
         else

@@ -158,6 +158,7 @@ module Neucore
           schema[:name] = "#{name}_between"
           schema[:type] ||= 'input-date-range'
           schema[:valueFormat] ||= "YYYYMMDD"
+          schema[:displayFormat] ||= 'DD MMM YYYY'
           schema[:delimiter] = 'to'
           schema[:label] ||= false
           schema[:startPlaceholder] = placeholder
@@ -173,7 +174,6 @@ module Neucore
     end
   end
 end
-
 
 
 

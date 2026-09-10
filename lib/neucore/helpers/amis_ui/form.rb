@@ -65,6 +65,7 @@ module Neucore
           schema = amis_form_text(options)
           schema[:type] = 'input-date'
           schema[:valueFormat] = options[:valueFormat] || 'YYYY-MM-DD'
+          schema[:displayFormat] = options[:displayFormat] || 'DD MMM YYYY'
           schema
         end
 
@@ -72,7 +73,7 @@ module Neucore
           schema = amis_form_text(options)
           schema[:type] = 'input-datetime'
           schema[:valueFormat] = options[:valueFormat] || 'YYYY-MM-DD HH:mm:ss'
-          schema[:displayFormat] = options[:displayFormat] || 'YYYY-MM-DD HH:mm'
+          schema[:displayFormat] = options[:displayFormat] || 'DD MMM YYYY, hh:mm A'
           schema
         end
 

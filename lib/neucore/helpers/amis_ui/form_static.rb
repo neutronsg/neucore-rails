@@ -65,7 +65,7 @@ module Neucore
           html = options[:links].map do |link|
             href = "/#{link[:resource]}/#{link[:id]}"
             %(<a href="#{href}">#{ERB::Util.html_escape(link[:label])}</a>)
-          end.join(" ")
+          end.join("; ")
 
           amis_static_html(label: options[:label], value: html)
         end

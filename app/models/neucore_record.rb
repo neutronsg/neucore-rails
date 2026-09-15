@@ -37,6 +37,16 @@ class NeucoreRecord < ActiveRecord::Base
     end
   end
 
+  def non_negative_integer?(raw_value)
+    (raw_value.is_a?(Integer) && raw_value >= 0) ||
+      (raw_value.is_a?(String) && raw_value.match?(/\A\d+\z/))
+  end
+
+  def positive_integer?(raw_value)
+    (raw_value.is_a?(Integer) && raw_value.positive?) ||
+      (raw_value.is_a?(String) && raw_value.match?(/\A[1-9]\d*\z/))
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     column_names + _ransackers.keys
   end

@@ -7,11 +7,15 @@ columns_toggler = {
   footerToolbar: 'sm'
 }
 
-pagination = {type: 'pagination', visibleOn: '${count > perPage}'}
+total_value_expression = '(total === undefined || total === null ? count : total)'
+single_page_visible_on = '${' + total_value_expression + ' <= perPage}'
+multiple_pages_visible_on = '${' + total_value_expression + ' > perPage}'
+
+pagination = {type: 'pagination', visibleOn: multiple_pages_visible_on}
 default_footer_toolbar = [
-  {type: 'tpl', tpl: '${count} total', visibleOn: '${count <= perPage}'},
-  {type: 'statistics', visibleOn: '${count > perPage}'},
-  {type: 'switch-per-page', visibleOn: '${count > perPage}'},
+  {type: 'tpl', tpl: '${' + total_value_expression + '} total', visibleOn: single_page_visible_on},
+  {type: 'statistics', visibleOn: multiple_pages_visible_on},
+  {type: 'switch-per-page', visibleOn: multiple_pages_visible_on},
   pagination
 ]
 using_default_footer_toolbar = !@footerToolbar

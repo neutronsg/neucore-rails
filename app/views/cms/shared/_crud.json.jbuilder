@@ -7,11 +7,21 @@ columns_toggler = {
   footerToolbar: 'sm'
 }
 
+pagination = {type: 'pagination', visibleOn: '${count > perPage}'}
+default_footer_toolbar = [
+  {type: 'tpl', tpl: '${count} total', visibleOn: '${count <= perPage}'},
+  {type: 'statistics', visibleOn: '${count > perPage}'},
+  {type: 'switch-per-page', visibleOn: '${count > perPage}'},
+  pagination
+]
+using_default_footer_toolbar = !@footerToolbar
+footer_toolbar = @footerToolbar || default_footer_toolbar
+
 if @headerToolbar.present?
-  @headerToolbar << 'pagination'
+  @headerToolbar << pagination
   @headerToolbar << columns_toggler
 else
-  @headerToolbar = ['pagination', columns_toggler]
+  @headerToolbar = [pagination, columns_toggler]
 end
 
 json.type 'wrapper'
@@ -69,7 +79,8 @@ json.body do
         json.deferApi @deferApi
         json.quickSaveItemApi @quickSaveItemApi
         json.columns @columns
-        json.footerToolbar @footerToolbar || ['statistics', 'switch-per-page', 'pagination']
+        json.alwaysShowPagination using_default_footer_toolbar
+        json.footerToolbar footer_toolbar
       end
     end
   end

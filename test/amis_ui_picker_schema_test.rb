@@ -14,6 +14,14 @@ class AmisUiPickerSchemaTest < Minitest::Test
     assert_equal "YYYY-MM-DD", schema[:valueFormat]
   end
 
+  def test_daterange_defaults_to_date_formats
+    schema = amis_form_daterange
+
+    assert_equal "input-date-range", schema[:type]
+    assert_equal "DD MMM YYYY", schema[:displayFormat]
+    assert_equal "YYYY-MM-DD", schema[:valueFormat]
+  end
+
   def test_datetime_defaults_to_human_readable_display_format
     schema = amis_form_datetime
 

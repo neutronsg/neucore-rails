@@ -69,6 +69,14 @@ module Neucore
           schema
         end
 
+        def amis_form_daterange options = {}
+          schema = amis_form_text(options)
+          schema[:type] = 'input-date-range'
+          schema[:valueFormat] = options[:valueFormat] || 'YYYY-MM-DD'
+          schema[:displayFormat] = options[:displayFormat] || 'DD MMM YYYY'
+          schema
+        end
+
         def amis_form_datetime options = {}
           schema = amis_form_text(options)
           schema[:type] = 'input-datetime'

@@ -139,6 +139,7 @@ module Neucore
 
           tinymce_options[:content_style] = content_style if tinymce_options[:content_style].nil?
           schema = options
+          schema[:imageMaxSize] ||= 3 * 1024 * 1024
           schema[:type] ||= 'input-rich-text'
           schema[:trimContents] = true if schema[:trimContents].nil?
           schema[:clearValueOnHidden] = true if schema[:clearValueOnHidden].nil?

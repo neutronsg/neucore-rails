@@ -128,36 +128,22 @@ module Neucore
           schemas
         end
 
-        # Generates a string column with optional truncation and popover
-        # Creates a text display column with configurable length limits and hover details
+        # Generates a string column with an optional overflow popover.
         #
         # @param options [Hash] Configuration options for the string column
         # @option options [String] :name Field name
         # @option options [String] :label Column label
-        # @option options [Integer] :maxLength Maximum display length before truncation
-        # @option options [Boolean] :popOver Show full content on hover (when truncated)
+        # @option options [Boolean] :popOver Show full content when the column overflows
         # @return [Hash] Amis string/template column schema
         def amis_string_column(options = {})
           popOver = options.delete(:popOver)
           schema = options
           schema[:className] ||='line-clamp-3'
-          if options[:maxLength]
-            schema[:type] = "tpl"
-            schema[:className] = "line-clamp-1"
-            schema[:tpl] = "${ #{options[:name]}|truncate:#{options[:maxLength]} }"
-          end
-
+          schema[:width] ||= 300
           if popOver
-            schema[:popOver] = {
-              trigger: "hover",
-              position: "left-top",
-              showIcon: false,
-              visibleOn: "${ #{options[:name]}.length > #{options[:maxLength]} }",
-              body: {
-                type: "tpl",
-                tpl: "${ #{options[:name]} }"
-              }
-            }
+            schema[:type] = "tpl"
+            schema[:tpl] = "${ #{options[:name]} }"
+            schema[:textOverflow] = "ellipsis"
           end
 
           schema

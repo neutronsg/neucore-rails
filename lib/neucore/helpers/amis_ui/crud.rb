@@ -139,11 +139,11 @@ module Neucore
           popOver = options.delete(:popOver)
           schema = options
           schema[:className] ||='line-clamp-3'
-          schema[:width] ||= 300
           if popOver
             schema[:type] = "tpl"
             schema[:tpl] = "${ #{options[:name]} }"
             schema[:textOverflow] = "ellipsis"
+            schema[:width] ||= 300
           end
 
           schema
